@@ -1,0 +1,1 @@
+I would like to thank the StepMania Developers, for any assistance they provided to help me make this theme.  Also, big shout out to Kyzentun for his help. He explained a lot to me.
