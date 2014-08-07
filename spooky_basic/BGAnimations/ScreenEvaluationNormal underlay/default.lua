@@ -1,17 +1,17 @@
 local t = Def.ActorFrame{
-	--[ player score divider
+	-- player score divider
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_RIGHT/2-2,SCREEN_TOP+30,SCREEN_RIGHT/2,SCREEN_BOTTOM-30;diffuse,color(theme_color));
 	},
-	--[ screen text
+	-- screen text
 	LoadFont("Common normal")..{
 		Text="Title Screen | Select Profile | Select Style | Select Game Mode | Select Music | Select Player Options | Select Song Options | Stage | Evaluation |";
 		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+13;diffuse,color(theme_color);zoom,0.5;align,0,0.5);
 	},
-	--[ results P1 text
+	-- results P1 text
 	LoadFont("Common normal")..{
 		Text="Results P1";
-		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);left;zoom,0.75;align,0,0.5);
+		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);zoom,0.75;align,0,0.5);
 		OnCommand=function(self)
 			self:queuecommand('Results');
 		end;
@@ -61,10 +61,10 @@ local t = Def.ActorFrame{
 			self:settext("Here are your results Player 1!\n\nGrade: " .. stringgrade .. "\nPercent: " .. tostring(round(percent,1)) .. "%\nCalories Burned: " .. tostring(round(calories,1)) .. "\n\nFlawless: " .. tostring(flawless) .. "\nPerfects: " .. tostring(perfects) .. "\nGreats: " .. tostring(greats) .. "\nGoods: " .. tostring(goods) .. "\nBads: " .. tostring(bads) .. "\nMiss: " .. tostring(misses) .. "\nHeld: " .. tostring(held) .. "\nReleased: " .. tostring(released) .. "\nCombo: " .. tostring(combo) .. "\nScore: " .. tostring(points) .. "/" .. tostring(maxpoints))
 		end;
 	},
-	--[ results P2 text
+	-- results P2 text
 	LoadFont("Common normal")..{
 		Text="Results P2";
-		InitCommand=cmd(x,SCREEN_RIGHT-8;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);right;zoom,0.75;align,1,0.5);
+		InitCommand=cmd(x,SCREEN_RIGHT-8;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);zoom,0.75;align,1,0.5);
 		OnCommand=function(self)
 			self:queuecommand('Results');
 		end;
@@ -114,7 +114,7 @@ local t = Def.ActorFrame{
 			self:settext("Here are your results Player 2!\n\nGrade: " .. stringgrade .. "\nPercent: " .. tostring(round(percent,1)) .. "%\nCalories Burned: " .. tostring(round(calories,1)) .. "\n\nFlawless: " .. tostring(flawless) .. "\nPerfects: " .. tostring(perfects) .. "\nGreats: " .. tostring(greats) .. "\nGoods: " .. tostring(goods) .. "\nBads: " .. tostring(bads) .. "\nMiss: " .. tostring(misses) .. "\nHeld: " .. tostring(held) .. "\nReleased: " .. tostring(released) .. "\nCombo: " .. tostring(combo) .. "\nScore: " .. tostring(points) .. "/" .. tostring(maxpoints))
 		end;
 	},
-	--[ play music
+	-- GLOBAL play music
 	main_song
 };
 

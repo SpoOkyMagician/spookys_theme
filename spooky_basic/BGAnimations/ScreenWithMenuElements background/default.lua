@@ -1,26 +1,22 @@
 local t = Def.ActorFrame{
-	--[ black quad
+	-- GLOBAL black quad
 	grid_a,
-	--[ dark gold header quad
+	-- GLOBAL dark gold header quad
 	grid_b,
-	--[ dark gold footer quad
+	-- GLOBAL dark gold footer quad
 	grid_c,
-	--[ top border
+	-- GLOBAL top border
 	grid_d,
-	--[ bottom border
+	-- GLOBAL bottom border
 	grid_e,
-	--[ left border
+	-- GLOBAL left border
 	grid_f,
-	--[ right border
+	-- GLOBAL right border
 	grid_g,
-	--[ profile border
+	-- GLOBAL profile border
 	grid_h,
-	--[ screen border
+	-- GLOBAL screen border
 	grid_i
-	--[ player border
-	--[Def.Quad{
-	--[	InitCommand=cmd(stretchto,SCREEN_CENTER_X-2,SCREEN_TOP,SCREEN_CENTER_X,SCREEN_BOTTOM;diffuse,color(theme_color));
-	--[};
 };
 
 return t;

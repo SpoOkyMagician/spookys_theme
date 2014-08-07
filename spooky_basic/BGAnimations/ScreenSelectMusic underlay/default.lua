@@ -1,30 +1,30 @@
 local t = Def.ActorFrame{
-	--[ banner/cd bottom border
+	-- banner/cd bottom border
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP+110,SCREEN_LEFT+258,SCREEN_TOP+112;diffuse,color(theme_color));
 	},
-	--[ banner/cd divider border
+	-- banner/cd divider border
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+258,SCREEN_TOP+28,SCREEN_LEFT+260,SCREEN_TOP+240;diffuse,color(theme_color));
 	},
-	--[ cd divider border
+	-- cd divider border
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+340,SCREEN_TOP+28,SCREEN_LEFT+342,SCREEN_TOP+112;diffuse,color(theme_color));
 	},
-	--[ background divider border
+	-- background divider border
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+258,SCREEN_TOP+240,SCREEN_LEFT+260,SCREEN_TOP+450;diffuse,color(theme_color));
 	},
-	--[ information divider border
+	-- information divider border
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_TOP+380,SCREEN_LEFT+260,SCREEN_TOP+382;diffuse,color(theme_color));
 	},
-	--[ screen text
+	-- screen text
 	LoadFont("Common normal")..{
 		Text="Title Screen | Select Profile | Select Style | Select Game Mode | Select Music |";
 		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+13;diffuse,color(theme_color);zoom,0.5;align,0,0.5);
 	},
-	--[ song banner
+	-- song banner
 	LoadActor(THEME:GetPathG("", "no_banner.png"))..{
 		InitCommand=cmd(x,SCREEN_LEFT+130;y,SCREEN_TOP+70;zoomto,256,80);
 		OnCommand=function(self)
@@ -45,7 +45,7 @@ local t = Def.ActorFrame{
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"Banner");
 	},
-	--[ song background
+	-- song background
 	LoadActor(THEME:GetPathG("", "no_background.png"))..{
 		InitCommand=cmd(x,SCREEN_LEFT+556;y,SCREEN_TOP+240;zoomto,592,420);
 		OnCommand=function(self)
@@ -66,7 +66,7 @@ local t = Def.ActorFrame{
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"BG");
 	},
-	--[ song cd
+	-- song cd
 	LoadActor(THEME:GetPathG("", "no_cd.png"))..{
 		InitCommand=cmd(x,SCREEN_LEFT+300;y,SCREEN_TOP+69;zoomto,80,80);
 		OnCommand=function(self)
@@ -88,7 +88,7 @@ local t = Def.ActorFrame{
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"CD");
 	},
-	--[ song difficulty p1
+	-- song difficulty p1
 	LoadActor(THEME:GetPathG("", "difficulty_unknown.png"))..{
 		InitCommand=cmd(x,SCREEN_LEFT+34;y,SCREEN_TOP+144;zoomto,64,64);
 		OnCommand=function(self)
@@ -120,7 +120,7 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"DifficultyPA");
 		CurrentSongChangedMessageCommand=cmd(playcommand,"DifficultyPA");
 	},
-	--[ song difficulty p2
+	-- song difficulty p2
 	LoadActor(THEME:GetPathG("", "difficulty_unknown.png"))..{
 		InitCommand=cmd(x,SCREEN_LEFT+34;y,SCREEN_TOP+208;zoomto,64,64);
 		OnCommand=function(self)
@@ -152,7 +152,7 @@ local t = Def.ActorFrame{
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"DifficultyPB");
 		CurrentSongChangedMessageCommand=cmd(playcommand,"DifficultyPB");
 	},
-	--[ song meter p1
+	-- song meter p1
 	LoadActor(THEME:GetPathG("", "meter_0.png"))..{
 		InitCommand=cmd(x,SCREEN_LEFT+162;y,SCREEN_TOP+144;zoomto,192,64);
 		OnCommand=function(self)
@@ -172,7 +172,7 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"MeterPA");
 		CurrentSongChangedMessageCommand=cmd(playcommand,"MeterPA");
 	},
-	--[ song meter p2
+	-- song meter p2
 	LoadActor(THEME:GetPathG("", "meter_0.png"))..{
 		InitCommand=cmd(x,SCREEN_LEFT+162;y,SCREEN_TOP+208;zoomto,192,64);
 		OnCommand=function(self)
@@ -192,7 +192,7 @@ local t = Def.ActorFrame{
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"MeterPB");
 		CurrentSongChangedMessageCommand=cmd(playcommand,"MeterPB");
 	},
-	--[ song/trail information
+	-- song/trail information
 	LoadFont("Common normal")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,1,0);
@@ -208,9 +208,9 @@ local t = Def.ActorFrame{
 					local length_marathon = song:IsMarathon();
 					local results_tempo = 1;
 					if tempo[1] == tempo[2] then
-						results_tempo = tostring(tempo[1]);
+						results_tempo = tostring(round(tempo[1],1));
 					else
-						results_tempo = tostring(tempo[1] .. " - " .. tempo[2]);
+						results_tempo = tostring(round(tempo[1],1) .. " - " .. round(tempo[2],1));
 					end;
 					if length_long == true then
 						length_result = "Long";
@@ -231,7 +231,7 @@ local t = Def.ActorFrame{
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"Information");
 	},
-	--[ song/trail difficulty P1 text
+	-- song/trail difficulty P1 text
 	LoadFont("Common normal")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,1,0);
@@ -269,7 +269,7 @@ local t = Def.ActorFrame{
 		CurrentSongChangedMessageCommand=cmd(playcommand,"StringPA");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"StringPA");
 	},
-	--[ song/trail difficulty P2 text
+	-- song/trail difficulty P2 text
 	LoadFont("Common normal")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,1,0);
