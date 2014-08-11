@@ -1,11 +1,11 @@
 local t = Def.ActorFrame{
 	-- screen text
-	LoadFont("Common normal")..{
+	LoadFont("SpoOky")..{
 		Text="Title Screen | Select Profile | Select Style | Select Game Mode | Select Music | Select Player Options | Select Song Options | Stage |";
 		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+13;diffuse,color(theme_color);zoom,0.5;align,0,0.5);
 	},
 	-- stage text
-	LoadFont("Common normal")..{
+	LoadFont("SpoOky")..{
 		Text="Stage";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,0.5,0.5;zoom,2.0);
 		OnCommand=function(self)

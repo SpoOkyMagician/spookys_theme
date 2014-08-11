@@ -10,7 +10,7 @@ local t = Def.ActorFrame{
 	-- GLOBAL information divider border
 	grid_n,
 	-- screen text
-	LoadFont("Common normal")..{
+	LoadFont("SpoOky")..{
 		Text="Title Screen | Select Profile | Select Style | Select Game Mode | Select Music |";
 		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+13;diffuse,color(theme_color);zoom,0.5;align,0,0.5);
 	},
@@ -126,7 +126,7 @@ local t = Def.ActorFrame{
 			local trail = GAMESTATE:GetCurrentTrail('PlayerNumber_P1');
 			if trail ~= nil then
 				--[ use this instead... thanks again Kyzentun
-				local half_meter= clamp(math.round(trail:GetMeter() / 2), 0, 10);
+				local half_meter=clamp(math.round(trail:GetMeter() / 2), 0, 10);
 				self:Load(THEME:GetPathG("", "meter_"..half_meter..".png"));
 			else
 				self:Load(THEME:GetPathG("", "meter_0.png"));
@@ -145,7 +145,7 @@ local t = Def.ActorFrame{
 			local trail = GAMESTATE:GetCurrentTrail('PlayerNumber_P2');
 			if trail ~= nil then
 				--[ use this instead... thanks again Kyzentun
-				local half_meter= clamp(math.round(trail:GetMeter() / 2), 0, 10);
+				local half_meter=clamp(math.round(trail:GetMeter() / 2), 0, 10);
 				self:Load(THEME:GetPathG("", "meter_"..half_meter..".png"));
 			else
 				self:Load(THEME:GetPathG("", "meter_0.png"));
@@ -155,7 +155,7 @@ local t = Def.ActorFrame{
 		CurrentTrailP2ChangedMessageCommand=cmd(playcommand,"MeterPB");
 	},
 	-- song/trail information
-	LoadFont("Common normal")..{
+	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,1,0);
 		OnCommand=function(self)
@@ -180,7 +180,7 @@ local t = Def.ActorFrame{
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"Information");
 	},
 	-- song/trail difficulty P1 text
-	LoadFont("Common normal")..{
+	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,1,0);
 		OnCommand=function(self)
@@ -218,7 +218,7 @@ local t = Def.ActorFrame{
 		CurrentTrailP1ChangedMessageCommand=cmd(playcommand,"StringPA");
 	},
 	-- song/trail difficulty P2 text
-	LoadFont("Common normal")..{
+	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,1,0);
 		OnCommand=function(self)
@@ -256,7 +256,7 @@ local t = Def.ActorFrame{
 		CurrentTrailP2ChangedMessageCommand=cmd(playcommand,"StringPB");
 	},
 	-- inform player of options screen...
-	LoadFont("Common normal")..{
+	LoadFont("SpoOky")..{
 		Text="Press Enter again to select options!";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color("1,0.8,0,0");align,0.5,0.5;zoom,2.0);
 		OffCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,0.5,0.5;zoom,2.0)

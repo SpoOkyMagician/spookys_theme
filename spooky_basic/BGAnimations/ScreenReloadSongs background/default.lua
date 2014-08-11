@@ -18,7 +18,7 @@ local t = Def.ActorFrame{
 	-- GLOBAL screen border
 	grid_i,
 	--[ screen text
-	LoadFont("Common normal")..{
+	LoadFont("SpoOky")..{
 		Text="Title Screen | Options | Reload Songs |";
 		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+13;diffuse,color(theme_color);zoom,0.5;align,0,0.5);
 	},
