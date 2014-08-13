@@ -260,6 +260,34 @@ local t = Def.ActorFrame{
 		Text="Press Enter again to select options!";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color("1,0.8,0,0");align,0.5,0.5;zoom,2.0);
 		OffCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,0.5,0.5;zoom,2.0)
+	},
+	-- last known difficulty variable P1 fake actor
+	LoadFont("SpoOky")..{
+		Text="";
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
+		OnCommand=function(self)
+			self:queuecommand('VarPA');
+		end;
+		VarPACommand=function(self)
+			local d = GAMESTATE:GetCurrentTrail('PlayerNumber_P1'):GetDifficulty();
+			last_known_difficulty_P1 = d;
+		end;
+		CurrentTrailP1ChangedMessageCommand=cmd(playcommand,"VarPA");
+		CurrentCourseChangedMessageCommand=cmd(playcommand,"VarPA");
+	},
+	-- last known difficulty variable P2 fake actor
+	LoadFont("SpoOky")..{
+		Text="";
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
+		OnCommand=function(self)
+			self:queuecommand('VarPB');
+		end;
+		VarPBCommand=function(self)
+			local d = GAMESTATE:GetCurrentTrail('PlayerNumber_P2'):GetDifficulty();
+			last_known_difficulty_P2 = d;
+		end;
+		CurrentTrailP2ChangedMessageCommand=cmd(playcommand,"VarPB");
+		CurrentCourseChangedMessageCommand=cmd(playcommand,"VarPB");
 	}
 };
 

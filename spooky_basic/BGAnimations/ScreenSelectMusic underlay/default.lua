@@ -306,6 +306,34 @@ local t = Def.ActorFrame{
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"StringPB");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"StringPB");
+	},
+	-- last known difficulty variable P1 fake actor
+	LoadFont("SpoOky")..{
+		Text="";
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
+		OnCommand=function(self)
+			self:queuecommand('VarPA');
+		end;
+		VarPACommand=function(self)
+			local d = GAMESTATE:GetCurrentSteps('PlayerNumber_P1'):GetDifficulty();
+			last_known_difficulty_P1 = d;
+		end;
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"VarPA");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"VarPA");
+	},
+	-- last known difficulty variable P2 fake actor
+	LoadFont("SpoOky")..{
+		Text="";
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
+		OnCommand=function(self)
+			self:queuecommand('VarPB');
+		end;
+		VarPBCommand=function(self)
+			local d = GAMESTATE:GetCurrentSteps('PlayerNumber_P2'):GetDifficulty();
+			last_known_difficulty_P2 = d;
+		end;
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"VarPB");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"VarPB");
 	}
 };
 

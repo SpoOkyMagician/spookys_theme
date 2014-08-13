@@ -21,6 +21,8 @@ local t = Def.ActorFrame{
 	grid_h,
 	-- GLOBAL screen border
 	grid_i,
+	-- GLOBAL profile divider
+	grid_s,
 	-- neat arrows
 	LoadActor("arrow")..{
 		InitCommand=cmd(x,SCREEN_CENTER_X-96;y,SCREEN_CENTER_Y;baserotationz,90;SetSize,32,32);

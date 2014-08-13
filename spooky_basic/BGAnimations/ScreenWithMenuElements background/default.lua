@@ -16,7 +16,9 @@ local t = Def.ActorFrame{
 	-- GLOBAL profile border
 	grid_h,
 	-- GLOBAL screen border
-	grid_i
+	grid_i,
+	-- GLOBAL profile divider
+	grid_s
 };
 
 return t;
