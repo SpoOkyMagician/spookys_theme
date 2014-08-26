@@ -1,6 +1,11 @@
+-- ScreenWithMenuElements background
+
 local t = Def.ActorFrame{
 	-- GLOBAL black quad
 	grid_a,
+	LoadActor(THEME:GetPathG("","bg_gold"))..{
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
+	},
 	-- GLOBAL dark gold header quad
 	grid_b,
 	-- GLOBAL dark gold footer quad

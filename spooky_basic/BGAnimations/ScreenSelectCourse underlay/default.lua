@@ -1,3 +1,6 @@
+-- ScreenSelectCourse underlay
+-- this needs to be updated...
+
 local t = Def.ActorFrame{
 	--  GLOBAL banner/cd bottom border
 	grid_j,
@@ -11,8 +14,8 @@ local t = Def.ActorFrame{
 	grid_n,
 	-- screen text
 	LoadFont("SpoOky")..{
-		Text="Title Screen | Select Profile | Select Style | Select Game Mode | Select Music |";
-		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+13;diffuse,color(theme_color);zoom,0.5;align,0,0.5);
+		Text="Select Music";
+		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+13;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
 	},
 	-- song banner
 	LoadActor(THEME:GetPathG("", "no_banner.png"))..{
@@ -157,7 +160,7 @@ local t = Def.ActorFrame{
 	-- song/trail information
 	LoadFont("SpoOky")..{
 		Text="N/A";
-		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,1,0);
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,1,0;shadowlength,1);
 		OnCommand=function(self)
 			self:queuecommand('Information');
 		end;
@@ -182,7 +185,7 @@ local t = Def.ActorFrame{
 	-- song/trail difficulty P1 text
 	LoadFont("SpoOky")..{
 		Text="N/A";
-		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,1,0);
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,1,0;shadowlength,1);
 		OnCommand=function(self)
 			self:queuecommand('StringPA');
 		end;
@@ -220,7 +223,7 @@ local t = Def.ActorFrame{
 	-- song/trail difficulty P2 text
 	LoadFont("SpoOky")..{
 		Text="N/A";
-		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,1,0);
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,1,0;shadowlength,1);
 		OnCommand=function(self)
 			self:queuecommand('StringPB');
 		end;
@@ -258,7 +261,7 @@ local t = Def.ActorFrame{
 	-- inform player of options screen...
 	LoadFont("SpoOky")..{
 		Text="Press Enter again to select options!";
-		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color("1,0.8,0,0");align,0.5,0.5;zoom,2.0);
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color("1,0.8,0,0");align,0.5,0.5;zoom,2.0;shadowlength,1);
 		OffCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,0.5,0.5;zoom,2.0)
 	},
 	-- last known difficulty variable P1 fake actor

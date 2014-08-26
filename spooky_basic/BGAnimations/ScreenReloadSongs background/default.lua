@@ -1,3 +1,5 @@
+-- ScreenReloadSongs background
+
 local t = Def.ActorFrame{
 	-- GLOBAL black quad
 	grid_a,
@@ -19,8 +21,8 @@ local t = Def.ActorFrame{
 	grid_i,
 	--[ screen text
 	LoadFont("SpoOky")..{
-		Text="Title Screen | Options | Reload Songs |";
-		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+13;diffuse,color(theme_color);zoom,0.5;align,0,0.5);
+		Text="Reload Songs";
+		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+13;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
 	},
 	-- GLOBAL play music
 	asian_song

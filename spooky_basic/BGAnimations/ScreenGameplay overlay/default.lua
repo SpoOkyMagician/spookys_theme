@@ -1,3 +1,5 @@
+-- ScreenGameplay overlay
+
 local t = Def.ActorFrame{
 	-- GLOBAL dark gold header quad
 	grid_b,
@@ -130,8 +132,10 @@ local t = Def.ActorFrame{
 			self:queuecommand("PALife");
 		end;
 		PALifeCommand=function(self)
-			if SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1') ~= nil then
-				local meter_pa = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
+			-- shows error but, I cannot fix it... sorry...
+			local screen = SCREENMAN:GetTopScreen();
+			if screen:GetLifeMeter('PlayerNumber_P1') ~= nil then
+				local meter_pa = screen:GetLifeMeter('PlayerNumber_P1');
 				local life_pa = meter_pa:GetLife();
 				self:diffuse(color("1,0.5,0,1"));
 				self:stretchto(SCREEN_LEFT+102,SCREEN_TOP+2,SCREEN_LEFT+102+(300*life_pa),SCREEN_TOP+28);
@@ -158,8 +162,10 @@ local t = Def.ActorFrame{
 			self:queuecommand("PBLife");
 		end;
 		PBLifeCommand=function(self)
-			if SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P2') ~= nil then
-				local meter_pb = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P2');
+			-- shows error but, I cannot fix it... sorry...
+			local screen = SCREENMAN:GetTopScreen();
+			if screen:GetLifeMeter('PlayerNumber_P2') ~= nil then
+				local meter_pb = screen:GetLifeMeter('PlayerNumber_P2');
 				local life_pb = meter_pb:GetLife();
 				self:diffuse(color("0,0.75,1,1"));
 				self:stretchto(SCREEN_RIGHT-402,SCREEN_TOP+2,SCREEN_RIGHT-402+(300*life_pb),SCREEN_TOP+28);
@@ -180,7 +186,7 @@ local t = Def.ActorFrame{
 	-- p1 combo number text
 	LoadFont("SpoOky")..{
 		Text="N/A";
-		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_HEIGHT/2;align,0,0.5;diffuse,color("1,0.25,0,1");visible,false);
+		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_HEIGHT/2;align,0,0.5;diffuse,color("1,0.25,0,1");visible,false;shadowlength,1);
 		OnCommand=function(self)
 			self:queuecommand("PACombo");
 		end;
@@ -205,7 +211,7 @@ local t = Def.ActorFrame{
 	-- p2 combo number text
 	LoadFont("SpoOky")..{
 		Text="N/A";
-		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_HEIGHT/2;align,1,0.5;diffuse,color("0,0.5,1,1");visible,false);
+		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_HEIGHT/2;align,1,0.5;diffuse,color("0,0.5,1,1");visible,false;shadowlength,1);
 		OnCommand=function(self)
 			self:queuecommand("PBCombo");
 		end;
@@ -230,7 +236,7 @@ local t = Def.ActorFrame{
 	-- p1 combo text
 	LoadFont("SpoOky")..{
 		Text="COMBO";
-		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_HEIGHT/2+16;align,0,0.5;diffuse,color("1,0.25,0,1"));
+		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_HEIGHT/2+16;align,0,0.5;diffuse,color("1,0.25,0,1");shadowlength,1);
 		OnCommand=function(self)
 			self:queuecommand("PACombo");
 		end;
@@ -249,7 +255,7 @@ local t = Def.ActorFrame{
 	-- p2 combo text
 	LoadFont("SpoOky")..{
 		Text="COMBO";
-		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_HEIGHT/2+16;align,1,0.5;diffuse,color("0,0.5,1,1"));
+		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_HEIGHT/2+16;align,1,0.5;diffuse,color("0,0.5,1,1");shadowlength,1);
 		OnCommand=function(self)
 			self:queuecommand("PBCombo");
 		end;
@@ -268,7 +274,7 @@ local t = Def.ActorFrame{
 	-- p1 score text
 	LoadFont("SpoOky")..{
 		Text="000000000";
-		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_BOTTOM-40;align,0,0.5;diffuse,color("1,0.25,0,1"));
+		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_BOTTOM-40;align,0,0.5;diffuse,color("1,0.25,0,1");shadowlength,1);
 		OnCommand=function(self)
 			self:queuecommand("PAScore");
 		end;
@@ -286,7 +292,7 @@ local t = Def.ActorFrame{
 	-- p2 score text
 	LoadFont("SpoOky")..{
 		Text="000000000";
-		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_BOTTOM-40;align,1,0.5;diffuse,color("0,0.5,1,1"));
+		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_BOTTOM-40;align,1,0.5;diffuse,color("0,0.5,1,1");shadowlength,1);
 		OnCommand=function(self)
 			self:queuecommand("PBScore");
 		end;

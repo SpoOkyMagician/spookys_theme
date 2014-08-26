@@ -1,3 +1,6 @@
+-- ScreenEvaluationSummary underlay
+-- this needs to be updated...
+
 local t = Def.ActorFrame{
 	-- player score divider
 	Def.Quad{
@@ -5,13 +8,13 @@ local t = Def.ActorFrame{
 	},
 	-- screen text
 	LoadFont("SpoOky")..{
-		Text="Title Screen | Select Profile | Select Style | Select Game Mode | Select Music | Select Player Options | Select Song Options | Stage | Evaluation |";
-		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+13;diffuse,color(theme_color);zoom,0.5;align,0,0.5);
+		Text="Summary";
+		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+13;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
 	},
 	-- results P1 text
 	LoadFont("SpoOky")..{
 		Text="Results P1";
-		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);zoom,0.75;align,0,0.5);
+		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);zoom,0.75;align,0,0.5;shadowlength,1);
 		OnCommand=function(self)
 			self:queuecommand('Results');
 		end;
@@ -64,7 +67,7 @@ local t = Def.ActorFrame{
 	-- results P2 text
 	LoadFont("SpoOky")..{
 		Text="Results P2";
-		InitCommand=cmd(x,SCREEN_RIGHT-8;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);zoom,0.75;align,1,0.5);
+		InitCommand=cmd(x,SCREEN_RIGHT-8;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);zoom,0.75;align,1,0.5;shadowlength,1);
 		OnCommand=function(self)
 			self:queuecommand('Results');
 		end;
