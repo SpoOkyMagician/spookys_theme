@@ -78,6 +78,7 @@ local t = Def.ActorFrame{
 		end;
 		IconPACommand=function(self)
 			-- GLOBAL variable check
+			local enabled_p1 = GAMESTATE:IsPlayerEnabled('PlayerNumber_P1');
 			if last_known_difficulty_P1 == 'Difficulty_Beginner' then
 				self:Load(THEME:GetPathG("", "icon_beginner.png"));
 			elseif last_known_difficulty_P1 == 'Difficulty_Easy' then
@@ -93,6 +94,9 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "icon_unknown.png"));
 			end;
+			if enabled_p1 == false then
+				self:Load(THEME:GetPathG("", "icon_unknown.png"));
+			end;
 		end;
 	},
 	-- song difficulty icon p2
@@ -103,6 +107,7 @@ local t = Def.ActorFrame{
 		end;
 		IconPBCommand=function(self)
 			-- GLOBAL variable check
+			local enabled_p2 = GAMESTATE:IsPlayerEnabled('PlayerNumber_P2');
 			if last_known_difficulty_P2 == 'Difficulty_Beginner' then
 				self:Load(THEME:GetPathG("", "icon_beginner.png"));
 			elseif last_known_difficulty_P2 == 'Difficulty_Easy' then
@@ -116,6 +121,9 @@ local t = Def.ActorFrame{
 			elseif last_known_difficulty_P2 == 'Difficulty_Edit' then
 				self:Load(THEME:GetPathG("", "icon_edit.png"));
 			else
+				self:Load(THEME:GetPathG("", "icon_unknown.png"));
+			end;
+			if enabled_p2 == false then
 				self:Load(THEME:GetPathG("", "icon_unknown.png"));
 			end;
 		end;
@@ -177,7 +185,8 @@ local t = Def.ActorFrame{
 		end;
 		-- BUG: dunno why but, this works... for now...
 		-- change it to P2 when fixed...
-		LifeMeterChangedP1MessageCommand=cmd(playcommand,"PBLife");
+		-- edit: seems to be fixed in nightly build 844... :)
+		LifeMeterChangedP2MessageCommand=cmd(playcommand,"PBLife");
 	},
 	-- cover life meter p2
 	Def.Quad{
@@ -306,6 +315,99 @@ local t = Def.ActorFrame{
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentComboChangedP2MessageCommand=cmd(playcommand,"PBScore");
+	},
+	-- p1 grade text
+	LoadFont("SpoOky")..{
+		Text="N/A";
+		InitCommand=cmd(x,SCREEN_CENTER_X-64;y,SCREEN_HEIGHT/2;align,0,0.5;diffuse,color("1,0.25,0,1");shadowlength,1);
+		OnCommand=function(self)
+			self:queuecommand("PAGrade");
+		end;
+		PAGradeCommand=function(self)
+			local stats = STATSMAN:GetCurStageStats();
+			local player_stats = stats:GetPlayerStageStats('PlayerNumber_P1');
+			local grade = player_stats:GetGrade();
+			local string_grade = "AAAA";
+			if grade == 'Grade_Tier01' then
+				string_grade = "AAAA";
+			elseif grade == 'Grade_Tier02' then
+				string_grade = "AAA";
+			elseif grade == 'Grade_Tier03' then
+				string_grade = "AA";
+			elseif grade == 'Grade_Tier04' then
+				string_grade = "A";
+			elseif grade == 'Grade_Tier05' then
+				string_grade = "B";
+			elseif grade == 'Grade_Tier06' then
+				string_grade = "C";
+			elseif grade == 'Grade_Tier07' then
+				string_grade = "D";
+			elseif grade == 'Grade_Failed' then
+				string_grade = "F";
+			end;
+			self:settext(string_grade);
+		end;
+		CurrentComboChangedP1MessageCommand=cmd(playcommand,"PAGrade");
+	},
+	-- p2 grade text
+	LoadFont("SpoOky")..{
+		Text="N/A";
+		InitCommand=cmd(x,SCREEN_CENTER_X+64;y,SCREEN_HEIGHT/2;align,1,0.5;diffuse,color("0,0.5,1,1");shadowlength,1);
+		OnCommand=function(self)
+			self:queuecommand("PBGrade");
+		end;
+		PBGradeCommand=function(self)
+			local stats = STATSMAN:GetCurStageStats();
+			local player_stats = stats:GetPlayerStageStats('PlayerNumber_P2');
+			local grade = player_stats:GetGrade();
+			local string_grade = "AAAA";
+			if grade == 'Grade_Tier01' then
+				string_grade = "AAAA";
+			elseif grade == 'Grade_Tier02' then
+				string_grade = "AAA";
+			elseif grade == 'Grade_Tier03' then
+				string_grade = "AA";
+			elseif grade == 'Grade_Tier04' then
+				string_grade = "A";
+			elseif grade == 'Grade_Tier05' then
+				string_grade = "B";
+			elseif grade == 'Grade_Tier06' then
+				string_grade = "C";
+			elseif grade == 'Grade_Tier07' then
+				string_grade = "D";
+			elseif grade == 'Grade_Failed' then
+				string_grade = "F";
+			end;
+			self:settext(string_grade);
+		end;
+		CurrentComboChangedP2MessageCommand=cmd(playcommand,"PBGrade");
+	},
+	-- song remaining length back quad...
+	Def.Quad{
+		InitCommand=cmd(stretchto,SCREEN_RIGHT/2-4,SCREEN_TOP+64,SCREEN_RIGHT/2+2,SCREEN_BOTTOM-64;diffuse,color("0.2,0.1,0,1"));
+	},
+	-- song remaining length front quad...
+	-- somewhat buggy but it works for now...
+	Def.Quad{
+		InitCommand=cmd(stretchto,SCREEN_RIGHT/2-4,SCREEN_BOTTOM-64,SCREEN_RIGHT/2+2,SCREEN_TOP+64;diffuse,color("1,0.9,0,1"));
+		OnCommand=function(self)
+			song = GAMESTATE:GetCurrentSong();
+			beat_start = song:GetFirstBeat();
+			self:queuecommand("Progress");
+		end;
+		ProgressCommand=function(self)
+			if song ~= nil then
+				beat_start = beat_start + 1;
+				local beat_end = song:GetLastBeat();
+				local beat_current = (beat_start / beat_end) * 352;
+				self:stretchto(SCREEN_RIGHT/2-4,SCREEN_BOTTOM-64,SCREEN_RIGHT/2+2,(SCREEN_BOTTOM-64)-beat_current);
+			end;
+		end;
+		BeatCrossedMessageCommand=cmd(playcommand,"Progress");
+	},
+	-- cover front quad...
+	Def.Quad{
+		InitCommand=cmd(stretchto,SCREEN_RIGHT/2-4,SCREEN_TOP+64,SCREEN_RIGHT/2+2,SCREEN_BOTTOM-64;diffusebottomedge,color("0,0,0,0.5");diffusealpha,0.25);
 	},
 };
 
