@@ -5,6 +5,22 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="StepMania Online Lobby";
 		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+13;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
+	},
+	-- last round info quad
+	Def.Quad{
+		InitCommand=cmd(stretchto,SCREEN_LEFT+8,SCREEN_TOP+40,SCREEN_RIGHT-8,SCREEN_TOP+204;diffuse,color(theme_background);basealpha,0.75);
+	},
+	-- chat output quad
+	Def.Quad{
+		InitCommand=cmd(stretchto,SCREEN_LEFT+8,SCREEN_TOP+208,SCREEN_LEFT+280,SCREEN_TOP+372;diffuse,color(theme_background);basealpha,0.75);
+	},
+	-- chat input quad
+	Def.Quad{
+		InitCommand=cmd(stretchto,SCREEN_LEFT+8,SCREEN_TOP+376,SCREEN_LEFT+280,SCREEN_TOP+446;diffuse,color(theme_background);basealpha,0.75);
+	},
+	-- other stuff quad
+	Def.Quad{
+		InitCommand=cmd(stretchto,SCREEN_LEFT+284,SCREEN_TOP+208,SCREEN_RIGHT-8,SCREEN_TOP+446;diffuse,color(theme_background);basealpha,0.75);
 	}
 	-- i clearly have no idea what i am doing but, i am gonna try...
 --	LoadFont("SpoOky")..{

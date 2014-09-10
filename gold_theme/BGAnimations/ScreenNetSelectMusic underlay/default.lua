@@ -30,6 +30,22 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"Vars");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"Vars");
 		CurrentSongChangedMessageCommand=cmd(playcommand,"Vars");
+	},
+	-- last round info quad
+	Def.Quad{
+		InitCommand=cmd(stretchto,SCREEN_LEFT+8,SCREEN_TOP+40,SCREEN_RIGHT-8,SCREEN_TOP+204;diffuse,color(theme_background);basealpha,0.75);
+	},
+	-- chat output quad
+	Def.Quad{
+		InitCommand=cmd(stretchto,SCREEN_LEFT+8,SCREEN_TOP+208,SCREEN_LEFT+280,SCREEN_TOP+372;diffuse,color(theme_background);basealpha,0.75);
+	},
+	-- chat input quad
+	Def.Quad{
+		InitCommand=cmd(stretchto,SCREEN_LEFT+8,SCREEN_TOP+376,SCREEN_LEFT+280,SCREEN_TOP+446;diffuse,color(theme_background);basealpha,0.75);
+	},
+	-- other stuff quad
+	Def.Quad{
+		InitCommand=cmd(stretchto,SCREEN_LEFT+284,SCREEN_TOP+208,SCREEN_RIGHT-8,SCREEN_TOP+446;diffuse,color(theme_background);basealpha,0.75);
 	}
 };
 
