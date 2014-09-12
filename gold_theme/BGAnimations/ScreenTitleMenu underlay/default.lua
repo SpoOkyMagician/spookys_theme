@@ -88,6 +88,98 @@ local t = Def.ActorFrame{
 			end;
 		end;
 	},
+	-- life text
+	LoadFont("SpoOky")..{
+		Text="N/A";
+		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_CENTER_Y+136;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
+		OnCommand=function(self)
+			local value = GetTimingDifficulty();
+			self:settext("Life Difficulty: " .. tostring(value));
+		end;
+	},
+	-- timing text
+	LoadFont("SpoOky")..{
+		Text="N/A";
+		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_CENTER_Y+136+16;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
+		OnCommand=function(self)
+			local value = GetTimingDifficulty();
+			self:settext("Timing Difficulty: " .. tostring(value));
+		end;
+	},
+	-- group text
+	LoadFont("SpoOky")..{
+		Text="N/A";
+		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_CENTER_Y+136+32;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
+		OnCommand=function(self)
+			local value = SONGMAN:GetNumSongGroups();
+			self:settext("Song Groups: " .. tostring(value));
+		end;
+	},
+	-- songs text
+	LoadFont("SpoOky")..{
+		Text="N/A";
+		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_CENTER_Y+136+48;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
+		OnCommand=function(self)
+			local value = SONGMAN:GetNumSongs();
+			self:settext("Song Total: " .. tostring(value));
+		end;
+	},
+	-- game text
+	LoadFont("SpoOky")..{
+		Text="N/A";
+		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_CENTER_Y+136+64;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
+		OnCommand=function(self)
+			local game = GAMESTATE:GetCurrentGame();
+			local value = game:GetName();
+			self:settext("Game Type: " .. tostring(value));
+		end;
+	},
+	-- course groups text
+	LoadFont("SpoOky")..{
+		Text="N/A";
+		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_CENTER_Y+136;diffuse,color(theme_color);zoom,0.5;align,1,0.5;shadowlength,1);
+		OnCommand=function(self)
+			local value = SONGMAN:GetNumCourseGroups();
+			self:settext("Course Groups: " .. tostring(value));
+		end;
+	},
+	-- course total text
+	LoadFont("SpoOky")..{
+		Text="N/A";
+		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_CENTER_Y+136+16;diffuse,color(theme_color);zoom,0.5;align,1,0.5;shadowlength,1);
+		OnCommand=function(self)
+			local value = SONGMAN:GetNumCourses();
+			self:settext("Courses: " .. tostring(value));
+		end;
+	},
+	-- add courses text
+	LoadFont("SpoOky")..{
+		Text="N/A";
+		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_CENTER_Y+136+32;diffuse,color(theme_color);zoom,0.5;align,1,0.5;shadowlength,1);
+		OnCommand=function(self)
+			local value = SONGMAN:GetNumAdditionalCourses();
+			self:settext("Additional Courses: " .. tostring(value));
+		end;
+	},
+	-- add songs text
+	LoadFont("SpoOky")..{
+		Text="N/A";
+		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_CENTER_Y+136+48;diffuse,color(theme_color);zoom,0.5;align,1,0.5;shadowlength,1);
+		OnCommand=function(self)
+			local value = SONGMAN:GetNumAdditionalSongs();
+			self:settext("Additional Songs: " .. tostring(value));
+		end;
+	},
+	-- locks text
+	LoadFont("SpoOky")..{
+		Text="N/A";
+		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_CENTER_Y+136+64;diffuse,color(theme_color);zoom,0.5;align,1,0.5;shadowlength,1);
+		OnCommand=function(self)
+			local value = SONGMAN:GetNumLockedSongs();
+			local other_value = SONGMAN:GetNumUnlockedSongs();
+			self:settext("Locked/Unlocked Songs: " .. tostring(value) .. "/" .. tostring(other_value));
+		end;
+	},
 	-- GLOBAL play music
 	main_song
 };

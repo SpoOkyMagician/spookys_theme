@@ -8,7 +8,7 @@ local t = Def.ActorFrame{
 	},
 	-- menu items quad
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_BOTTOM-30,SCREEN_RIGHT-2,SCREEN_TOP+30;diffuse,color("0,0,0,0.25"));
+		InitCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_BOTTOM-30,SCREEN_RIGHT-2,SCREEN_TOP+30;diffuse,color("0,0,0,0.75"));
 	},
 	-- GLOBAL play music
 	asian_song

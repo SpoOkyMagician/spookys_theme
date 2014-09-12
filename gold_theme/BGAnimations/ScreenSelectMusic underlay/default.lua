@@ -101,6 +101,73 @@ local t = Def.ActorFrame{
 		Text="Select Music";
 		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+13;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
 	},
+	-- sort icon
+	LoadActor(THEME:GetPathG("", "sort_icon_unknown.png"))..{
+		InitCommand=cmd(x,SCREEN_RIGHT-26;y,SCREEN_TOP+15;zoomto,50,28);
+		OnCommand=function(self)
+			self:queuecommand("Sort");
+		end;
+		SortCommand=function(self)
+			local sort = GAMESTATE:GetSortOrder();
+			if sort ~= nil then
+				if sort == 'SortOrder_Preferred' then
+					self:Load(THEME:GetPathG("", "sort_icon_preferred.png"));
+				elseif sort == 'SortOrder_Group' then
+					self:Load(THEME:GetPathG("", "sort_icon_group.png"));
+				elseif sort == 'SortOrder_Title' then
+					self:Load(THEME:GetPathG("", "sort_icon_title.png"));
+				elseif sort == 'SortOrder_BPM' then
+					self:Load(THEME:GetPathG("", "sort_icon_bpm.png"));
+				elseif sort == 'SortOrder_Popularity' then
+					self:Load(THEME:GetPathG("", "sort_icon_popularity.png"));
+				elseif sort == 'SortOrder_TopGrades' then
+					self:Load(THEME:GetPathG("", "sort_icon_top_grades.png"));
+				elseif sort == 'SortOrder_Artist' then
+					self:Load(THEME:GetPathG("", "sort_icon_artist.png"));
+				elseif sort == 'SortOrder_BeginnerMeter' then
+					self:Load(THEME:GetPathG("", "sort_icon_beginner.png"));
+				elseif sort == 'SortOrder_EasyMeter' then
+					self:Load(THEME:GetPathG("", "sort_icon_easy.png"));
+				elseif sort == 'SortOrder_MediumMeter' then
+					self:Load(THEME:GetPathG("", "sort_icon_medium.png"));
+				elseif sort == 'SortOrder_HardMeter' then
+					self:Load(THEME:GetPathG("", "sort_icon_hard.png"));
+				elseif sort == 'SortOrder_ChallengeMeter' then
+					self:Load(THEME:GetPathG("", "sort_icon_challenge.png"));
+				elseif sort == 'SortOrder_DoubleEasyMeter' then
+					self:Load(THEME:GetPathG("", "sort_icon_double_easy.png"));
+				elseif sort == 'SortOrder_DoubleMediumMeter' then
+					self:Load(THEME:GetPathG("", "sort_icon_double_medium.png"));
+				elseif sort == 'SortOrder_DoubleHardMeter' then
+					self:Load(THEME:GetPathG("", "sort_icon_double_hard.png"));
+				elseif sort == 'SortOrder_DoubleChallengeMeter' then
+					self:Load(THEME:GetPathG("", "sort_icon_double_challenge.png"));
+				elseif sort == 'SortOrder_ModeMenu' then
+					self:Load(THEME:GetPathG("", "sort_icon_mode_menu.png"));
+				elseif sort == 'SortOrder_AllCourses' then
+					self:Load(THEME:GetPathG("", "sort_icon_all_courses.png"));
+				elseif sort == 'SortOrder_Nonstop' then
+					self:Load(THEME:GetPathG("", "sort_icon_nonstop.png"));
+				elseif sort == 'SortOrder_Oni' then
+					self:Load(THEME:GetPathG("", "sort_icon_oni.png"));
+				elseif sort == 'SortOrder_Endless' then
+					self:Load(THEME:GetPathG("", "sort_icon_endless.png"));
+				elseif sort == 'SortOrder_Length' then
+					self:Load(THEME:GetPathG("", "sort_icon_length.png"));
+				elseif sort == 'SortOrder_Roulette' then
+					self:Load(THEME:GetPathG("", "sort_icon_roulette.png"));
+				elseif sort == 'SortOrder_Recent' then
+					self:Load(THEME:GetPathG("", "sort_icon_recent.png"));
+				else
+					self:Load(THEME:GetPathG("", "sort_icon_unknown.png"));
+				end;
+			else
+				self:Load(THEME:GetPathG("", "sort_icon_unknown.png"));
+			end;
+			self:zoomto(50,28);
+		end;
+		SortOrderChangedMessageCommand=cmd(playcommand,"Sort");
+	},
 	-- song banner
 	LoadActor(THEME:GetPathG("", "no_banner.png"))..{
 		InitCommand=cmd(x,SCREEN_LEFT+130;y,SCREEN_TOP+70;zoomto,256,80);
