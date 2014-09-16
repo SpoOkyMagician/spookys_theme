@@ -1,11 +1,8 @@
 -- ScreenSelectStyle underlay
 
 local t = Def.ActorFrame{
-	-- screen text
-	LoadFont("SpoOky")..{
-		Text="Select Style";
-		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+13;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
-	},
+	-- GLOBAL screen text
+	common_text("Select Style"),
 	-- menu items quad
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+314,SCREEN_BOTTOM/2-18,SCREEN_RIGHT-314,SCREEN_BOTTOM/2+18;diffuse,color("0,0,0,0.5"));

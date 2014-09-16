@@ -1,7 +1,7 @@
 -- ScreenGameplay ready
 
 local t = Def.ActorFrame{
-	--[ screen text
+	-- screen text
 	LoadFont("SpoOky")..{
 		Text="Are you ready?";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color("1,0.8,0,1");align,0.5,0.5;zoom,2.0;shadowlength,1);

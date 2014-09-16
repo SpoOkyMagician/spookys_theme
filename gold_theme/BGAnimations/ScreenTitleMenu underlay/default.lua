@@ -39,11 +39,8 @@ local t = Def.ActorFrame{
 	LoadActor(THEME:GetPathG("","arrow"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X+96;y,SCREEN_CENTER_Y;baserotationz,-90;SetSize,32,32;bob;effectmagnitude,2,0,0;effecttiming,0.25,0.25,0.25,0.25);
 	},
-	-- screen text
-	LoadFont("SpoOky")..{
-		Text="Title Screen";
-		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+13;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
-	},
+	-- GLOBAL screen text
+	common_text("Title Screen"),
 	-- logo text
 	LoadFont("SpoOky")..{
 		Text="STEPMANIA 5";

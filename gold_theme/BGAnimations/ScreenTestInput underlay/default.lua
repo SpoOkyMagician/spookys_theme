@@ -1,10 +1,8 @@
 -- ScreenTestInput overlay
 
 local t = Def.ActorFrame{
-	-- menu items quad
-	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_BOTTOM-30,SCREEN_RIGHT-2,SCREEN_TOP+30;diffuse,color("0,0,0,0.75"));
-	},
+	-- GLOBAL dark quad
+	grid_t,
 	-- had to borrow this code to not overwrite fallback...
 	Def.DeviceList{
 		Font="Common Normal",

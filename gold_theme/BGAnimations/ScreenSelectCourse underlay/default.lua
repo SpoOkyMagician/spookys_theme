@@ -96,11 +96,8 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_TOP+252,SCREEN_LEFT+258,SCREEN_TOP+254;diffuse,color(theme_color));
 	};
-	-- screen text
-	LoadFont("SpoOky")..{
-		Text="Select Course";
-		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+13;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
-	},
+	-- GLOBAL screen text
+	common_text("Select Course"),
 	-- sort icon
 	LoadActor(THEME:GetPathG("", "sort_icon_unknown.png"))..{
 		InitCommand=cmd(x,SCREEN_RIGHT-26;y,SCREEN_TOP+15;zoomto,50,28);
