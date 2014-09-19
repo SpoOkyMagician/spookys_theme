@@ -6,7 +6,7 @@ local t = Def.ActorFrame{
 	-- GLOBAL screen text
 	common_text("StepMania Online Evaluation"),
 	-- GLOBAL dark quad
-	grid_t
+	grid_t,
 	-- results MP text
 	LoadFont("SpoOky")..{
 		Text="Results MP";
