@@ -3,7 +3,7 @@
 local t = Def.ActorFrame{
 	-- GLOBAL black quad
 	grid_a,
-	LoadActor(THEME:GetPathG("","bg_gold"))..{
+	LoadActor(THEME:GetPathG("","bg_generic"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
 	},
 	-- GLOBAL dark gold header quad

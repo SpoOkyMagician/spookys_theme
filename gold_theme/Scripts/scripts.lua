@@ -1,7 +1,48 @@
+local prefs = {
+	ColorPref =
+	{
+		Default = 1,
+		Choices = { "Gold", "Red", "Green", "Blue", "Yellow", "Teal", "Purple" },
+		Values = { 1, 2, 3, 4, 5, 6, 7 },
+	}
+}
+
+ThemePrefs.InitAll( prefs )
+
 -- Original Gold - Primary Theme Color
 theme_color="1,0.9,0,1";
 theme_dark_color="0.5,0.4,0,1";
 theme_background="0,0,0,1";
+
+-- Red (Common)
+--theme_color="1,0,0,1";
+--theme_dark_color="0.5,0,0,1";
+--theme_background="0,0,0,1";
+
+-- Orange (MIX)
+--theme_color="1,1,0,1";
+--theme_dark_color="0.5,0.5,0,1";
+--theme_background="0,0,0,1";
+
+-- Green (Common)
+--theme_color="0,1,0,1";
+--theme_dark_color="0,0.5,0,1";
+--theme_background="0,0,0,1";
+
+-- Teal (MIX)
+--theme_color="0,1,1,1";
+--theme_dark_color="0,0.5,0.5,1";
+--theme_background="0,0,0,1";
+
+-- Blue (Common)
+--theme_color="0,0,1,1";
+--theme_dark_color="0,0,0.5,1";
+--theme_background="0,0,0,1";
+
+-- Purple (MIX)
+--theme_color="1,0,1,1";
+--theme_dark_color="0.5,0,0.5,1";
+--theme_background="0,0,0,1";
 
 -- IMPORTANT: Remember to use comma's in actorframes from now on...
 
@@ -14,8 +55,8 @@ asian_song = LoadActor(THEME:GetPathS("", "asian_rave_party"))..{ InitCommand=cm
 -- quad draws...
 
 grid_a = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,color(theme_background)); };
-grid_b = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_TOP+30;diffuse,color("0.8,0.7,0,1");diffusebottomedge,color(theme_dark_color)); };
-grid_c = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_BOTTOM-30,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,color("0.8,0.7,0,1");diffusebottomedge,color(theme_dark_color)); };
+grid_b = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_TOP+30;diffuse,color(theme_dark_color);diffusebottomedge,color(theme_background)); };
+grid_c = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_BOTTOM-30,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,color(theme_dark_color);diffusebottomedge,color(theme_background)); };
 grid_d = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_TOP+2;diffuse,color(theme_color)); };
 grid_e = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_BOTTOM-2,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,color(theme_color)); };
 grid_f = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_LEFT+2,SCREEN_BOTTOM;diffuse,color(theme_color)); };
