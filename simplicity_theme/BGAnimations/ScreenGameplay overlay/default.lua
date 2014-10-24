@@ -296,12 +296,12 @@ local t = Def.ActorFrame{
 	},
 	-- song remaining length back quad...
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+32,SCREEN_TOP+33,SCREEN_RIGHT-32,SCREEN_TOP+49;diffuse,color("0.2,0.1,0,1"));
+		InitCommand=cmd(stretchto,SCREEN_LEFT+32,SCREEN_TOP+33,SCREEN_RIGHT-32,SCREEN_TOP+49;diffuse,color(theme_dark_color));
 	},
 	-- song remaining length front quad...
 	-- somewhat buggy but it works for now...
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+32,SCREEN_TOP+33,SCREEN_RIGHT-32,SCREEN_TOP+49;diffuse,color("1,0.9,0,1"));
+		InitCommand=cmd(stretchto,SCREEN_LEFT+32,SCREEN_TOP+33,SCREEN_RIGHT-32,SCREEN_TOP+49;diffuse,color(theme_color));
 		OnCommand=function(self)
 			song = GAMESTATE:GetCurrentSong();
 			beat_start = 0;
