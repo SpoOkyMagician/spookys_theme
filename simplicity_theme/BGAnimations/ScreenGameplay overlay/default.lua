@@ -152,7 +152,7 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+102,SCREEN_TOP+2,SCREEN_LEFT+402,SCREEN_TOP+28;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
-			self:diffuseleftedge(color("0,0,0,0.5"));
+			self:diffuseleftedge(color("0,0,0,0.75"));
 			self:queuecommand("PALife");
 		end;
 		PALifeCommand=function(self)
@@ -171,9 +171,9 @@ local t = Def.ActorFrame{
 		end;
 		LifeMeterChangedP1MessageCommand=cmd(playcommand,"PALife");
 	},
-	-- cover life meter p1
-	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+102,SCREEN_TOP+2,SCREEN_LEFT+402,SCREEN_TOP+28;diffuseleftedge,color("0,0,0,0.5");diffusealpha,0.25);
+	-- life meter overlay p1
+	LoadActor(THEME:GetPathG("", "life_meter_overlay.png"))..{
+		InitCommand=cmd(x,SCREEN_LEFT+252;y,SCREEN_TOP+15);
 	},
 	-- back life meter p2
 	Def.Quad{
@@ -183,6 +183,7 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_RIGHT-402,SCREEN_TOP+2,SCREEN_RIGHT-102,SCREEN_TOP+28;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
+			self:diffuseleftedge(color("0,0,0,0.75"));
 			self:queuecommand("PBLife");
 		end;
 		PBLifeCommand=function(self)
@@ -204,9 +205,9 @@ local t = Def.ActorFrame{
 		-- edit: seems to be fixed in nightly build 844... :)
 		LifeMeterChangedP2MessageCommand=cmd(playcommand,"PBLife");
 	},
-	-- cover life meter p2
-	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_RIGHT-402,SCREEN_TOP+2,SCREEN_RIGHT-102,SCREEN_TOP+28;diffuseleftedge,color("0,0,0,0.5");diffusealpha,0.25);
+	-- life meter overlay p2
+	LoadActor(THEME:GetPathG("", "life_meter_overlay.png"))..{
+		InitCommand=cmd(x,SCREEN_RIGHT-252;y,SCREEN_TOP+15);
 	},
 	-- p1 combo number text
 	LoadFont("SpoOky")..{
