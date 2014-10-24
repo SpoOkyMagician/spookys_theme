@@ -22,6 +22,42 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"Vars");
 		CurrentSongChangedMessageCommand=cmd(playcommand,"Vars");
 	},
+	-- radar variables P1 hidden actor
+	-- smo edit: technically, it only uses p1. p2 does not work online.
+	LoadFont("SpoOky")..{
+		Text="";
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
+		OnCommand=function(self)
+			self:queuecommand('Values');
+		end;
+		ValuesCommand=function(self)
+			local p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
+			if p1_steps ~= nil then
+				local p1_values = p1_steps:GetRadarValues('PlayerNumber_P1');
+				steps_p1_taps = p1_values:GetValue('RadarCategory_TapsAndHolds');
+				steps_p1_jumps = p1_values:GetValue('RadarCategory_Jumps');
+				steps_p1_holds = p1_values:GetValue('RadarCategory_Holds');
+				steps_p1_mines = p1_values:GetValue('RadarCategory_Mines');
+				steps_p1_hands = p1_values:GetValue('RadarCategory_Hands');
+				steps_p1_rolls = p1_values:GetValue('RadarCategory_Rolls');
+				steps_p1_lifts = p1_values:GetValue('RadarCategory_Lifts');
+				steps_p1_fakes = p1_values:GetValue('RadarCategory_Fakes');
+				steps_p1_total = steps_p1_taps + steps_p1_jumps + steps_p1_holds + steps_p1_mines + steps_p1_hands + steps_p1_rolls + steps_p1_lifts + steps_p1_fakes;
+			else
+				steps_p1_taps = 0;
+				steps_p1_jumps = 0;
+				steps_p1_holds = 0;
+				steps_p1_mines = 0;
+				steps_p1_hands = 0;
+				steps_p1_rolls = 0;
+				steps_p1_lifts = 0;
+				steps_p1_fakes = 0;
+				steps_p1_total = 0;
+			end;
+		end;
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"Values");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"Values");
+	},
 	-- sort icon
 	LoadActor(THEME:GetPathG("", "sort_icon_unknown.png"))..{
 		InitCommand=cmd(x,SCREEN_RIGHT-26;y,SCREEN_TOP+15;zoomto,50,28);
@@ -221,6 +257,118 @@ local t = Def.ActorFrame{
 	},
 	LoadActor(THEME:GetPathG("", "radar_values"))..{
 		InitCommand=cmd(x,SCREEN_LEFT+414;y,SCREEN_TOP+144;zoomto,256,69);
+	},
+	-- quad p1 taps
+	Def.Quad{
+		InitCommand=cmd(stretchto,0,0,0,0;diffuse,color("1,0.25,0,1"));
+		OnCommand=function(self)
+			self:queuecommand("RadarTapsPA");
+		end;
+		RadarTapsPACommand=function(self)
+			local percentage = (steps_p1_taps / steps_p1_total)*100;
+			self:stretchto(SCREEN_LEFT+299,SCREEN_TOP+114,(SCREEN_LEFT+299)+percentage,SCREEN_TOP+118);
+		end;
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarTapsPA");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarTapsPA");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarTapsPA");
+	},
+	-- quad p1 jumps
+	Def.Quad{
+		InitCommand=cmd(stretchto,0,0,0,0;diffuse,color("1,0.25,0,1"));
+		OnCommand=function(self)
+			self:queuecommand("RadarJumpsPA");
+		end;
+		RadarJumpsPACommand=function(self)
+			local p1_percentage = (steps_p1_jumps / steps_p1_total)*100;
+			self:stretchto(SCREEN_LEFT+299,SCREEN_TOP+121,(SCREEN_LEFT+299)+p1_percentage,SCREEN_TOP+125);
+		end;
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarJumpsPA");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarJumpsPA");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarJumpsPA");
+	},
+	-- quad p1 holds
+	Def.Quad{
+		InitCommand=cmd(stretchto,0,0,0,0;diffuse,color("1,0.25,0,1"));
+		OnCommand=function(self)
+			self:queuecommand("RadarHoldsPA");
+		end;
+		RadarHoldsPACommand=function(self)
+			local p1_percentage = (steps_p1_holds / steps_p1_total)*100;
+			self:stretchto(SCREEN_LEFT+299,SCREEN_TOP+128,(SCREEN_LEFT+299)+p1_percentage,SCREEN_TOP+132);
+		end;
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHoldsPA");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarHoldsPA");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarHoldsPA");
+	},
+	-- quad p1 mines
+	Def.Quad{
+		InitCommand=cmd(stretchto,0,0,0,0;diffuse,color("1,0.25,0,1"));
+		OnCommand=function(self)
+			self:queuecommand("RadarMinesPA");
+		end;
+		RadarMinesPACommand=function(self)
+			local p1_percentage = (steps_p1_mines / steps_p1_total)*100;
+			self:stretchto(SCREEN_LEFT+299,SCREEN_TOP+135,(SCREEN_LEFT+299)+p1_percentage,SCREEN_TOP+139);
+		end;
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarMinesPA");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarMinesPA");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarMinesPA");
+	},
+	-- quad p1 hands
+	Def.Quad{
+		InitCommand=cmd(stretchto,0,0,0,0;diffuse,color("1,0.25,0,1"));
+		OnCommand=function(self)
+			self:queuecommand("RadarHandsPA");
+		end;
+		RadarHandsPACommand=function(self)
+			local p1_percentage = (steps_p1_hands / steps_p1_total)*100;
+			self:stretchto(SCREEN_LEFT+299,SCREEN_TOP+142,(SCREEN_LEFT+299)+p1_percentage,SCREEN_TOP+146);
+		end;
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHandsPA");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarHandsPA");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarHandsPA");
+	},
+	-- quad p1 rolls
+	Def.Quad{
+		InitCommand=cmd(stretchto,0,0,0,0;diffuse,color("1,0.25,0,1"));
+		OnCommand=function(self)
+			self:queuecommand("RadarRollsPA");
+		end;
+		RadarRollsPACommand=function(self)
+			local p1_percentage = (steps_p1_rolls / steps_p1_total)*100;
+			self:stretchto(SCREEN_LEFT+299,SCREEN_TOP+149,(SCREEN_LEFT+299)+p1_percentage,SCREEN_TOP+153);
+		end;
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarRollsPA");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarRollsPA");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarRollsPA");
+	},
+	-- quad p1 lifts
+	Def.Quad{
+		InitCommand=cmd(stretchto,0,0,0,0;diffuse,color("1,0.25,0,1"));
+		OnCommand=function(self)
+			self:queuecommand("RadarLiftsPA");
+		end;
+		RadarLiftsPACommand=function(self)
+			local p1_percentage = (steps_p1_lifts / steps_p1_total)*100;
+			self:stretchto(SCREEN_LEFT+299,SCREEN_TOP+156,(SCREEN_LEFT+299)+p1_percentage,SCREEN_TOP+160);
+		end;
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarLiftsPA");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarLiftsPA");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarLiftsPA");
+	},
+	-- quad p1 fakes
+	Def.Quad{
+		InitCommand=cmd(stretchto,0,0,0,0;diffuse,color("1,0.25,0,1"));
+		OnCommand=function(self)
+			self:queuecommand("RadarFakesPA");
+		end;
+		RadarFakesPACommand=function(self)
+			local p1_percentage = (steps_p1_fakes / steps_p1_total)*100;
+			self:stretchto(SCREEN_LEFT+299,SCREEN_TOP+163,(SCREEN_LEFT+299)+p1_percentage,SCREEN_TOP+167);
+		end;
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarFakesPA");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarFakesPA");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarFakesPA");
 	},
 	-- song/trail information
 	LoadFont("SpoOky")..{
