@@ -28,6 +28,10 @@ local t = Def.ActorFrame{
 	common_text("Reload Songs"),
 	-- GLOBAL dark quad
 	grid_t,
+	-- new theme skin i am experimenting with...
+	LoadActor(THEME:GetPathG("","theme_skin"))..{
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
+	},
 	-- GLOBAL play music
 	asian_song
 };

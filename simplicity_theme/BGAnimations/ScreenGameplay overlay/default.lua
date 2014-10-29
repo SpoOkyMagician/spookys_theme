@@ -309,6 +309,12 @@ local t = Def.ActorFrame{
 			beat_end = song:GetLastBeat();
 			self:queuecommand("Progress");
 		end;
+		ResetCommand=function(self)
+			song = GAMESTATE:GetCurrentSong();
+			beat_start = 0;
+			beat_end = song:GetLastBeat();
+			self:queuecommand("Progress");
+		end;
 		ProgressCommand=function(self)
 			if song ~= nil then
 				if beat_start < beat_end then
@@ -319,6 +325,7 @@ local t = Def.ActorFrame{
 			end;
 		end;
 		BeatCrossedMessageCommand=cmd(playcommand,"Progress");
+		DoneLoadingNextSongMessageCommand=cmd(playcommand,"Reset");
 	},
 	-- cover front quad...
 	Def.Quad{
@@ -327,6 +334,10 @@ local t = Def.ActorFrame{
 	-- progress meter actor
 	LoadActor(THEME:GetPathG("", "progress_meter.png"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_TOP+41);
+	},
+	-- new theme skin i am experimenting with...
+	LoadActor(THEME:GetPathG("","theme_skin"))..{
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
 	}
 };
 

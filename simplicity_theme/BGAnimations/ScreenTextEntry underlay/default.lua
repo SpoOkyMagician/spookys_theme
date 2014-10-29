@@ -29,7 +29,11 @@ local t = Def.ActorFrame{
 	-- GLOBAL screen text
 	common_text("Text Input"),
 	-- GLOBAL dark quad
-	grid_t
+	grid_t,
+	-- new theme skin i am experimenting with...
+	LoadActor(THEME:GetPathG("","theme_skin"))..{
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
+	}
 	-- don't play music here...
 };
 

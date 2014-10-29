@@ -4,7 +4,7 @@ local t = Def.ActorFrame{
 	-- GLOBAL screen text
 	common_text("Test Input"),
 	-- GLOBAL play music
-	sub_song
+	asian_song
 };
 
 return t;

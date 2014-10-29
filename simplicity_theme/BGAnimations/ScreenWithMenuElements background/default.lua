@@ -25,7 +25,10 @@ local t = Def.ActorFrame{
 	-- GLOBAL screen border
 	grid_i,
 	-- GLOBAL profile divider
-	grid_s
+	grid_s,
+	LoadActor(THEME:GetPathG("","theme_skin"))..{
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
+	},
 };
 
 return t;
