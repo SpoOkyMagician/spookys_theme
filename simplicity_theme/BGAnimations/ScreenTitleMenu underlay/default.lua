@@ -223,6 +223,8 @@ local t = Def.ActorFrame{
 	LoadActor(THEME:GetPathG("","theme_skin"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
 	},
+	-- testing something
+	-- test_text("Testing Something", 427, 240, "#FFFFFFFF"),
 	-- GLOBAL play music
 	main_song
 };
