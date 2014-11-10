@@ -18,7 +18,7 @@ local t = Def.ActorFrame{
 	-- other stuff quad
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+284,SCREEN_TOP+208,SCREEN_RIGHT-8,SCREEN_TOP+446;diffuse,color(theme_background);basealpha,0.75);
-	}
+	},
 	-- i clearly have no idea what i am doing but, i am gonna try...
 --	LoadFont("SpoOky")..{
 --		Text="N/A";
@@ -42,6 +42,8 @@ local t = Def.ActorFrame{
 	--	RoomInfoRetractMessageCommand=cmd(playcommand,'Info');
 	--	RoomInfoDeployMessageCommand=cmd(playcommand,'Info');
 --	}
+	-- GLOBAL play music
+	slow_song
 };
 
 return t;

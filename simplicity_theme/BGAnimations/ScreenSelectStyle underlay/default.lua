@@ -51,7 +51,7 @@ local t = Def.ActorFrame{
 		MenuSelectionChangedMessageCommand=cmd(playcommand,"DownRight");
 	},
 	-- GLOBAL play music
-	sub_song
+	fast_song
 };
 
 return t;

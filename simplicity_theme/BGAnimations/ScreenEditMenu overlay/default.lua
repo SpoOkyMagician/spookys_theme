@@ -6,7 +6,7 @@ local t = Def.ActorFrame{
 	-- this is overlapping text... fix this... use quad_t
 	grid_t,
 	-- GLOBAL play music
-	asian_song
+	slow_song
 };
 
 return t;

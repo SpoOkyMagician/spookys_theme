@@ -1,4 +1,5 @@
 -- ScreenSelectCourse underlay
+-- having some issues with this screen... not much i can do about it right now...
 
 local t = Def.ActorFrame{
 	-- last known difficulty variable P1/P2 hidden actor
@@ -105,71 +106,20 @@ local t = Def.ActorFrame{
 			self:queuecommand("Sort");
 		end;
 		SortCommand=function(self)
+			-- thanks Jousway.
 			local sort = GAMESTATE:GetSortOrder();
 			if sort ~= nil then
-				if sort == 'SortOrder_Preferred' then
-					self:Load(THEME:GetPathG("", "sort_icon_preferred.png"));
-				elseif sort == 'SortOrder_Group' then
-					self:Load(THEME:GetPathG("", "sort_icon_group.png"));
-				elseif sort == 'SortOrder_Title' then
-					self:Load(THEME:GetPathG("", "sort_icon_title.png"));
-				elseif sort == 'SortOrder_BPM' then
-					self:Load(THEME:GetPathG("", "sort_icon_bpm.png"));
-				elseif sort == 'SortOrder_Popularity' then
-					self:Load(THEME:GetPathG("", "sort_icon_popularity.png"));
-				elseif sort == 'SortOrder_TopGrades' then
-					self:Load(THEME:GetPathG("", "sort_icon_top_grades.png"));
-				elseif sort == 'SortOrder_Artist' then
-					self:Load(THEME:GetPathG("", "sort_icon_artist.png"));
-				elseif sort == 'SortOrder_BeginnerMeter' then
-					self:Load(THEME:GetPathG("", "sort_icon_beginner.png"));
-				elseif sort == 'SortOrder_EasyMeter' then
-					self:Load(THEME:GetPathG("", "sort_icon_easy.png"));
-				elseif sort == 'SortOrder_MediumMeter' then
-					self:Load(THEME:GetPathG("", "sort_icon_medium.png"));
-				elseif sort == 'SortOrder_HardMeter' then
-					self:Load(THEME:GetPathG("", "sort_icon_hard.png"));
-				elseif sort == 'SortOrder_ChallengeMeter' then
-					self:Load(THEME:GetPathG("", "sort_icon_challenge.png"));
-				elseif sort == 'SortOrder_DoubleEasyMeter' then
-					self:Load(THEME:GetPathG("", "sort_icon_double_easy.png"));
-				elseif sort == 'SortOrder_DoubleMediumMeter' then
-					self:Load(THEME:GetPathG("", "sort_icon_double_medium.png"));
-				elseif sort == 'SortOrder_DoubleHardMeter' then
-					self:Load(THEME:GetPathG("", "sort_icon_double_hard.png"));
-				elseif sort == 'SortOrder_DoubleChallengeMeter' then
-					self:Load(THEME:GetPathG("", "sort_icon_double_challenge.png"));
-				elseif sort == 'SortOrder_ModeMenu' then
-					self:Load(THEME:GetPathG("", "sort_icon_mode_menu.png"));
-				elseif sort == 'SortOrder_AllCourses' then
-					self:Load(THEME:GetPathG("", "sort_icon_all_courses.png"));
-				elseif sort == 'SortOrder_Nonstop' then
-					self:Load(THEME:GetPathG("", "sort_icon_nonstop.png"));
-				elseif sort == 'SortOrder_Oni' then
-					self:Load(THEME:GetPathG("", "sort_icon_oni.png"));
-				elseif sort == 'SortOrder_Endless' then
-					self:Load(THEME:GetPathG("", "sort_icon_endless.png"));
-				elseif sort == 'SortOrder_Length' then
-					self:Load(THEME:GetPathG("", "sort_icon_length.png"));
-				elseif sort == 'SortOrder_Roulette' then
-					self:Load(THEME:GetPathG("", "sort_icon_roulette.png"));
-				elseif sort == 'SortOrder_Recent' then
-					self:Load(THEME:GetPathG("", "sort_icon_recent.png"));
-				else
-					self:Load(THEME:GetPathG("", "sort_icon_unknown.png"));
-				end;
+				self:Load(THEME:GetPathG("icon", sort)); -- and call them "icon SortOrder_Preferred.png"
 			else
 				self:Load(THEME:GetPathG("", "sort_icon_unknown.png"));
 			end;
+			self:finishtweening();
+			self:stoptweening();
 			self:zoomto(50,28);
 			self:diffusealpha(0);
-			self:sleep(0.025);
 			self:diffusealpha(0.25);
-			self:sleep(0.025);
 			self:diffusealpha(0.5);
-			self:sleep(0.025);
 			self:diffusealpha(0.75);
-			self:sleep(0.025);
 			self:diffusealpha(1.0);
 		end;
 		SortOrderChangedMessageCommand=cmd(playcommand,"Sort");
@@ -195,15 +145,13 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "no_banner.png"));
 			end;
+			self:finishtweening();
+			self:stoptweening();
 			self:zoomto(256,80);
 			self:diffusealpha(0);
-			self:sleep(0.025);
 			self:diffusealpha(0.25);
-			self:sleep(0.025);
 			self:diffusealpha(0.5);
-			self:sleep(0.025);
 			self:diffusealpha(0.75);
-			self:sleep(0.025);
 			self:diffusealpha(1.0);
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"Banner");
@@ -225,15 +173,13 @@ local t = Def.ActorFrame{
 				else
 					self:Load(THEME:GetPathG("", "no_background.png"));
 				end;
+			self:finishtweening();
+			self:stoptweening();
 			self:zoomto(592,420);
 			self:diffusealpha(0);
-			self:sleep(0.025);
 			self:diffusealpha(0.25);
-			self:sleep(0.025);
 			self:diffusealpha(0.5);
-			self:sleep(0.025);
 			self:diffusealpha(0.75);
-			self:sleep(0.025);
 			self:diffusealpha(1.0);
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"BG");
@@ -265,15 +211,13 @@ local t = Def.ActorFrame{
 				else
 					self:Load(THEME:GetPathG("", "difficulty_unknown.png"));
 				end;
+			self:finishtweening();
+			self:stoptweening();
 			self:zoomto(64,64);
 			self:diffusealpha(0);
-			self:sleep(0.025);
 			self:diffusealpha(0.25);
-			self:sleep(0.025);
 			self:diffusealpha(0.5);
-			self:sleep(0.025);
 			self:diffusealpha(0.75);
-			self:sleep(0.025);
 			self:diffusealpha(1.0);
 		end;
 		CurrentTrailP1ChangedMessageCommand=cmd(playcommand,"DifficultyPA");
@@ -306,15 +250,13 @@ local t = Def.ActorFrame{
 				else
 					self:Load(THEME:GetPathG("", "difficulty_unknown.png"));
 				end;
+			self:finishtweening();
+			self:stoptweening();
 			self:zoomto(64,64);
 			self:diffusealpha(0);
-			self:sleep(0.025);
 			self:diffusealpha(0.25);
-			self:sleep(0.025);
 			self:diffusealpha(0.5);
-			self:sleep(0.025);
 			self:diffusealpha(0.75);
-			self:sleep(0.025);
 			self:diffusealpha(1.0);
 		end;
 		CurrentTrailP2ChangedMessageCommand=cmd(playcommand,"DifficultyPB");
@@ -335,15 +277,13 @@ local t = Def.ActorFrame{
 				else
 					self:Load(THEME:GetPathG("", "meter_0.png"));
 				end;
+			self:finishtweening();
+			self:stoptweening();
 			self:zoomto(192,64);
 			self:diffusealpha(0);
-			self:sleep(0.025);
 			self:diffusealpha(0.25);
-			self:sleep(0.025);
 			self:diffusealpha(0.5);
-			self:sleep(0.025);
 			self:diffusealpha(0.75);
-			self:sleep(0.025);
 			self:diffusealpha(1.0);
 		end;
 		CurrentTrailP1ChangedMessageCommand=cmd(playcommand,"MeterPA");
@@ -364,15 +304,13 @@ local t = Def.ActorFrame{
 				else
 					self:Load(THEME:GetPathG("", "meter_0.png"));
 				end;
+			self:finishtweening();
+			self:stoptweening();
 			self:zoomto(192,64);
 			self:diffusealpha(0);
-			self:sleep(0.025);
 			self:diffusealpha(0.25);
-			self:sleep(0.025);
 			self:diffusealpha(0.5);
-			self:sleep(0.025);
 			self:diffusealpha(0.75);
-			self:sleep(0.025);
 			self:diffusealpha(1.0);
 		end;
 		CurrentTrailP2ChangedMessageCommand=cmd(playcommand,"MeterPB");
@@ -392,16 +330,13 @@ local t = Def.ActorFrame{
 			else
 				self:settext("Title:\n" .. "N/A" .. "\nDescription:\n" .. "N/A" .. "\nCreator:\n" .. "N/A" .. "\nStages:\n" .. "N/A");
 			end;
+			self:finishtweening();
+			self:stoptweening();
 			self:scaletofit(SCREEN_LEFT+2,SCREEN_TOP+110,SCREEN_LEFT+256,SCREEN_TOP+250);
-			self:align(0,0.5);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF44"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF88"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFCC"));
-			self:sleep(0.025);
 			self:diffuse(color(theme_color));
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"Information");
@@ -435,18 +370,14 @@ local t = Def.ActorFrame{
 			else
 				self:settext("N/A");
 			end;
+			self:finishtweening();
+			self:stoptweening();
 			self:x(SCREEN_LEFT+72);
 			self:y(SCREEN_TOP+300);
-			self:zoom(0.5);
-			self:align(0,0.5);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF44"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF88"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFCC"));
-			self:sleep(0.025);
 			self:diffuse(color(theme_color));
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"StringPA");
@@ -481,18 +412,14 @@ local t = Def.ActorFrame{
 			else
 				self:settext("N/A");
 			end;
+			self:finishtweening();
+			self:stoptweening();
 			self:x(SCREEN_LEFT+72);
 			self:y(SCREEN_TOP+365);
-			self:zoom(0.5);
-			self:align(0,0.5);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF44"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF88"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFCC"));
-			self:sleep(0.025);
 			self:diffuse(color(theme_color));
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"StringPB");
@@ -509,15 +436,13 @@ local t = Def.ActorFrame{
 		end;
 		RadarTapsPACommand=function(self)
 			local percentage = (steps_p1_taps / steps_p1_total)*100;
+			self:finishtweening();
+			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+386,SCREEN_LEFT+15+percentage,SCREEN_TOP+390);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF44"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF88"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFCC"));
-			self:sleep(0.025);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarTapsPA");
@@ -532,15 +457,13 @@ local t = Def.ActorFrame{
 		end;
 		RadarJumpsPACommand=function(self)
 			local p1_percentage = (steps_p1_jumps / steps_p1_total)*100;
+			self:finishtweening();
+			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+393,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+397);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF44"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF88"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFCC"));
-			self:sleep(0.025);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarJumpsPA");
@@ -555,15 +478,13 @@ local t = Def.ActorFrame{
 		end;
 		RadarHoldsPACommand=function(self)
 			local p1_percentage = (steps_p1_holds / steps_p1_total)*100;
+			self:finishtweening();
+			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+400,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+404);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF44"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF88"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFCC"));
-			self:sleep(0.025);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarHoldsPA");
@@ -578,15 +499,13 @@ local t = Def.ActorFrame{
 		end;
 		RadarMinesPACommand=function(self)
 			local p1_percentage = (steps_p1_mines / steps_p1_total)*100;
+			self:finishtweening();
+			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+407,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+411);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF44"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF88"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFCC"));
-			self:sleep(0.025);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarMinesPA");
@@ -601,15 +520,13 @@ local t = Def.ActorFrame{
 		end;
 		RadarHandsPACommand=function(self)
 			local p1_percentage = (steps_p1_hands / steps_p1_total)*100;
+			self:finishtweening();
+			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+414,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+418);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF44"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF88"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFCC"));
-			self:sleep(0.025);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarHandsPA");
@@ -624,15 +541,13 @@ local t = Def.ActorFrame{
 		end;
 		RadarRollsPACommand=function(self)
 			local p1_percentage = (steps_p1_rolls / steps_p1_total)*100;
+			self:finishtweening();
+			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+421,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+425);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF44"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF88"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFCC"));
-			self:sleep(0.025);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarRollsPA");
@@ -647,15 +562,13 @@ local t = Def.ActorFrame{
 		end;
 		RadarLiftsPACommand=function(self)
 			local p1_percentage = (steps_p1_lifts / steps_p1_total)*100;
+			self:finishtweening();
+			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+428,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+432);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF44"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF88"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFCC"));
-			self:sleep(0.025);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarLiftsPA");
@@ -670,15 +583,13 @@ local t = Def.ActorFrame{
 		end;
 		RadarFakesPACommand=function(self)
 			local p1_percentage = (steps_p1_fakes / steps_p1_total)*100;
+			self:finishtweening();
+			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+434,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+438);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF44"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF88"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFCC"));
-			self:sleep(0.025);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarFakesPA");
@@ -693,15 +604,13 @@ local t = Def.ActorFrame{
 		end;
 		RadarTapsPBCommand=function(self)
 			local p2_percentage = (steps_p2_taps / steps_p2_total)*100;
+			self:finishtweening();
+			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+386,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+390);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF44"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF88"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFCC"));
-			self:sleep(0.025);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarTapsPB");
@@ -716,15 +625,13 @@ local t = Def.ActorFrame{
 		end;
 		RadarJumpsPBCommand=function(self)
 			local p2_percentage = (steps_p2_jumps / steps_p2_total)*100;
+			self:finishtweening();
+			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+393,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+397);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF44"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF88"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFCC"));
-			self:sleep(0.025);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarJumpsPB");
@@ -739,15 +646,13 @@ local t = Def.ActorFrame{
 		end;
 		RadarHoldsPBCommand=function(self)
 			local p2_percentage = (steps_p2_holds / steps_p2_total)*100;
+			self:finishtweening();
+			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+400,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+404);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF44"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF88"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFCC"));
-			self:sleep(0.025);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarHoldsPB");
@@ -762,15 +667,13 @@ local t = Def.ActorFrame{
 		end;
 		RadarMinesPBCommand=function(self)
 			local p2_percentage = (steps_p2_mines / steps_p2_total)*100;
+			self:finishtweening();
+			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+407,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+411);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF44"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF88"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFCC"));
-			self:sleep(0.025);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarMinesPB");
@@ -785,15 +688,13 @@ local t = Def.ActorFrame{
 		end;
 		RadarHandsPBCommand=function(self)
 			local p2_percentage = (steps_p2_hands / steps_p2_total)*100;
+			self:finishtweening();
+			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+414,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+418);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF44"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF88"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFCC"));
-			self:sleep(0.025);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarHandsPB");
@@ -808,15 +709,13 @@ local t = Def.ActorFrame{
 		end;
 		RadarRollsPBCommand=function(self)
 			local p2_percentage = (steps_p2_rolls / steps_p2_total)*100;
+			self:finishtweening();
+			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+421,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+425);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF44"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF88"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFCC"));
-			self:sleep(0.025);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarRollsPB");
@@ -831,15 +730,13 @@ local t = Def.ActorFrame{
 		end;
 		RadarLiftsPBCommand=function(self)
 			local p2_percentage = (steps_p2_lifts / steps_p2_total)*100;
+			self:finishtweening();
+			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+428,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+432);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF44"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF88"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFCC"));
-			self:sleep(0.025);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarLiftsPB");
@@ -854,15 +751,13 @@ local t = Def.ActorFrame{
 		end;
 		RadarFakesPBCommand=function(self)
 			local p2_percentage = (steps_p2_fakes / steps_p2_total)*100;
+			self:finishtweening();
+			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+434,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+438);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF44"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF88"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFCC"));
-			self:sleep(0.025);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarFakesPB");

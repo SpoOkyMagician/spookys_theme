@@ -150,7 +150,7 @@ local t = Def.ActorFrame{
 --		end;
 --	},
 	-- GLOBAL play music
-	sub_song
+	fast_song
 };
 
 return t;

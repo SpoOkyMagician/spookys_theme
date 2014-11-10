@@ -4,7 +4,7 @@ local t = Def.ActorFrame{
 	-- GLOBAL screen text
 	common_text("StepMania Online Login"),
 	-- GLOBAL play music
-	sub_song
+	slow_song
 };
 
 return t;

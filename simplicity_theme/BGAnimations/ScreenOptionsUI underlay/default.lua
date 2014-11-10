@@ -6,7 +6,7 @@ local t = Def.ActorFrame{
 	-- GLOBAL dark quad
 	grid_t,
 	-- GLOBAL play music
-	asian_song
+	slow_song
 };
 
 return t;
