@@ -1,6 +1,7 @@
 -- ScreenSelectProfile underlay
 
 local t = Def.ActorFrame{
+	Name="ScreenSelectProfileUnderlayActorFrame";
 	-- GLOBAL screen text
 	common_text("Select Profile"),
 	-- GLOBAL play music

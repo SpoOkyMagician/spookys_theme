@@ -1,6 +1,7 @@
 -- ScreenTitleMenu underlay
 
 local t = Def.ActorFrame{
+	Name="ScreenTitleMenuUnderlayActorFrame";
 	-- GLOBAL black quad
 	grid_a,
 	LoadActor(THEME:GetPathG("","bg_generic"))..{
@@ -86,7 +87,37 @@ local t = Def.ActorFrame{
 	-- logo text
 	LoadFont("SpoOky")..{
 		Text="STEPMANIA 5";
-		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y/3.75;diffuse,color(theme_color);zoom,2.0;align,0.5,0.5;shadowlength,1;shadowcolor,color("0,0,0,1"));
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y/3;diffuse,color(theme_color);zoom,3.0;align,0.5,0.5;shadowlength,3;shadowcolor,color(theme_background));
+		OnCommand=function(self)
+			self:diffuseupperleft(color("1,0.9,1,1"));
+			self:zoom(1.0);
+			self:diffusealpha(0.2);
+			self:sleep(0.02);
+			self:zoom(1.25);
+			self:diffusealpha(0.3);
+			self:sleep(0.03);
+			self:zoom(1.5);
+			self:diffusealpha(0.4);
+			self:sleep(0.04);
+			self:zoom(1.75);
+			self:diffusealpha(0.5);
+			self:sleep(0.05);
+			self:zoom(2.0);
+			self:diffusealpha(0.6);
+			self:sleep(0.06);
+			self:zoom(2.25);
+			self:diffusealpha(0.7);
+			self:sleep(0.07);
+			self:zoom(2.5);
+			self:diffusealpha(0.8);
+			self:sleep(0.08);
+			self:zoom(2.75);
+			self:diffusealpha(0.9);
+			self:sleep(0.09);
+			self:zoom(3.0);
+			self:diffusealpha(1);
+			self:sleep(0.1);
+		end;
 	},
 	-- product version text
 	LoadFont("SpoOky")..{
@@ -221,6 +252,10 @@ local t = Def.ActorFrame{
 	},
 	-- new theme skin i am experimenting with...
 	LoadActor(THEME:GetPathG("","theme_skin"))..{
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
+	},
+	-- new theme skin i am experimenting with...
+	LoadActor(THEME:GetPathG("","title_theme_skin"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
 	},
 	-- testing something

@@ -1,6 +1,7 @@
 -- ScreenReloadSongs background
 
 local t = Def.ActorFrame{
+	Name="ScreenReloadSongsBackgroundActorFrame";
 	-- GLOBAL black quad
 	grid_a,
 	LoadActor(THEME:GetPathG("","bg_generic"))..{

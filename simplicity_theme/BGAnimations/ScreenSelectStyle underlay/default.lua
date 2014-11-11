@@ -1,6 +1,7 @@
 -- ScreenSelectStyle underlay
 
 local t = Def.ActorFrame{
+	Name="ScreenSelectStyleUnderlayActorFrame";
 	-- GLOBAL screen text
 	common_text("Select Style"),
 	-- menu items quad
@@ -49,6 +50,10 @@ local t = Def.ActorFrame{
 		MenuRight2MessageCommand=cmd(playcommand,"DownRight");
 		MenuDown2MessageCommand=cmd(playcommand,"DownRight");
 		MenuSelectionChangedMessageCommand=cmd(playcommand,"DownRight");
+	},
+	-- new theme skin i am experimenting with...
+	LoadActor(THEME:GetPathG("","select_theme_skin"))..{
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
 	},
 	-- GLOBAL play music
 	fast_song

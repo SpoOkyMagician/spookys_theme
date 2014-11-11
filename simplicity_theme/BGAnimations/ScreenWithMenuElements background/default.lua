@@ -1,6 +1,7 @@
 -- ScreenWithMenuElements background
 
 local t = Def.ActorFrame{
+	Name="ScreenWithMenuElementsBackgroundActorFrame";
 	-- GLOBAL black quad
 	grid_a,
 	LoadActor(THEME:GetPathG("","bg_generic"))..{

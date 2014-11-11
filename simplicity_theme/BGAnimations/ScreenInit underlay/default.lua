@@ -1,6 +1,7 @@
 -- ScreenInit underlay
 
 local t = Def.ActorFrame{
+	Name="ScreenInitUnderlayActorFrame";
 	-- grab the preference set in theme color picker
 	LoadFont("SpoOky")..{
 		Text="";

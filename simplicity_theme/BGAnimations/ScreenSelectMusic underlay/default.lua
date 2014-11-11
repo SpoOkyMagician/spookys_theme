@@ -2,6 +2,7 @@
 -- having some issues with this screen... not much i can do about it right now...
 
 local t = Def.ActorFrame{
+	Name="ScreenSelectMusicUnderlayActorFrame";
 	-- last known difficulty variable P1/P2 hidden actor
 	LoadFont("SpoOky")..{
 		Text="";
@@ -813,6 +814,10 @@ local t = Def.ActorFrame{
 	},
 	-- new theme skin i am experimenting with...
 	LoadActor(THEME:GetPathG("","theme_skin"))..{
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
+	},
+	-- new theme skin i am experimenting with...
+	LoadActor(THEME:GetPathG("","music_theme_skin"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
 	}
 };

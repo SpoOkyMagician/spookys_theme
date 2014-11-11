@@ -2,6 +2,7 @@
 -- having some issues with this screen... not much i can do about it right now...
 
 local t = Def.ActorFrame{
+	Name="ScreenNetSelectMusicUnderlayActorFrame";
 	-- GLOBAL screen text
 	common_text("Select Music"),
 	-- last known difficulty variable online hidden actor

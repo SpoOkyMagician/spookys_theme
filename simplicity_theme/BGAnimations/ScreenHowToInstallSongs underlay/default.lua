@@ -1,6 +1,7 @@
--- ScreenSelectProfile underlay
+-- ScreenHowToInstallSongs underlay
 
 local t = Def.ActorFrame{
+	Name="ScreenHowToInstallSongsActorFrame";
 	-- GLOBAL screen text
 	common_text("No Songs Loaded"),
 	-- GLOBAL dark quad

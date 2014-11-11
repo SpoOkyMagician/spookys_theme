@@ -1,6 +1,7 @@
 -- ScreenProfileLoad underlay
 
 local t = Def.ActorFrame{
+	Name="ScreenProfileLoadUnderlayActorFrame";
 	-- GLOBAL screen text
 	common_text("Load Profile"),
 	-- GLOBAL dark quad

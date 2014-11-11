@@ -3,6 +3,7 @@
 -- Online mode is still in progress with SM5. I cannot really do much here sorry...
 
 local t = Def.ActorFrame{
+	Name="ScreenNetEvaluationUnderlayActorFrame";
 	-- GLOBAL screen text
 	common_text("StepMania Online Evaluation"),
 	-- GLOBAL dark quad

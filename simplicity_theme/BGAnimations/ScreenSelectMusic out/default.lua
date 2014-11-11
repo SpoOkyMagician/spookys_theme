@@ -1,6 +1,7 @@
 -- ScreenSelectMusic out
 
 local t = Def.ActorFrame{
+	Name="ScreenSelectMusicOutActorFrame";
 	-- GLOBAL quad fades to black
 	grid_slow_fade_out,
 	-- inform player of options screen...

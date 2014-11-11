@@ -1,6 +1,7 @@
 -- ScreenEvaluationNormal underlay
 
 local t = Def.ActorFrame{
+	Name="ScreenEvaluationNormalUnderlayActorFrame";
 	-- GLOBAL dark quad
 	grid_t,
 	-- player score divider

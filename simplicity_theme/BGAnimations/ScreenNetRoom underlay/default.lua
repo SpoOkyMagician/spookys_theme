@@ -1,6 +1,7 @@
 -- ScreenNetRoom underlay
 
 local t = Def.ActorFrame{
+	Name="ScreenNetRoomUnderlayActorFrame";
 	-- GLOBAL screen text
 	common_text("StepMania Online Lobby"),
 	-- last round info quad

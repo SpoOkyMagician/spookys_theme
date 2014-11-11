@@ -2,6 +2,7 @@
 -- this needs to be updated...
 
 local t = Def.ActorFrame{
+	Name="ScreenEvaluationSummaryUnderlayActorFrame";
 	-- GLOBAL dark quad
 	grid_t,
 	-- player score divider

@@ -1,6 +1,7 @@
 -- ScreenSelectMusic background
 
 local t = Def.ActorFrame{
+	Name="ScreenSelectMusicBackgroundActorFrame";
 	-- GLOBAL black quad
 	grid_a,
 	-- GLOBAL dark gold header quad

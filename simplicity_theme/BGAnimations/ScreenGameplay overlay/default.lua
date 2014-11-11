@@ -1,6 +1,7 @@
 -- ScreenGameplay overlay
 
 local t = Def.ActorFrame{
+	Name="ScreenGameplayOverlayActorFrame";
 	-- GLOBAL dark gold header quad
 	grid_b,
 	-- GLOBAL dark gold footer quad
@@ -212,7 +213,7 @@ local t = Def.ActorFrame{
 	-- p1 combo number text
 	LoadFont("SpoOky")..{
 		Text="N/A";
-		InitCommand=cmd(x,SCREEN_RIGHT/2-8;y,SCREEN_BOTTOM-40;align,1,0.5;diffuse,color("1,0.25,0,1");visible,false;shadowlength,1);
+		InitCommand=cmd(x,SCREEN_RIGHT/2-4;y,SCREEN_BOTTOM-40;align,1,0.5;diffuse,color("1,0.25,0,1");visible,false;shadowlength,1);
 		OnCommand=function(self)
 			self:queuecommand("PACombo");
 		end;
@@ -237,7 +238,7 @@ local t = Def.ActorFrame{
 	-- p2 combo number text
 	LoadFont("SpoOky")..{
 		Text="N/A";
-		InitCommand=cmd(x,SCREEN_RIGHT/2+8;y,SCREEN_BOTTOM-40;align,0,0.5;diffuse,color("0,0.5,1,1");visible,false;shadowlength,1);
+		InitCommand=cmd(x,SCREEN_RIGHT/2+4;y,SCREEN_BOTTOM-40;align,0,0.5;diffuse,color("0,0.5,1,1");visible,false;shadowlength,1);
 		OnCommand=function(self)
 			self:queuecommand("PBCombo");
 		end;
@@ -337,6 +338,10 @@ local t = Def.ActorFrame{
 	},
 	-- new theme skin i am experimenting with...
 	LoadActor(THEME:GetPathG("","theme_skin"))..{
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
+	},
+	-- new theme skin i am experimenting with...
+	LoadActor(THEME:GetPathG("","gameplay_theme_skin"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
 	}
 };

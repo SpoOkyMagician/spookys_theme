@@ -1,6 +1,7 @@
--- ScreenTestInput overlay
+-- ScreenTestInput underlay
 
 local t = Def.ActorFrame{
+	Name="ScreenTestInputUnderlayActorFrame";
 	-- GLOBAL dark quad
 	grid_t,
 	-- had to borrow this code to not overwrite fallback...
