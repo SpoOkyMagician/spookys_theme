@@ -106,6 +106,7 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+284,SCREEN_TOP+208,SCREEN_RIGHT-8,SCREEN_TOP+446;diffuse,color(theme_background);basealpha,0.75);
 	},
 	-- song banner
+	-- edit: i cant get music wheel online? -_-' ill use this one for now then...
 	LoadActor(THEME:GetPathG("", "no_banner.png"))..{
 		InitCommand=cmd(x,SCREEN_LEFT+138;y,SCREEN_TOP+82;zoomto,256,80);
 		OnCommand=function(self)

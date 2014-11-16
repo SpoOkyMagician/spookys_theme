@@ -336,6 +336,16 @@ local t = Def.ActorFrame{
 	LoadActor(THEME:GetPathG("", "progress_meter.png"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_TOP+41);
 	},
+	-- debugging text
+--	LoadFont("SpoOky")..{
+--		Text="";
+--		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;align,0.5,0.5;diffuse,color(theme_color);shadowlength,1);
+--		DebugCommand=function(self)
+--			local result = TapNoteScoreToLocalizedString();
+--			self:settext(result);
+--		end;
+--		CurrentComboChangedP1MessageCommand=cmd(playcommand,"Debug");
+--	},
 	-- new theme skin i am experimenting with...
 	LoadActor(THEME:GetPathG("","theme_skin"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);

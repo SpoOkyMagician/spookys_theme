@@ -121,3 +121,23 @@ steps_p2_rolls = 0;
 steps_p2_lifts = 0;
 steps_p2_fakes = 0;
 steps_p2_total = 0;
+
+trail_p1_taps = 0;
+trail_p1_jumps = 0;
+trail_p1_holds = 0;
+trail_p1_mines = 0;
+trail_p1_hands = 0;
+trail_p1_rolls = 0;
+trail_p1_lifts = 0;
+trail_p1_fakes = 0;
+trail_p1_total = 0;
+
+trail_p2_taps = 0;
+trail_p2_jumps = 0;
+trail_p2_holds = 0;
+trail_p2_mines = 0;
+trail_p2_hands = 0;
+trail_p2_rolls = 0;
+trail_p2_lifts = 0;
+trail_p2_fakes = 0;
+trail_p2_total = 0;
