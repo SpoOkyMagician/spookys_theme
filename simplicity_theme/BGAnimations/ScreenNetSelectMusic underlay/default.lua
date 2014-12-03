@@ -1,5 +1,6 @@
 -- ScreenNetSelectMusic underlay
 -- having some issues with this screen... not much i can do about it right now...
+-- edit: i need to merge/update this code whenever i finish screenselectmusic...
 
 local t = Def.ActorFrame{
 	Name="ScreenNetSelectMusicUnderlayActorFrame";
@@ -10,9 +11,6 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
-		OnCommand=function(self)
-			self:queuecommand('Vars');
-		end;
 		VarsCommand=function(self)
 			local p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 			if p1_steps ~= nil then
@@ -29,9 +27,6 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
-		OnCommand=function(self)
-			self:queuecommand('Values');
-		end;
 		ValuesCommand=function(self)
 			local p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 			if p1_steps ~= nil then
@@ -61,18 +56,15 @@ local t = Def.ActorFrame{
 		CurrentSongChangedMessageCommand=cmd(playcommand,"Values");
 	},
 	-- sort icon
-	LoadActor(THEME:GetPathG("", "sort_icon_unknown.png"))..{
+	LoadActor(THEME:GetPathG("", "sort_icon_unknown"))..{
 		InitCommand=cmd(x,SCREEN_RIGHT-26;y,SCREEN_TOP+15;zoomto,50,28);
-		OnCommand=function(self)
-			self:queuecommand("Sort");
-		end;
 		SortCommand=function(self)
 			-- thanks Jousway.
 			local sort = GAMESTATE:GetSortOrder();
 			if sort ~= nil then
-				self:Load(THEME:GetPathG("icon", sort)); -- and call them "icon SortOrder_Preferred.png"
+				self:Load(THEME:GetPathG("icon", sort)); -- and call them "icon SortOrder_Preferred"
 			else
-				self:Load(THEME:GetPathG("", "sort_icon_unknown.png"));
+				self:Load(THEME:GetPathG("", "sort_icon_unknown"));
 			end;
 			self:finishtweening();
 			self:stoptweening();
@@ -107,11 +99,8 @@ local t = Def.ActorFrame{
 	},
 	-- song banner
 	-- edit: i cant get music wheel online? -_-' ill use this one for now then...
-	LoadActor(THEME:GetPathG("", "no_banner.png"))..{
+	LoadActor(THEME:GetPathG("", "no_banner"))..{
 		InitCommand=cmd(x,SCREEN_LEFT+138;y,SCREEN_TOP+82;zoomto,256,80);
-		OnCommand=function(self)
-			self:queuecommand("Banner");
-		end;
 		BannerCommand=function(self)
 			local song = GAMESTATE:GetCurrentSong();
 			if song ~= nil then
@@ -122,10 +111,10 @@ local t = Def.ActorFrame{
 				elseif song:HasBanner() == false and banner ~= nil then
 					self:Load(banner);
 				else
-					self:Load(THEME:GetPathG("", "no_banner.png"));
+					self:Load(THEME:GetPathG("", "no_banner"));
 				end;
 			else
-				self:Load(THEME:GetPathG("", "no_banner.png"));
+				self:Load(THEME:GetPathG("", "no_banner"));
 			end;
 			self:finishtweening();
 			self:stoptweening();
@@ -139,31 +128,28 @@ local t = Def.ActorFrame{
 		CurrentSongChangedMessageCommand=cmd(playcommand,"Banner");
 	},
 	-- song difficulty p1
-	LoadActor(THEME:GetPathG("", "difficulty_unknown.png"))..{
+	LoadActor(THEME:GetPathG("", "difficulty_unknown"))..{
 		InitCommand=cmd(x,SCREEN_LEFT+318;y,SCREEN_TOP+74;zoomto,64,64);
-		OnCommand=function(self)
-			self:queuecommand('DifficultyPA');
-		end;
 		DifficultyPACommand=function(self)
 				local steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 				if steps ~= nil then
 					if steps:GetDifficulty() == 'Difficulty_Beginner' then
-						self:Load(THEME:GetPathG("", "difficulty_beginner.png"));
+						self:Load(THEME:GetPathG("", "difficulty_beginner"));
 					elseif steps:GetDifficulty() == 'Difficulty_Easy' then
-						self:Load(THEME:GetPathG("", "difficulty_easy.png"));
+						self:Load(THEME:GetPathG("", "difficulty_easy"));
 					elseif steps:GetDifficulty() == 'Difficulty_Medium' then
-						self:Load(THEME:GetPathG("", "difficulty_normal.png"));
+						self:Load(THEME:GetPathG("", "difficulty_normal"));
 					elseif steps:GetDifficulty() == 'Difficulty_Hard' then
-						self:Load(THEME:GetPathG("", "difficulty_hard.png"));
+						self:Load(THEME:GetPathG("", "difficulty_hard"));
 					elseif steps:GetDifficulty() == 'Difficulty_Challenge' then
-						self:Load(THEME:GetPathG("", "difficulty_challenge.png"));
+						self:Load(THEME:GetPathG("", "difficulty_challenge"));
 					elseif steps:GetDifficulty() == 'Difficulty_Edit' then
-						self:Load(THEME:GetPathG("", "difficulty_edit.png"));
+						self:Load(THEME:GetPathG("", "difficulty_edit"));
 					else
-						self:Load(THEME:GetPathG("", "difficulty_unknown.png"));
+						self:Load(THEME:GetPathG("", "difficulty_unknown"));
 					end;
 				else
-					self:Load(THEME:GetPathG("", "difficulty_unknown.png"));
+					self:Load(THEME:GetPathG("", "difficulty_unknown"));
 				end;
 			self:finishtweening();
 			self:stoptweening();
@@ -178,19 +164,16 @@ local t = Def.ActorFrame{
 		CurrentSongChangedMessageCommand=cmd(playcommand,"DifficultyPA");
 	},
 	-- song meter p1
-	LoadActor(THEME:GetPathG("", "meter_0.png"))..{
+	LoadActor(THEME:GetPathG("", "meter_0_display"))..{
 		InitCommand=cmd(x,SCREEN_LEFT+448;y,SCREEN_TOP+74;zoomto,192,64);
-		OnCommand=function(self)
-			self:queuecommand('MeterPA');
-		end;
 		MeterPACommand=function(self)
 				local steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 				if steps ~= nil then
 					--[ use this instead... thanks again Kyzentun
 					local half_meter=clamp(math.round(steps:GetMeter() / 2), 0, 10);
-					self:Load(THEME:GetPathG("", "meter_"..half_meter..".png"));
+					self:Load(THEME:GetPathG("", "meter_"..half_meter.."_display"));
 				else
-					self:Load(THEME:GetPathG("", "meter_0.png"));
+					self:Load(THEME:GetPathG("", "meter_0_display"));
 				end;
 			self:finishtweening();
 			self:stoptweening();
@@ -208,9 +191,6 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_LEFT+360;y,SCREEN_TOP+89;diffuse,color(theme_color);align,0,0.5;shadowlength,1;zoom,0.5);
-		OnCommand=function(self)
-			self:queuecommand('StringPA');
-		end;
 		StringPACommand=function(self)
 			local steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 			local stdifficulty = "Easy";
@@ -250,9 +230,6 @@ local t = Def.ActorFrame{
 	-- quad p1 taps
 	Def.Quad{
 		InitCommand=cmd(stretchto,0,0,0,0;diffuse,color("1,0.25,0,1"));
-		OnCommand=function(self)
-			self:queuecommand("RadarTapsPA");
-		end;
 		RadarTapsPACommand=function(self)
 			local percentage = (steps_p1_taps / steps_p1_total)*100;
 			self:finishtweening();
@@ -271,9 +248,6 @@ local t = Def.ActorFrame{
 	-- quad p1 jumps
 	Def.Quad{
 		InitCommand=cmd(stretchto,0,0,0,0;diffuse,color("1,0.25,0,1"));
-		OnCommand=function(self)
-			self:queuecommand("RadarJumpsPA");
-		end;
 		RadarJumpsPACommand=function(self)
 			local p1_percentage = (steps_p1_jumps / steps_p1_total)*100;
 			self:finishtweening();
@@ -292,9 +266,6 @@ local t = Def.ActorFrame{
 	-- quad p1 holds
 	Def.Quad{
 		InitCommand=cmd(stretchto,0,0,0,0;diffuse,color("1,0.25,0,1"));
-		OnCommand=function(self)
-			self:queuecommand("RadarHoldsPA");
-		end;
 		RadarHoldsPACommand=function(self)
 			local p1_percentage = (steps_p1_holds / steps_p1_total)*100;
 			self:finishtweening();
@@ -313,9 +284,6 @@ local t = Def.ActorFrame{
 	-- quad p1 mines
 	Def.Quad{
 		InitCommand=cmd(stretchto,0,0,0,0;diffuse,color("1,0.25,0,1"));
-		OnCommand=function(self)
-			self:queuecommand("RadarMinesPA");
-		end;
 		RadarMinesPACommand=function(self)
 			local p1_percentage = (steps_p1_mines / steps_p1_total)*100;
 			self:finishtweening();
@@ -334,9 +302,6 @@ local t = Def.ActorFrame{
 	-- quad p1 hands
 	Def.Quad{
 		InitCommand=cmd(stretchto,0,0,0,0;diffuse,color("1,0.25,0,1"));
-		OnCommand=function(self)
-			self:queuecommand("RadarHandsPA");
-		end;
 		RadarHandsPACommand=function(self)
 			local p1_percentage = (steps_p1_hands / steps_p1_total)*100;
 			self:finishtweening();
@@ -355,9 +320,6 @@ local t = Def.ActorFrame{
 	-- quad p1 rolls
 	Def.Quad{
 		InitCommand=cmd(stretchto,0,0,0,0;diffuse,color("1,0.25,0,1"));
-		OnCommand=function(self)
-			self:queuecommand("RadarRollsPA");
-		end;
 		RadarRollsPACommand=function(self)
 			local p1_percentage = (steps_p1_rolls / steps_p1_total)*100;
 			self:finishtweening();
@@ -376,9 +338,6 @@ local t = Def.ActorFrame{
 	-- quad p1 lifts
 	Def.Quad{
 		InitCommand=cmd(stretchto,0,0,0,0;diffuse,color("1,0.25,0,1"));
-		OnCommand=function(self)
-			self:queuecommand("RadarLiftsPA");
-		end;
 		RadarLiftsPACommand=function(self)
 			local p1_percentage = (steps_p1_lifts / steps_p1_total)*100;
 			self:finishtweening();
@@ -397,9 +356,6 @@ local t = Def.ActorFrame{
 	-- quad p1 fakes
 	Def.Quad{
 		InitCommand=cmd(stretchto,0,0,0,0;diffuse,color("1,0.25,0,1"));
-		OnCommand=function(self)
-			self:queuecommand("RadarFakesPA");
-		end;
 		RadarFakesPACommand=function(self)
 			local p1_percentage = (steps_p1_fakes / steps_p1_total)*100;
 			self:finishtweening();
@@ -419,9 +375,6 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,0,0.5;shadowlength,1);
-		OnCommand=function(self)
-			self:queuecommand('Information');
-		end;
 		InformationCommand=function(self)
 			local song = GAMESTATE:GetCurrentSong();
 			local length_result = "Normal";
@@ -458,21 +411,18 @@ local t = Def.ActorFrame{
 		CurrentSongChangedMessageCommand=cmd(playcommand,"Information");
 	},
 	-- song background
-	LoadActor(THEME:GetPathG("", "no_background.png"))..{
+	LoadActor(THEME:GetPathG("", "no_background"))..{
 		InitCommand=cmd(x,SCREEN_LEFT+565;y,SCREEN_TOP+327;zoomto,559,234);
-		OnCommand=function(self)
-			self:queuecommand('BG');
-		end;
 		BGCommand=function(self)
 				local song = GAMESTATE:GetCurrentSong();
 				if song ~= nil then
 					if song:HasBackground() == true then
 						self:Load(GetSongBackground());
 					else
-						self:Load(THEME:GetPathG("", "no_background.png"));
+						self:Load(THEME:GetPathG("", "no_background"));
 					end;
 				else
-					self:Load(THEME:GetPathG("", "no_background.png"));
+					self:Load(THEME:GetPathG("", "no_background"));
 				end;
 			self:finishtweening();
 			self:stoptweening();
@@ -486,21 +436,18 @@ local t = Def.ActorFrame{
 		CurrentSongChangedMessageCommand=cmd(playcommand,"BG");
 	},
 	-- song cd
-	LoadActor(THEME:GetPathG("", "no_cd.png"))..{
+	LoadActor(THEME:GetPathG("", "no_cd"))..{
 		InitCommand=cmd(x,SCREEN_LEFT+326;y,SCREEN_TOP+251;zoomto,80,80);
-		OnCommand=function(self)
-			self:queuecommand('CD');
-		end;
 		CDCommand=function(self)
 			local song = GAMESTATE:GetCurrentSong();
 			if song ~= nil then
 				if song:HasCDTitle() == true then
 					self:Load(song:GetCDTitlePath());
 				else
-					self:Load(THEME:GetPathG("", "no_cd.png"));
+					self:Load(THEME:GetPathG("", "no_cd"));
 				end;
 			else
-				self:Load(THEME:GetPathG("", "no_cd.png"));
+				self:Load(THEME:GetPathG("", "no_cd"));
 			end;
 			self:finishtweening();
 			self:stoptweening();

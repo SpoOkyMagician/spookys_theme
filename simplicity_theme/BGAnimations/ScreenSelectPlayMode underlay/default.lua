@@ -11,9 +11,6 @@ local t = Def.ActorFrame{
 	-- neat arrows
 	LoadActor(THEME:GetPathG("","arrow"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X-96;y,SCREEN_CENTER_Y;baserotationz,90;SetSize,32,32);
-		OnCommand=function(self)
-			self:queuecommand("UpLeft");
-		end;
 		UpLeftCommand=function(self)
 			self:x(SCREEN_CENTER_X-96-2);
 			self:sleep(0.02);
@@ -32,9 +29,6 @@ local t = Def.ActorFrame{
 	},
 	LoadActor(THEME:GetPathG("","arrow"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X+96;y,SCREEN_CENTER_Y;baserotationz,-90;SetSize,32,32);
-		OnCommand=function(self)
-			self:queuecommand("DownRight");
-		end;
 		DownRightCommand=function(self)
 			self:x(SCREEN_CENTER_X+96+2);
 			self:sleep(0.02);

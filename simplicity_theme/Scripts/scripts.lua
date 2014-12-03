@@ -1,3 +1,5 @@
+-- i need to update this a lot soon...
+
 local prefs = {
 	ColorPref =
 	{
@@ -54,35 +56,38 @@ slow_song = LoadActor(THEME:GetPathS("", "chill_n_bass"))..{ InitCommand=cmd(sto
 
 -- quad draws...
 
-grid_a = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,color(theme_background)); };
+--grid_a = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,color(theme_background)); };
 grid_b = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_TOP+30;diffuse,color(theme_dark_color);diffusebottomedge,color(theme_background)); };
 grid_c = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_BOTTOM-30,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,color(theme_dark_color);diffusebottomedge,color(theme_background)); };
-grid_d = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_TOP+2;diffuse,color(theme_color)); };
-grid_e = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_BOTTOM-2,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,color(theme_color)); };
-grid_f = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_LEFT+2,SCREEN_BOTTOM;diffuse,color(theme_color)); };
-grid_g = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_RIGHT-2,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,color(theme_color)); };
-grid_h = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_BOTTOM-30,SCREEN_RIGHT,SCREEN_BOTTOM-28;diffuse,color(theme_color)); };
-grid_i = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP+28,SCREEN_RIGHT,SCREEN_TOP+30;diffuse,color(theme_color)); };
+--grid_d = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_TOP+2;diffuse,color(theme_color)); };
+--grid_e = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_BOTTOM-2,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,color(theme_color)); };
+--grid_f = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_LEFT+2,SCREEN_BOTTOM;diffuse,color(theme_color)); };
+--grid_g = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_RIGHT-2,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,color(theme_color)); };
+--grid_h = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_BOTTOM-30,SCREEN_RIGHT,SCREEN_BOTTOM-28;diffuse,color(theme_color)); };
+--grid_i = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP+28,SCREEN_RIGHT,SCREEN_TOP+30;diffuse,color(theme_color)); };
 
-grid_s = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_RIGHT/2-2,SCREEN_BOTTOM-28,SCREEN_RIGHT/2,SCREEN_BOTTOM+2;diffuse,color(theme_color)); };
+--grid_s = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_RIGHT/2-2,SCREEN_BOTTOM-28,SCREEN_RIGHT/2,SCREEN_BOTTOM+2;diffuse,color(theme_color)); };
 
-grid_j = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP+110,SCREEN_RIGHT,SCREEN_TOP+112;diffuse,color(theme_color)); };
-grid_k = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT+258,SCREEN_TOP+28,SCREEN_LEFT+260,SCREEN_TOP+240;diffuse,color(theme_color)); };
-grid_l = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT+340,SCREEN_TOP+28,SCREEN_LEFT+342,SCREEN_TOP+112;diffuse,color(theme_color)); };
-grid_m = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT+258,SCREEN_TOP+240,SCREEN_LEFT+260,SCREEN_TOP+450;diffuse,color(theme_color)); };
-grid_n = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_TOP+380,SCREEN_LEFT+260,SCREEN_TOP+382;diffuse,color(theme_color)); };
+--grid_j = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP+110,SCREEN_RIGHT,SCREEN_TOP+112;diffuse,color(theme_color)); };
+--grid_k = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT+258,SCREEN_TOP+28,SCREEN_LEFT+260,SCREEN_TOP+240;diffuse,color(theme_color)); };
+--grid_l = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT+340,SCREEN_TOP+28,SCREEN_LEFT+342,SCREEN_TOP+112;diffuse,color(theme_color)); };
+--grid_m = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT+258,SCREEN_TOP+240,SCREEN_LEFT+260,SCREEN_TOP+450;diffuse,color(theme_color)); };
+--grid_n = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_TOP+380,SCREEN_LEFT+260,SCREEN_TOP+382;diffuse,color(theme_color)); };
 
-grid_o = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT+100,SCREEN_TOP+2,SCREEN_LEFT+102,SCREEN_TOP+28;diffuse,color(theme_color)); };
-grid_p = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT+403,SCREEN_TOP+2,SCREEN_LEFT+405,SCREEN_TOP+28;diffuse,color(theme_color)); };
-grid_q = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_RIGHT-405,SCREEN_TOP+2,SCREEN_RIGHT-403,SCREEN_TOP+28;diffuse,color(theme_color)); };
-grid_r = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_RIGHT-102,SCREEN_TOP+2,SCREEN_RIGHT-100,SCREEN_TOP+28;diffuse,color(theme_color)); };
+--grid_o = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT+100,SCREEN_TOP+2,SCREEN_LEFT+102,SCREEN_TOP+28;diffuse,color(theme_color)); };
+--grid_p = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT+403,SCREEN_TOP+2,SCREEN_LEFT+405,SCREEN_TOP+28;diffuse,color(theme_color)); };
+--grid_q = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_RIGHT-405,SCREEN_TOP+2,SCREEN_RIGHT-403,SCREEN_TOP+28;diffuse,color(theme_color)); };
+--grid_r = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_RIGHT-102,SCREEN_TOP+2,SCREEN_RIGHT-100,SCREEN_TOP+28;diffuse,color(theme_color)); };
 
 grid_t = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_BOTTOM-30,SCREEN_RIGHT-2,SCREEN_TOP+30;diffuse,color("0,0,0,0.75")); };
 
 grid_u = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,color(theme_color);basealpha,0.25); };
 
 function common_text(string_text)
-	return LoadFont("SpoOky")..{ Text=string_text; InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+13;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1); };
+	return LoadFont("SpoOky")..{
+		Text=string_text;
+		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+13;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
+	};
 end
 
 -- test function...
@@ -95,49 +100,3 @@ grid_fast_fade_out = Def.Quad{ OnCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SC
 grid_fast_fade_in = Def.Quad{ OnCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,color("0,0,0,1");sleep,0.025;diffuse,color("0,0,0,0.9");sleep,0.025;diffuse,color("0,0,0,0.8");sleep,0.025;diffuse,color("0,0,0,0.7");sleep,0.025;diffuse,color("0,0,0,0.6");sleep,0.025;diffuse,color("0,0,0,0.5");sleep,0.025;diffuse,color("0,0,0,0.4");sleep,0.025;diffuse,color("0,0,0,0.3");sleep,0.025;diffuse,color("0,0,0,0.2");sleep,0.025;diffuse,color("0,0,0,0.1");sleep,0.025;diffuse,color("0,0,0,0")); };
 grid_slow_fade_out = Def.Quad{ OnCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,color("0,0,0,0");sleep,0.25;diffuse,color("0,0,0,0.1");sleep,0.25;diffuse,color("0,0,0,0.2");sleep,0.25;diffuse,color("0,0,0,0.3");sleep,0.25;diffuse,color("0,0,0,0.4");sleep,0.25;diffuse,color("0,0,0,0.5");sleep,0.25;diffuse,color("0,0,0,0.6");sleep,0.25;diffuse,color("0,0,0,0.7");sleep,0.25;diffuse,color("0,0,0,0.8");sleep,0.25;diffuse,color("0,0,0,0.9");sleep,0.25;diffuse,color("0,0,0,1")); };
 grid_slow_fade_in = Def.Quad{ OnCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,color("0,0,0,1");sleep,0.25;diffuse,color("0,0,0,0.9");sleep,0.25;diffuse,color("0,0,0,0.8");sleep,0.25;diffuse,color("0,0,0,0.7");sleep,0.25;diffuse,color("0,0,0,0.6");sleep,0.25;diffuse,color("0,0,0,0.5");sleep,0.25;diffuse,color("0,0,0,0.4");sleep,0.25;diffuse,color("0,0,0,0.3");sleep,0.25;diffuse,color("0,0,0,0.2");sleep,0.25;diffuse,color("0,0,0,0.1");sleep,0.25;diffuse,color("0,0,0,0")); };
-
--- GLOBAL variables
-
-last_known_difficulty_P1 = 'Difficulty_Beginner';
-last_known_difficulty_P2 = 'Difficulty_Beginner';
-last_known_stage = 'Stage_1st';
-
-steps_p1_taps = 0;
-steps_p1_jumps = 0;
-steps_p1_holds = 0;
-steps_p1_mines = 0;
-steps_p1_hands = 0;
-steps_p1_rolls = 0;
-steps_p1_lifts = 0;
-steps_p1_fakes = 0;
-steps_p1_total = 0;
-
-steps_p2_taps = 0;
-steps_p2_jumps = 0;
-steps_p2_holds = 0;
-steps_p2_mines = 0;
-steps_p2_hands = 0;
-steps_p2_rolls = 0;
-steps_p2_lifts = 0;
-steps_p2_fakes = 0;
-steps_p2_total = 0;
-
-trail_p1_taps = 0;
-trail_p1_jumps = 0;
-trail_p1_holds = 0;
-trail_p1_mines = 0;
-trail_p1_hands = 0;
-trail_p1_rolls = 0;
-trail_p1_lifts = 0;
-trail_p1_fakes = 0;
-trail_p1_total = 0;
-
-trail_p2_taps = 0;
-trail_p2_jumps = 0;
-trail_p2_holds = 0;
-trail_p2_mines = 0;
-trail_p2_hands = 0;
-trail_p2_rolls = 0;
-trail_p2_lifts = 0;
-trail_p2_fakes = 0;
-trail_p2_total = 0;

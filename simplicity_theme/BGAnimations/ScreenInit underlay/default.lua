@@ -6,6 +6,7 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
+		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			self:queuecommand('ColorPicked');
 		end;

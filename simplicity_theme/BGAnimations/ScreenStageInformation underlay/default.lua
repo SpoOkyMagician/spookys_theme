@@ -10,6 +10,7 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="Stage";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,0.5,0.5;zoom,2.0;shadowlength,1);
+		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			self:queuecommand('FindStage');
 		end;

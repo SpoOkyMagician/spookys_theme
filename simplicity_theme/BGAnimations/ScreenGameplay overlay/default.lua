@@ -1,5 +1,8 @@
 -- ScreenGameplay overlay
 
+local p1_lifebar = nil;
+local p2_lifebar = nil;
+
 local t = Def.ActorFrame{
 	Name="ScreenGameplayOverlayActorFrame";
 	-- GLOBAL dark gold header quad
@@ -45,51 +48,53 @@ local t = Def.ActorFrame{
 --		InitCommand=cmd(stretchto,SCREEN_RIGHT-2,SCREEN_TOP+62,SCREEN_RIGHT-34,SCREEN_BOTTOM-62;diffuse,color("0,0,0,0.75"));
 --	},
 	-- stage icon
-	LoadActor(THEME:GetPathG("", "stage_icon_unknown.png"))..{
+	LoadActor(THEME:GetPathG("", "stage_icon_unknown"))..{
 		InitCommand=cmd(x,SCREEN_RIGHT/2;y,SCREEN_TOP+15);
+		-- this should be okay. i have to call it somehow... There are other messagecommands but, this is good...
 		OnCommand=function(self)
 			self:queuecommand('StageIcon');
 		end;
 		StageIconCommand=function(self)
 			-- GLOBAL variable check
 			if last_known_stage == 'Stage_1st' then
-				self:Load(THEME:GetPathG("", "stage_icon_1st.png"));
+				self:Load(THEME:GetPathG("", "stage_icon_1st"));
 			elseif last_known_stage == 'Stage_2nd' then
-				self:Load(THEME:GetPathG("", "stage_icon_2nd.png"));
+				self:Load(THEME:GetPathG("", "stage_icon_2nd"));
 			elseif last_known_stage == 'Stage_3rd' then
-				self:Load(THEME:GetPathG("", "stage_icon_3rd.png"));
+				self:Load(THEME:GetPathG("", "stage_icon_3rd"));
 			elseif last_known_stage == 'Stage_4th' then
-				self:Load(THEME:GetPathG("", "stage_icon_4th.png"));
+				self:Load(THEME:GetPathG("", "stage_icon_4th"));
 			elseif last_known_stage == 'Stage_5th' then
-				self:Load(THEME:GetPathG("", "stage_icon_5th.png"));
+				self:Load(THEME:GetPathG("", "stage_icon_5th"));
 			elseif last_known_stage == 'Stage_6th' then
-				self:Load(THEME:GetPathG("", "stage_icon_6th.png"));
+				self:Load(THEME:GetPathG("", "stage_icon_6th"));
 			elseif last_known_stage == 'Stage_Next' then
-				self:Load(THEME:GetPathG("", "stage_icon_next.png"));
+				self:Load(THEME:GetPathG("", "stage_icon_next"));
 			elseif last_known_stage == 'Stage_Final' then
-				self:Load(THEME:GetPathG("", "stage_icon_final.png"));
+				self:Load(THEME:GetPathG("", "stage_icon_final"));
 			elseif last_known_stage == 'Stage_Extra1' then
-				self:Load(THEME:GetPathG("", "stage_icon_extra.png"));
+				self:Load(THEME:GetPathG("", "stage_icon_extra"));
 			elseif last_known_stage == 'Stage_Extra2' then
-				self:Load(THEME:GetPathG("", "stage_icon_encore.png"));
+				self:Load(THEME:GetPathG("", "stage_icon_encore"));
 			elseif last_known_stage == 'Stage_Nonstop' then
-				self:Load(THEME:GetPathG("", "stage_icon_nonstop.png"));
+				self:Load(THEME:GetPathG("", "stage_icon_nonstop"));
 			elseif last_known_stage == 'Stage_Oni' then
-				self:Load(THEME:GetPathG("", "stage_icon_oni.png"));
+				self:Load(THEME:GetPathG("", "stage_icon_oni"));
 			elseif last_known_stage == 'Stage_Endless' then
-				self:Load(THEME:GetPathG("", "stage_icon_endless.png"));
+				self:Load(THEME:GetPathG("", "stage_icon_endless"));
 			elseif last_known_stage == 'Stage_Event' then
-				self:Load(THEME:GetPathG("", "stage_icon_event.png"));
+				self:Load(THEME:GetPathG("", "stage_icon_event"));
 			elseif last_known_stage == 'Stage_Demo' then
-				self:Load(THEME:GetPathG("", "stage_icon_demo.png"));
+				self:Load(THEME:GetPathG("", "stage_icon_demo"));
 			else
-				self:Load(THEME:GetPathG("", "stage_icon_unknown.png"));
+				self:Load(THEME:GetPathG("", "stage_icon_unknown"));
 			end;
 		end;
 	},
 	-- song difficulty icon p1
-	LoadActor(THEME:GetPathG("", "icon_edit.png"))..{
+	LoadActor(THEME:GetPathG("", "icon_edit"))..{
 		InitCommand=cmd(x,SCREEN_LEFT+51;y,SCREEN_TOP+15);
+		-- this should be okay. i have to call it somehow... there are other messagecommands but, this is good...
 		OnCommand=function(self)
 			self:queuecommand('IconPA');
 		end;
@@ -97,28 +102,29 @@ local t = Def.ActorFrame{
 			-- GLOBAL variable check
 			local enabled_p1 = GAMESTATE:IsPlayerEnabled('PlayerNumber_P1');
 			if last_known_difficulty_P1 == 'Difficulty_Beginner' then
-				self:Load(THEME:GetPathG("", "icon_beginner.png"));
+				self:Load(THEME:GetPathG("", "icon_beginner"));
 			elseif last_known_difficulty_P1 == 'Difficulty_Easy' then
-				self:Load(THEME:GetPathG("", "icon_easy.png"));
+				self:Load(THEME:GetPathG("", "icon_easy"));
 			elseif last_known_difficulty_P1 == 'Difficulty_Medium' then
-				self:Load(THEME:GetPathG("", "icon_normal.png"));
+				self:Load(THEME:GetPathG("", "icon_normal"));
 			elseif last_known_difficulty_P1 == 'Difficulty_Hard' then
-				self:Load(THEME:GetPathG("", "icon_hard.png"));
+				self:Load(THEME:GetPathG("", "icon_hard"));
 			elseif last_known_difficulty_P1 == 'Difficulty_Challenge' then
-				self:Load(THEME:GetPathG("", "icon_challenge.png"));
+				self:Load(THEME:GetPathG("", "icon_challenge"));
 			elseif last_known_difficulty_P1 == 'Difficulty_Edit' then
-				self:Load(THEME:GetPathG("", "icon_edit.png"));
+				self:Load(THEME:GetPathG("", "icon_edit"));
 			else
-				self:Load(THEME:GetPathG("", "icon_unknown.png"));
+				self:Load(THEME:GetPathG("", "icon_unknown"));
 			end;
 			if enabled_p1 == false then
-				self:Load(THEME:GetPathG("", "icon_unknown.png"));
+				self:Load(THEME:GetPathG("", "icon_unknown"));
 			end;
 		end;
 	},
 	-- song difficulty icon p2
-	LoadActor(THEME:GetPathG("", "icon_edit.png"))..{
+	LoadActor(THEME:GetPathG("", "icon_edit"))..{
 		InitCommand=cmd(x,SCREEN_RIGHT-51;y,SCREEN_TOP+15);
+		-- this should be okay. i have to call it somehow... There are other messagecommands but, this is good...
 		OnCommand=function(self)
 			self:queuecommand('IconPB');
 		end;
@@ -126,22 +132,22 @@ local t = Def.ActorFrame{
 			-- GLOBAL variable check
 			local enabled_p2 = GAMESTATE:IsPlayerEnabled('PlayerNumber_P2');
 			if last_known_difficulty_P2 == 'Difficulty_Beginner' then
-				self:Load(THEME:GetPathG("", "icon_beginner.png"));
+				self:Load(THEME:GetPathG("", "icon_beginner"));
 			elseif last_known_difficulty_P2 == 'Difficulty_Easy' then
-				self:Load(THEME:GetPathG("", "icon_easy.png"));
+				self:Load(THEME:GetPathG("", "icon_easy"));
 			elseif last_known_difficulty_P2 == 'Difficulty_Medium' then
-				self:Load(THEME:GetPathG("", "icon_normal.png"));
+				self:Load(THEME:GetPathG("", "icon_normal"));
 			elseif last_known_difficulty_P2 == 'Difficulty_Hard' then
-				self:Load(THEME:GetPathG("", "icon_hard.png"));
+				self:Load(THEME:GetPathG("", "icon_hard"));
 			elseif last_known_difficulty_P2 == 'Difficulty_Challenge' then
-				self:Load(THEME:GetPathG("", "icon_challenge.png"));
+				self:Load(THEME:GetPathG("", "icon_challenge"));
 			elseif last_known_difficulty_P2 == 'Difficulty_Edit' then
-				self:Load(THEME:GetPathG("", "icon_edit.png"));
+				self:Load(THEME:GetPathG("", "icon_edit"));
 			else
-				self:Load(THEME:GetPathG("", "icon_unknown.png"));
+				self:Load(THEME:GetPathG("", "icon_unknown"));
 			end;
 			if enabled_p2 == false then
-				self:Load(THEME:GetPathG("", "icon_unknown.png"));
+				self:Load(THEME:GetPathG("", "icon_unknown"));
 			end;
 		end;
 	},
@@ -153,15 +159,14 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+102,SCREEN_TOP+2,SCREEN_LEFT+402,SCREEN_TOP+28;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
-			self:diffuseleftedge(color("0,0,0,0.75"));
-			self:queuecommand("PALife");
+			p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
+			self:queuecommand('PALife');
 		end;
 		PALifeCommand=function(self)
 			-- shows error but, I cannot fix it... sorry...
-			local screen = SCREENMAN:GetTopScreen();
-			if screen:GetLifeMeter('PlayerNumber_P1') ~= nil then
-				local meter_pa = screen:GetLifeMeter('PlayerNumber_P1');
-				local life_pa = meter_pa:GetLife();
+			if p1_lifebar ~= nil then
+				p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
+				local life_pa = p1_lifebar:GetLife();
 				self:diffuse(color("1,0.5,0,1"));
 				self:stretchto(SCREEN_LEFT+102,SCREEN_TOP+2,SCREEN_LEFT+102+(300*life_pa),SCREEN_TOP+28);
 				self:sleep(0.05);
@@ -173,7 +178,7 @@ local t = Def.ActorFrame{
 		LifeMeterChangedP1MessageCommand=cmd(playcommand,"PALife");
 	},
 	-- life meter overlay p1
-	LoadActor(THEME:GetPathG("", "life_meter_overlay.png"))..{
+	LoadActor(THEME:GetPathG("", "life_meter_overlay"))..{
 		InitCommand=cmd(x,SCREEN_LEFT+252;y,SCREEN_TOP+15);
 	},
 	-- back life meter p2
@@ -184,15 +189,14 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_RIGHT-402,SCREEN_TOP+2,SCREEN_RIGHT-102,SCREEN_TOP+28;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
-			self:diffuseleftedge(color("0,0,0,0.75"));
-			self:queuecommand("PBLife");
+			p2_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P2');
+			self:queuecommand('PBLife');
 		end;
 		PBLifeCommand=function(self)
 			-- shows error but, I cannot fix it... sorry...
-			local screen = SCREENMAN:GetTopScreen();
-			if screen:GetLifeMeter('PlayerNumber_P2') ~= nil then
-				local meter_pb = screen:GetLifeMeter('PlayerNumber_P2');
-				local life_pb = meter_pb:GetLife();
+			if p2_lifebar ~= nil then
+				p2_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P2');
+				local life_pb = p2_lifebar:GetLife();
 				self:diffuse(color("0,0.75,1,1"));
 				self:stretchto(SCREEN_RIGHT-402,SCREEN_TOP+2,SCREEN_RIGHT-402+(300*life_pb),SCREEN_TOP+28);
 				self:sleep(0.05);
@@ -207,16 +211,13 @@ local t = Def.ActorFrame{
 		LifeMeterChangedP2MessageCommand=cmd(playcommand,"PBLife");
 	},
 	-- life meter overlay p2
-	LoadActor(THEME:GetPathG("", "life_meter_overlay.png"))..{
+	LoadActor(THEME:GetPathG("", "life_meter_overlay"))..{
 		InitCommand=cmd(x,SCREEN_RIGHT-252;y,SCREEN_TOP+15);
 	},
 	-- p1 combo number text
 	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_RIGHT/2-4;y,SCREEN_BOTTOM-40;align,1,0.5;diffuse,color("1,0.25,0,1");visible,false;shadowlength,1);
-		OnCommand=function(self)
-			self:queuecommand("PACombo");
-		end;
 		PAComboCommand=function(self)
 			local stats = STATSMAN:GetCurStageStats();
 			local player_stats = stats:GetPlayerStageStats('PlayerNumber_P1');
@@ -239,9 +240,6 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_RIGHT/2+4;y,SCREEN_BOTTOM-40;align,0,0.5;diffuse,color("0,0.5,1,1");visible,false;shadowlength,1);
-		OnCommand=function(self)
-			self:queuecommand("PBCombo");
-		end;
 		PBComboCommand=function(self)
 			local stats = STATSMAN:GetCurStageStats();
 			local player_stats = stats:GetPlayerStageStats('PlayerNumber_P2');
@@ -333,19 +331,9 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+32,SCREEN_TOP+33,SCREEN_RIGHT-32,SCREEN_TOP+49;diffuseleftedge,color("0,0,0,0.5");diffusealpha,0.25);
 	},
 	-- progress meter actor
-	LoadActor(THEME:GetPathG("", "progress_meter.png"))..{
+	LoadActor(THEME:GetPathG("", "progress_meter"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_TOP+41);
 	},
-	-- debugging text
---	LoadFont("SpoOky")..{
---		Text="";
---		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;align,0.5,0.5;diffuse,color(theme_color);shadowlength,1);
---		DebugCommand=function(self)
---			local result = TapNoteScoreToLocalizedString();
---			self:settext(result);
---		end;
---		CurrentComboChangedP1MessageCommand=cmd(playcommand,"Debug");
---	},
 	-- new theme skin i am experimenting with...
 	LoadActor(THEME:GetPathG("","theme_skin"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);

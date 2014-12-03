@@ -42,9 +42,6 @@ local t = Def.ActorFrame{
 	-- neat arrows
 	LoadActor(THEME:GetPathG("","arrow"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X-96;y,SCREEN_CENTER_Y;baserotationz,90;SetSize,32,32);
-		OnCommand=function(self)
-			self:queuecommand("UpLeft");
-		end;
 		UpLeftCommand=function(self)
 			self:x(SCREEN_CENTER_X-96-2);
 			self:sleep(0.02);
@@ -63,9 +60,6 @@ local t = Def.ActorFrame{
 	},
 	LoadActor(THEME:GetPathG("","arrow"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X+96;y,SCREEN_CENTER_Y;baserotationz,-90;SetSize,32,32);
-		OnCommand=function(self)
-			self:queuecommand("DownRight");
-		end;
 		DownRightCommand=function(self)
 			self:x(SCREEN_CENTER_X+96+2);
 			self:sleep(0.02);
@@ -88,6 +82,7 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="STEPMANIA 5";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y/3;diffuse,color(theme_color);zoom,3.0;align,0.5,0.5;shadowlength,3;shadowcolor,color(theme_background));
+		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			self:diffuseupperleft(color("1,0.9,1,1"));
 			self:zoom(1.0);
@@ -138,6 +133,7 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y/0.7+80;diffuse,color(theme_color);zoom,0.5;align,0.5,0.5;shadowlength,1);
+		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			if GetServerName() == "" then
 				self:settext("No Server Name");
@@ -150,6 +146,7 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y/0.7+96;diffuse,color(theme_color);zoom,0.5;align,0.5,0.5;shadowlength,1);
+		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			if IsNetConnected() == true then
 				self:settext("Connected");
@@ -162,6 +159,7 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_CENTER_Y+136;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
+		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = GetTimingDifficulty();
 			self:settext("Life Difficulty: " .. tostring(value));
@@ -171,6 +169,7 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_CENTER_Y+136+16;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
+		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = GetTimingDifficulty();
 			self:settext("Timing Difficulty: " .. tostring(value));
@@ -180,6 +179,7 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_CENTER_Y+136+32;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
+		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = SONGMAN:GetNumSongGroups();
 			self:settext("Song Groups: " .. tostring(value));
@@ -189,6 +189,7 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_CENTER_Y+136+48;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
+		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = SONGMAN:GetNumSongs();
 			self:settext("Song Total: " .. tostring(value));
@@ -198,6 +199,7 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_CENTER_Y+136+64;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
+		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local game = GAMESTATE:GetCurrentGame();
 			local value = game:GetName();
@@ -208,6 +210,7 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_CENTER_Y+136;diffuse,color(theme_color);zoom,0.5;align,1,0.5;shadowlength,1);
+		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = SONGMAN:GetNumCourseGroups();
 			self:settext("Course Groups: " .. tostring(value));
@@ -217,6 +220,7 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_CENTER_Y+136+16;diffuse,color(theme_color);zoom,0.5;align,1,0.5;shadowlength,1);
+		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = SONGMAN:GetNumCourses();
 			self:settext("Courses: " .. tostring(value));
@@ -226,6 +230,7 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_CENTER_Y+136+32;diffuse,color(theme_color);zoom,0.5;align,1,0.5;shadowlength,1);
+		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = SONGMAN:GetNumAdditionalCourses();
 			self:settext("Additional Courses: " .. tostring(value));
@@ -235,6 +240,7 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_CENTER_Y+136+48;diffuse,color(theme_color);zoom,0.5;align,1,0.5;shadowlength,1);
+		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = SONGMAN:GetNumAdditionalSongs();
 			self:settext("Additional Songs: " .. tostring(value));
@@ -244,6 +250,7 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_CENTER_Y+136+64;diffuse,color(theme_color);zoom,0.5;align,1,0.5;shadowlength,1);
+		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = SONGMAN:GetNumLockedSongs();
 			local other_value = SONGMAN:GetNumUnlockedSongs();

@@ -12,6 +12,7 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="Results P1";
 		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);zoom,0.75;align,0,0.5;shadowlength,1);
+		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			self:queuecommand('Results');
 		end;
@@ -71,6 +72,7 @@ local t = Def.ActorFrame{
 --		MPResultsCommand=function(self)
 			-- this is messy right now... i have a lot to do with this screen...
 			-- these do not work currently. I will have to wait for this sorry...
+			-- edit: no... just... no...
 		--	local results = STATSMAN:GetCurStageStats();
 		--	local tableresults_p1 =  results:GetMultiPlayerStageStats('MultiPlayer_P1');
 		--	local tableresults_p2 =  results:GetMultiPlayerStageStats('MultiPlayer_P2');

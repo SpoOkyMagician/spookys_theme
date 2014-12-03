@@ -15,6 +15,7 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="Results P1";
 		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);zoom,0.75;align,0,0.5;shadowlength,1);
+		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			self:queuecommand('Results');
 		end;
@@ -68,6 +69,7 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="Results P2";
 		InitCommand=cmd(x,SCREEN_RIGHT-8;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);zoom,0.75;align,1,0.5;shadowlength,1);
+		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			self:queuecommand('Results');
 		end;
