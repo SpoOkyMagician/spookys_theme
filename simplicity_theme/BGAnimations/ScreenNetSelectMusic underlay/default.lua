@@ -1,6 +1,5 @@
 -- ScreenNetSelectMusic underlay
--- having some issues with this screen... not much i can do about it right now...
--- edit: i need to merge/update this code whenever i finish screenselectmusic...
+-- edit: i can't get music wheel online... i think i am stuck using this code for now...
 
 local t = Def.ActorFrame{
 	Name="ScreenNetSelectMusicUnderlayActorFrame";
@@ -8,29 +7,17 @@ local t = Def.ActorFrame{
 	common_text("Select Music"),
 	-- last known difficulty variable online hidden actor
 	-- smo edit: technically, it only uses p1. p2 does not work online.
-	LoadFont("SpoOky")..{
-		Text="";
+	Def.Actor{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
-		VarsCommand=function(self)
-			local p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
+		OnCommand=function(self)
+			-- this MUST be after the screen is done or it will not work correctly.
+			-- wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
+		end;
+		VariablesCommand=function(self)
+			p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 			if p1_steps ~= nil then
 				last_known_difficulty_P1 = p1_steps:GetDifficulty();
-			else
-				last_known_difficulty_P1 = 'Difficulty_Edit';
-			end;
-		end;
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"Vars");
-		CurrentSongChangedMessageCommand=cmd(playcommand,"Vars");
-	},
-	-- radar variables P1 hidden actor
-	-- smo edit: technically, it only uses p1. p2 does not work online.
-	LoadFont("SpoOky")..{
-		Text="";
-		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
-		ValuesCommand=function(self)
-			local p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
-			if p1_steps ~= nil then
-				local p1_values = p1_steps:GetRadarValues('PlayerNumber_P1');
+				p1_values = p1_steps:GetRadarValues('PlayerNumber_P1');
 				steps_p1_taps = p1_values:GetValue('RadarCategory_TapsAndHolds');
 				steps_p1_jumps = p1_values:GetValue('RadarCategory_Jumps');
 				steps_p1_holds = p1_values:GetValue('RadarCategory_Holds');
@@ -41,6 +28,7 @@ local t = Def.ActorFrame{
 				steps_p1_fakes = p1_values:GetValue('RadarCategory_Fakes');
 				steps_p1_total = steps_p1_taps + steps_p1_jumps + steps_p1_holds + steps_p1_mines + steps_p1_hands + steps_p1_rolls + steps_p1_lifts + steps_p1_fakes;
 			else
+				last_known_difficulty_P1 = 'Difficulty_Edit';
 				steps_p1_taps = 0;
 				steps_p1_jumps = 0;
 				steps_p1_holds = 0;
@@ -50,32 +38,30 @@ local t = Def.ActorFrame{
 				steps_p1_lifts = 0;
 				steps_p1_fakes = 0;
 				steps_p1_total = 0;
+				steps_p1_total = 1; -- i don't think 0 is a good idea...
 			end;
+			-- just in case i need to know...
+			Trace("P1 Taps: " .. tostring(steps_p1_taps) .. ", P1 Jumps: " .. tostring(steps_p1_jumps) .. ", P1 Holds: " .. tostring(steps_p1_holds) .. ", P1 Mines: " .. tostring(steps_p1_mines) .. ", P1 Hands: " .. tostring(steps_p1_hands) .. ", P1 Rolls: " .. tostring(steps_p1_rolls) .. ", P1 Lifts: " .. tostring(steps_p1_lifts) .. ", P1 Fakes: " .. tostring(steps_p1_fakes) .. ", P1 Total: " .. tostring(steps_p1_total));
+			Trace("P1 Last Known Difficulty: " .. tostring(last_known_difficulty_P1));
+			Trace("Last known Stage: " ..tostring(last_known_stage));
 		end;
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"Values");
-		CurrentSongChangedMessageCommand=cmd(playcommand,"Values");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"Variables");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"Variables");
 	},
 	-- sort icon
-	LoadActor(THEME:GetPathG("", "sort_icon_unknown"))..{
-		InitCommand=cmd(x,SCREEN_RIGHT-26;y,SCREEN_TOP+15;zoomto,50,28);
-		SortCommand=function(self)
-			-- thanks Jousway.
-			local sort = GAMESTATE:GetSortOrder();
+	Def.Sprite{
+		InitCommand=cmd(x,SCREEN_RIGHT-26;y,SCREEN_TOP+15;zoomto,50,28;Load,THEME:GetPathG("", "sort_icon_unknown"));
+		WheelSortCommand=function(self)
+			-- thanks Jousway
+			sort = GAMESTATE:GetSortOrder();
 			if sort ~= nil then
-				self:Load(THEME:GetPathG("icon", sort)); -- and call them "icon SortOrder_Preferred"
+				self:Load(THEME:GetPathG("icon", sort));
 			else
 				self:Load(THEME:GetPathG("", "sort_icon_unknown"));
 			end;
-			self:finishtweening();
-			self:stoptweening();
 			self:zoomto(50,28);
-			self:diffusealpha(0);
-			self:diffusealpha(0.25);
-			self:diffusealpha(0.5);
-			self:diffusealpha(0.75);
-			self:diffusealpha(1.0);
 		end;
-		SortOrderChangedMessageCommand=cmd(playcommand,"Sort");
+		SortOrderChangedMessageCommand=cmd(playcommand,"WheelSort");
 	},
 	-- moding info quad into two... part 1...
 	Def.Quad{
