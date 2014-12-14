@@ -7,37 +7,40 @@
 local wheel = false; -- SCREENMAN:GetTopScreen():GetMusicWheel();
 local p1_steps = false; -- GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 local p2_steps = false; -- GAMESTATE:GetCurrentSteps('PlayerNumber_P2');
-local p1_values = false; -- p1_steps:GetRadarValues('PlayerNumber_P1');
-local p2_values = false; -- p2_steps:GetRadarValues('PlayerNumber_P2');
-local difficulty_p1_steps = false; -- p1_steps:GetDifficulty();
-local difficulty_p2_steps = false; -- p2_steps:GetDifficulty();
+local p1_values = 0; -- p1_steps:GetRadarValues('PlayerNumber_P1');
+local p2_values = 0; -- p2_steps:GetRadarValues('PlayerNumber_P2');
+local difficulty_p1_steps = 0; -- p1_steps:GetDifficulty();
+local difficulty_p2_steps = 0; -- p2_steps:GetDifficulty();
 local sort = false; -- GAMESTATE:GetSortOrder();
 local song = false; -- GAMESTATE:GetCurrentSong();
 local group = false; -- GAMESTATE:GetExpandedSectionName();
 
-local last_known_difficulty_P1 = false;
-local last_known_difficulty_P2 = false;
-local last_known_stage = false;
+local last_known_difficulty_P1 = 'Difficulty_Edit';
+local last_known_difficulty_P2 = 'Difficulty_Edit';
+local last_known_stage = 'Stage_1st';
 
-local steps_p1_taps = false;
-local steps_p1_jumps = false;
-local steps_p1_holds = false;
-local steps_p1_mines = false;
-local steps_p1_hands = false;
-local steps_p1_rolls = false;
-local steps_p1_lifts = false;
-local steps_p1_fakes = false;
-local steps_p1_total = false;
+local steps_p1_taps = 0;
+local steps_p1_jumps = 0;
+local steps_p1_holds = 0;
+local steps_p1_mines = 0;
+local steps_p1_hands = 0;
+local steps_p1_rolls = 0;
+local steps_p1_lifts = 0;
+local steps_p1_fakes = 0;
+local steps_p1_total = 0;
 
-local steps_p2_taps = false;
-local steps_p2_jumps = false;
-local steps_p2_holds = false;
-local steps_p2_mines = false;
-local steps_p2_hands = false;
-local steps_p2_rolls = false;
-local steps_p2_lifts = false;
-local steps_p2_fakes = false;
-local steps_p2_total = false;
+local steps_p2_taps = 0;
+local steps_p2_jumps = 0;
+local steps_p2_holds = 0;
+local steps_p2_mines = 0;
+local steps_p2_hands = 0;
+local steps_p2_rolls = 0;
+local steps_p2_lifts = 0;
+local steps_p2_fakes = 0;
+local steps_p2_total = 0;
+
+local p1_percentage = 0;
+local p2_percentage = 0;
 
 local t = Def.ActorFrame{
 	Name="ScreenSelectMusicUnderlayActorFrame";
@@ -387,8 +390,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+386,SCREEN_LEFT+15,SCREEN_TOP+390;diffuse,color("1,0.25,0,1"));
 		RadarTapsPACommand=function(self)
-			local p1_percentage = (steps_p1_taps / steps_p1_total)*100;
-			if wheel and wheel:GetSelectedType() ~= 'WheelItemDataType_Song' then
+			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
+				p1_percentage = (steps_p1_taps / steps_p1_total)*100;
+			else
 				p1_percentage = 1;
 			end;	
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+386,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+390);
@@ -401,8 +405,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+393,SCREEN_LEFT+15,SCREEN_TOP+397;diffuse,color("1,0.25,0,1"));
 		RadarJumpsPACommand=function(self)
-			local p1_percentage = (steps_p1_jumps / steps_p1_total)*100;
-			if wheel and wheel:GetSelectedType() ~= 'WheelItemDataType_Song' then
+			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
+				p1_percentage = (steps_p1_jumps / steps_p1_total)*100;
+			else
 				p1_percentage = 1;
 			end;
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+393,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+397);
@@ -415,8 +420,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+400,SCREEN_LEFT+15,SCREEN_TOP+404;diffuse,color("1,0.25,0,1"));
 		RadarHoldsPACommand=function(self)
-			local p1_percentage = (steps_p1_holds / steps_p1_total)*100;
-			if wheel and wheel:GetSelectedType() ~= 'WheelItemDataType_Song' then
+			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
+				p1_percentage = (steps_p1_holds / steps_p1_total)*100;
+			else
 				p1_percentage = 1;
 			end;
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+400,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+404);
@@ -429,8 +435,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+407,SCREEN_LEFT+15,SCREEN_TOP+411;diffuse,color("1,0.25,0,1"));
 		RadarMinesPACommand=function(self)
-			local p1_percentage = (steps_p1_mines / steps_p1_total)*100;
-			if wheel and wheel:GetSelectedType() ~= 'WheelItemDataType_Song' then
+			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
+				p1_percentage = (steps_p1_mines / steps_p1_total)*100;
+			else
 				p1_percentage = 1;
 			end;
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+407,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+411);
@@ -443,8 +450,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+414,SCREEN_LEFT+15,SCREEN_TOP+418;diffuse,color("1,0.25,0,1"));
 		RadarHandsPACommand=function(self)
-			local p1_percentage = (steps_p1_hands / steps_p1_total)*100;
-			if wheel and wheel:GetSelectedType() ~= 'WheelItemDataType_Song' then
+			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
+				p1_percentage = (steps_p1_hands / steps_p1_total)*100;
+			else
 				p1_percentage = 1;
 			end;
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+414,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+418);
@@ -457,8 +465,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+421,SCREEN_LEFT+15,SCREEN_TOP+425;diffuse,color("1,0.25,0,1"));
 		RadarRollsPACommand=function(self)
-			local p1_percentage = (steps_p1_rolls / steps_p1_total)*100;
-			if wheel and wheel:GetSelectedType() ~= 'WheelItemDataType_Song' then
+			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
+				p1_percentage = (steps_p1_rolls / steps_p1_total)*100;
+			else
 				p1_percentage = 1;
 			end;
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+421,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+425);
@@ -471,8 +480,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+428,SCREEN_LEFT+15,SCREEN_TOP+432;diffuse,color("1,0.25,0,1"));
 		RadarLiftsPACommand=function(self)
-			local p1_percentage = (steps_p1_lifts / steps_p1_total)*100;
-			if wheel and wheel:GetSelectedType() ~= 'WheelItemDataType_Song' then
+			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
+				p1_percentage = (steps_p1_lifts / steps_p1_total)*100;
+			else
 				p1_percentage = 1;
 			end;
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+428,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+432);
@@ -485,8 +495,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+434,SCREEN_LEFT+15,SCREEN_TOP+438;diffuse,color("1,0.25,0,1"));
 		RadarFakesPACommand=function(self)
-			local p1_percentage = (steps_p1_fakes / steps_p1_total)*100;
-			if wheel and wheel:GetSelectedType() ~= 'WheelItemDataType_Song' then
+			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
+				p1_percentage = (steps_p1_fakes / steps_p1_total)*100;
+			else
 				p1_percentage = 1;
 			end;
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+434,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+438);
@@ -499,8 +510,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+386,SCREEN_LEFT+143,SCREEN_TOP+390;diffuse,color("0,0.5,1,1"));
 		RadarTapsPBCommand=function(self)
-			local p2_percentage = (steps_p2_taps / steps_p2_total)*100;
-			if wheel and wheel:GetSelectedType() ~= 'WheelItemDataType_Song' then
+			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
+				p2_percentage = (steps_p2_taps / steps_p2_total)*100;
+			else
 				p2_percentage = 1;
 			end;
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+386,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+390);
@@ -513,8 +525,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+393,SCREEN_LEFT+143,SCREEN_TOP+397;diffuse,color("0,0.5,1,1"));
 		RadarJumpsPBCommand=function(self)
-			local p2_percentage = (steps_p2_jumps / steps_p2_total)*100;
-			if wheel and wheel:GetSelectedType() ~= 'WheelItemDataType_Song' then
+			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
+				p2_percentage = (steps_p2_jumps / steps_p2_total)*100;
+			else
 				p2_percentage = 1;
 			end;
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+393,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+397);
@@ -527,8 +540,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+400,SCREEN_LEFT+143,SCREEN_TOP+404;diffuse,color("0,0.5,1,1"));
 		RadarHoldsPBCommand=function(self)
-			local p2_percentage = (steps_p2_holds / steps_p2_total)*100;
-			if wheel and wheel:GetSelectedType() ~= 'WheelItemDataType_Song' then
+			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
+				p2_percentage = (steps_p2_holds / steps_p2_total)*100;
+			else
 				p2_percentage = 1;
 			end;
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+400,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+404);
@@ -541,8 +555,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+407,SCREEN_LEFT+143,SCREEN_TOP+411;diffuse,color("0,0.5,1,1"));
 		RadarMinesPBCommand=function(self)
-			local p2_percentage = (steps_p2_mines / steps_p2_total)*100;
-			if wheel and wheel:GetSelectedType() ~= 'WheelItemDataType_Song' then
+			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
+				p2_percentage = (steps_p2_mines / steps_p2_total)*100;
+			else
 				p2_percentage = 1;
 			end;
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+407,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+411);
@@ -555,8 +570,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+414,SCREEN_LEFT+143,SCREEN_TOP+418;diffuse,color("0,0.5,1,1"));
 		RadarHandsPBCommand=function(self)
-			local p2_percentage = (steps_p2_hands / steps_p2_total)*100;
-			if wheel and wheel:GetSelectedType() ~= 'WheelItemDataType_Song' then
+			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
+				p2_percentage = (steps_p2_hands / steps_p2_total)*100;
+			else
 				p2_percentage = 1;
 			end;
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+414,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+418);
@@ -569,8 +585,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+421,SCREEN_LEFT+143,SCREEN_TOP+425;diffuse,color("0,0.5,1,1"));
 		RadarRollsPBCommand=function(self)
-			local p2_percentage = (steps_p2_rolls / steps_p2_total)*100;
-			if wheel and wheel:GetSelectedType() ~= 'WheelItemDataType_Song' then
+			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
+				p2_percentage = (steps_p2_rolls / steps_p2_total)*100;
+			else
 				p2_percentage = 1;
 			end;
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+421,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+425);
@@ -583,8 +600,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+428,SCREEN_LEFT+143,SCREEN_TOP+432;diffuse,color("0,0.5,1,1"));
 		RadarLiftsPBCommand=function(self)
-			local p2_percentage = (steps_p2_lifts / steps_p2_total)*100;
-			if wheel and wheel:GetSelectedType() ~= 'WheelItemDataType_Song' then
+			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
+				p2_percentage = (steps_p2_lifts / steps_p2_total)*100;
+			else
 				p2_percentage = 1;
 			end;
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+428,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+432);
@@ -597,8 +615,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+434,SCREEN_LEFT+143,SCREEN_TOP+438;diffuse,color("0,0.5,1,1"));
 		RadarFakesPBCommand=function(self)
-			local p2_percentage = (steps_p2_fakes / steps_p2_total)*100;
-			if wheel and wheel:GetSelectedType() ~= 'WheelItemDataType_Song' then
+			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
+				p2_percentage = (steps_p2_fakes / steps_p2_total)*100;
+			else
 				p2_percentage = 1;
 			end;
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+434,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+438);

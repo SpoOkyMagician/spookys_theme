@@ -1,6 +1,7 @@
 -- ScreenSelectCourse underlay
 -- having some issues with this screen... not much i can do about it right now...
 -- edit: need to merge/update this when screenselectmusic is done... just don't forget this is trails... not steps...
+-- edit: i noticed trace does not return radar values currently... how annoying...
 
 -- let's set some variables to organize/re-use later...
 local wheel = false; -- SCREENMAN:GetTopScreen():GetMusicWheel();
@@ -13,30 +14,31 @@ local difficulty_p2_trail = false; -- p2_trail:GetDifficulty();
 local sort = false; -- GAMESTATE:GetSortOrder();
 local course = false; -- GAMESTATE:GetCurrentCourse();
 local trails = false; -- course:GetAllTrails();
+local this_trail = false; -- trail
 
 local last_known_difficulty_P1 = false;
 local last_known_difficulty_P2 = false;
 local last_known_stage = false;
 
-local trail_p1_taps = false;
-local trail_p1_jumps = false;
-local trail_p1_holds = false;
-local trail_p1_mines = false;
-local trail_p1_hands = false;
-local trail_p1_rolls = false;
-local trail_p1_lifts = false;
-local trail_p1_fakes = false;
-local trail_p1_total = false;
+local trail_p1_taps = 0;
+local trail_p1_jumps = 0;
+local trail_p1_holds = 0;
+local trail_p1_mines = 0;
+local trail_p1_hands = 0;
+local trail_p1_rolls = 0;
+local trail_p1_lifts = 0;
+local trail_p1_fakes = 0;
+local trail_p1_total = 0;
 
-local trail_p2_taps = false;
-local trail_p2_jumps = false;
-local trail_p2_holds = false;
-local trail_p2_mines = false;
-local trail_p2_hands = false;
-local trail_p2_rolls = false;
-local trail_p2_lifts = false;
-local trail_p2_fakes = false;
-local trail_p2_total = false;
+local trail_p2_taps = 0;
+local trail_p2_jumps = 0;
+local trail_p2_holds = 0;
+local trail_p2_mines = 0;
+local trail_p2_hands = 0;
+local trail_p2_rolls = 0;
+local trail_p2_lifts = 0;
+local trail_p2_fakes = 0;
+local trail_p2_total = 0;
 
 local t = Def.ActorFrame{
 	Name="ScreenSelectCourseUnderlayActorFrame";
@@ -48,8 +50,14 @@ local t = Def.ActorFrame{
 			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
 		end;
 		VarsCommand=function(self)
-			--course = GAMESTATE:GetCurrentCourse();
-			--trails = course:GetAllTrails();
+			course = GAMESTATE:GetCurrentCourse();
+			trails = course:GetAllTrails();
+			if trails ~= nil then
+				Trace("TRACE: " .. tostring(trails[1]:GetLengthSeconds()));
+				Trace("TRACE: " .. tostring(trails[1]:GetMeter()));
+				Trace("TRACE: " .. tostring(trails[1]:GetRadarValues():GetValue('RadarCategory_TapsAndHolds')));
+				Trace("TRACE: " .. tostring(trails[1]:GetTotalMeter()));
+			end;
 			--if trails ~= nil then
 			--	-- we need to reset the values first...
 			--	trail_p1_taps = 0;
@@ -62,71 +70,71 @@ local t = Def.ActorFrame{
 			--	trail_p1_fakes = 0;
 			--	trail_p1_total = 0;
 			--	-- now add the total values...
-			--	for i,#trails do
-			--		trail_p1_taps += trails[i]:GetRadarValues():GetValue('RadarCategory_TapsAndHolds');
-			--		trail_p1_jumps += trails[i]:GetRadarValues():GetValue('RadarCategory_Jumps');
-			--		trail_p1_holds += trails[i]:GetRadarValues():GetValue('RadarCategory_Holds');
-			--		trail_p1_mines += trails[i]:GetRadarValues():GetValue('RadarCategory_Mines');
-			--		trail_p1_hands += trails[i]:GetRadarValues():GetValue('RadarCategory_Hands');
-			--		trail_p1_rolls += trails[i]:GetRadarValues():GetValue('RadarCategory_Rolls');
-			--		trail_p1_lifts += trails[i]:GetRadarValues():GetValue('RadarCategory_Lifts');
-			--		trail_p1_fakes += trails[i]:GetRadarValues():GetValue('RadarCategory_Fakes');
+			--	for key,value in ipairs(trails) do
+			--		trail_p1_taps = trail_p1_taps + value[key]:GetRadarValues():GetValue('RadarCategory_TapsAndHolds');
+			--		trail_p1_jumps = trail_p1_jumps + value[key]:GetRadarValues():GetValue('RadarCategory_Jumps');
+			--		trail_p1_holds = trail_p1_holds + value[key]:GetRadarValues():GetValue('RadarCategory_Holds');
+			--		trail_p1_mines = trail_p1_mines + value[key]:GetRadarValues():GetValue('RadarCategory_Mines');
+			--		trail_p1_hands = trail_p1_hands + value[key]:GetRadarValues():GetValue('RadarCategory_Hands');
+			--		trail_p1_rolls = trail_p1_rolls + value[key]:GetRadarValues():GetValue('RadarCategory_Rolls');
+			--		trail_p1_lifts = trail_p1_lifts + value[key]:GetRadarValues():GetValue('RadarCategory_Lifts');
+			--		trail_p1_fakes = trail_p1_fakes + value[key]:GetRadarValues():GetValue('RadarCategory_Fakes');
+			--		Trace("Debug: key/value in trails is: " .. tostring(key) .. " " .. tostring(value));
 			--	end;
 			--	trail_p1_total = trail_p1_taps + trail_p1_jumps + trail_p1_holds + trail_p1_mines + trail_p1_hands + trail_p1_rolls + trail_p1_lifts + trail_p1_fakes;
 			--	last_known_difficulty_P1 = p1_trail:GetDifficulty();
-			--	Trace("DEBUGGING: " .. tostring(#trails[1]));
 			--end;
 			
-			p1_trail = GAMESTATE:GetCurrentTrail('PlayerNumber_P1');
-			p2_trail = GAMESTATE:GetCurrentTrail('PlayerNumber_P2');
-			if p1_trail ~= nil then
-				last_known_difficulty_P1 = p1_trail:GetDifficulty();
-				local p1_values = p1_trail:GetRadarValues('PlayerNumber_P1');
-				trail_p1_taps = p1_values:GetValue('RadarCategory_TapsAndHolds');
-				trail_p1_jumps = p1_values:GetValue('RadarCategory_Jumps');
-				trail_p1_holds = p1_values:GetValue('RadarCategory_Holds');
-				trail_p1_mines = p1_values:GetValue('RadarCategory_Mines');
-				trail_p1_hands = p1_values:GetValue('RadarCategory_Hands');
-				trail_p1_rolls = p1_values:GetValue('RadarCategory_Rolls');
-				trail_p1_lifts = p1_values:GetValue('RadarCategory_Lifts');
-				trail_p1_fakes = p1_values:GetValue('RadarCategory_Fakes');
-				trail_p1_total = trail_p1_taps + trail_p1_jumps + trail_p1_holds + trail_p1_mines + trail_p1_hands + trail_p1_rolls + trail_p1_lifts + trail_p1_fakes;
-			else
-				last_known_difficulty_P1 = 'Difficulty_Edit';
-				trail_p1_taps = 0;
-				trail_p1_jumps = 0;
-				trail_p1_holds = 0;
-				trail_p1_mines = 0;
-				trail_p1_hands = 0;
-				trail_p1_rolls = 0;
-				trail_p1_lifts = 0;
-				trail_p1_fakes = 0;
-				trail_p1_total = 0;
-			end;
-			if p2_trail ~= nil then
-				last_known_difficulty_P2 = p2_trail:GetDifficulty();
-				local p2_values = p2_trail:GetRadarValues('PlayerNumber_P2');
-				trail_p2_taps = p2_values:GetValue('RadarCategory_TapsAndHolds');
-				trail_p2_jumps = p2_values:GetValue('RadarCategory_Jumps');
-				trail_p2_holds = p2_values:GetValue('RadarCategory_Holds');
-				trail_p2_mines = p2_values:GetValue('RadarCategory_Mines');
-				trail_p2_hands = p2_values:GetValue('RadarCategory_Hands');
-				trail_p2_rolls = p2_values:GetValue('RadarCategory_Rolls');
-				trail_p2_lifts = p2_values:GetValue('RadarCategory_Lifts');
-				trail_p2_fakes = p2_values:GetValue('RadarCategory_Fakes');
-				trail_p2_total = trail_p2_taps + trail_p2_jumps + trail_p2_holds + trail_p2_mines + trail_p2_hands + trail_p2_rolls + trail_p2_lifts + trail_p2_fakes;
-			else
-				last_known_difficulty_P2 = 'Difficulty_Edit';
-				trail_p2_taps = 0;
-				trail_p2_jumps = 0;
-				trail_p2_holds = 0;
-				trail_p2_mines = 0;
-				trail_p2_hands = 0;
-				trail_p2_rolls = 0;
-				trail_p2_lifts = 0;
-				trail_p2_fakes = 0;
-				trail_p2_total = 0;
-			end;
+			--p1_trail = GAMESTATE:GetCurrentTrail('PlayerNumber_P1');
+			--p2_trail = GAMESTATE:GetCurrentTrail('PlayerNumber_P2');
+			--if p1_trail ~= nil then
+			--	last_known_difficulty_P1 = p1_trail:GetDifficulty();
+			--	local p1_values = p1_trail:GetRadarValues('PlayerNumber_P1');
+			--	trail_p1_taps = p1_values:GetValue('RadarCategory_TapsAndHolds');
+			--	trail_p1_jumps = p1_values:GetValue('RadarCategory_Jumps');
+			--	trail_p1_holds = p1_values:GetValue('RadarCategory_Holds');
+			--	trail_p1_mines = p1_values:GetValue('RadarCategory_Mines');
+			--	trail_p1_hands = p1_values:GetValue('RadarCategory_Hands');
+			--	trail_p1_rolls = p1_values:GetValue('RadarCategory_Rolls');
+			--	trail_p1_lifts = p1_values:GetValue('RadarCategory_Lifts');
+			--	trail_p1_fakes = p1_values:GetValue('RadarCategory_Fakes');
+			--	trail_p1_total = trail_p1_taps + trail_p1_jumps + trail_p1_holds + trail_p1_mines + trail_p1_hands + trail_p1_rolls + trail_p1_lifts + trail_p1_fakes;
+			--else
+			--	last_known_difficulty_P1 = 'Difficulty_Edit';
+			--	trail_p1_taps = 0;
+			--	trail_p1_jumps = 0;
+			--	trail_p1_holds = 0;
+			--	trail_p1_mines = 0;
+			--	trail_p1_hands = 0;
+			--	trail_p1_rolls = 0;
+			--	trail_p1_lifts = 0;
+			--	trail_p1_fakes = 0;
+			--	trail_p1_total = 0;
+			--end;
+			--if p2_trail ~= nil then
+			--	last_known_difficulty_P2 = p2_trail:GetDifficulty();
+			--	local p2_values = p2_trail:GetRadarValues('PlayerNumber_P2');
+			--	trail_p2_taps = p2_values:GetValue('RadarCategory_TapsAndHolds');
+			--	trail_p2_jumps = p2_values:GetValue('RadarCategory_Jumps');
+			--	trail_p2_holds = p2_values:GetValue('RadarCategory_Holds');
+			--	trail_p2_mines = p2_values:GetValue('RadarCategory_Mines');
+			--	trail_p2_hands = p2_values:GetValue('RadarCategory_Hands');
+			--	trail_p2_rolls = p2_values:GetValue('RadarCategory_Rolls');
+			--	trail_p2_lifts = p2_values:GetValue('RadarCategory_Lifts');
+			--	trail_p2_fakes = p2_values:GetValue('RadarCategory_Fakes');
+			--	trail_p2_total = trail_p2_taps + trail_p2_jumps + trail_p2_holds + trail_p2_mines + trail_p2_hands + trail_p2_rolls + trail_p2_lifts + trail_p2_fakes;
+			--else
+			--	last_known_difficulty_P2 = 'Difficulty_Edit';
+			--	trail_p2_taps = 0;
+			--	trail_p2_jumps = 0;
+			--	trail_p2_holds = 0;
+			--	trail_p2_mines = 0;
+			--	trail_p2_hands = 0;
+			--	trail_p2_rolls = 0;
+			--	trail_p2_lifts = 0;
+			--	trail_p2_fakes = 0;
+			--	trail_p2_total = 0;
+			--end;
 		end;
 		CurrentTrailP1ChangedMessageCommand=cmd(playcommand,"Vars");
 		CurrentTrailP2ChangedMessageCommand=cmd(playcommand,"Vars");
