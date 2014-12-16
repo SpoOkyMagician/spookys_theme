@@ -128,6 +128,7 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "sort_icon_unknown"));
 			end;
+			self:finishtweening();
 			self:zoomto(50,28);
 		end;
 		SortOrderChangedMessageCommand=cmd(playcommand,"WheelSort");
@@ -151,6 +152,7 @@ local t = Def.ActorFrame{
 					self:LoadFromSongGroup(group);
 				end;
 			end;
+			self:finishtweening();
 			self:zoomto(256,80);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"SongBanner");
@@ -169,6 +171,7 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "no_background"));
 			end;
+			self:finishtweening();
 			self:zoomto(592,420);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"SongBackground");
@@ -187,6 +190,7 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "no_cd"));
 			end;
+			self:finishtweening();
 			self:zoomto(80,80);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"SongCD");
@@ -214,6 +218,7 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "difficulty_unknown"));
 			end;
+			self:finishtweening();
 			self:zoomto(64,64);
 		end;
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"DifficultyP1");
@@ -243,6 +248,7 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "difficulty_unknown"));
 			end;
+			self:finishtweening();
 		end;
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"DifficultyPB");
 		CurrentSongChangedMessageCommand=cmd(playcommand,"DifficultyPB");
@@ -259,6 +265,7 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "meter_0"));
 			end;
+			self:finishtweening();
 		end;
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"MeterPA");
 		CurrentSongChangedMessageCommand=cmd(playcommand,"MeterPA");
@@ -275,6 +282,7 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "meter_0"));
 			end;
+			self:finishtweening();
 		end;
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"MeterPB");
 		CurrentSongChangedMessageCommand=cmd(playcommand,"MeterPB");
@@ -311,6 +319,7 @@ local t = Def.ActorFrame{
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Section' then
 				self:settext(wheel:GetSelectedSection());
 			end;
+			self:finishtweening();
 			self:scaletofit(SCREEN_LEFT+2,SCREEN_TOP+110,SCREEN_LEFT+256,SCREEN_TOP+250);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"Information");
@@ -345,6 +354,7 @@ local t = Def.ActorFrame{
 			else
 				self:settext("");
 			end;
+			self:finishtweening();
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"StringPA");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"StringPA");
@@ -379,6 +389,7 @@ local t = Def.ActorFrame{
 			else
 				self:settext("");
 			end;
+			self:finishtweening();
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"StringPB");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"StringPB");
@@ -394,7 +405,8 @@ local t = Def.ActorFrame{
 				p1_percentage = (steps_p1_taps / steps_p1_total)*100;
 			else
 				p1_percentage = 1;
-			end;	
+			end;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+386,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+390);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarTapsPA");
@@ -410,6 +422,7 @@ local t = Def.ActorFrame{
 			else
 				p1_percentage = 1;
 			end;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+393,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+397);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarJumpsPA");
@@ -425,6 +438,7 @@ local t = Def.ActorFrame{
 			else
 				p1_percentage = 1;
 			end;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+400,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+404);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHoldsPA");
@@ -440,6 +454,7 @@ local t = Def.ActorFrame{
 			else
 				p1_percentage = 1;
 			end;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+407,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+411);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarMinesPA");
@@ -455,6 +470,7 @@ local t = Def.ActorFrame{
 			else
 				p1_percentage = 1;
 			end;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+414,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+418);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHandsPA");
@@ -470,6 +486,7 @@ local t = Def.ActorFrame{
 			else
 				p1_percentage = 1;
 			end;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+421,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+425);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarRollsPA");
@@ -485,6 +502,7 @@ local t = Def.ActorFrame{
 			else
 				p1_percentage = 1;
 			end;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+428,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+432);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarLiftsPA");
@@ -500,6 +518,7 @@ local t = Def.ActorFrame{
 			else
 				p1_percentage = 1;
 			end;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+434,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+438);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarFakesPA");
@@ -515,6 +534,7 @@ local t = Def.ActorFrame{
 			else
 				p2_percentage = 1;
 			end;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+386,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+390);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarTapsPB");
@@ -530,6 +550,7 @@ local t = Def.ActorFrame{
 			else
 				p2_percentage = 1;
 			end;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+393,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+397);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarJumpsPB");
@@ -545,6 +566,7 @@ local t = Def.ActorFrame{
 			else
 				p2_percentage = 1;
 			end;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+400,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+404);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHoldsPB");
@@ -560,6 +582,7 @@ local t = Def.ActorFrame{
 			else
 				p2_percentage = 1;
 			end;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+407,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+411);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarMinesPB");
@@ -575,6 +598,7 @@ local t = Def.ActorFrame{
 			else
 				p2_percentage = 1;
 			end;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+414,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+418);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHandsPB");
@@ -590,6 +614,7 @@ local t = Def.ActorFrame{
 			else
 				p2_percentage = 1;
 			end;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+421,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+425);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarRollsPB");
@@ -605,6 +630,7 @@ local t = Def.ActorFrame{
 			else
 				p2_percentage = 1;
 			end;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+428,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+432);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarLiftsPB");
@@ -620,6 +646,7 @@ local t = Def.ActorFrame{
 			else
 				p2_percentage = 1;
 			end;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+434,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+438);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarFakesPB");

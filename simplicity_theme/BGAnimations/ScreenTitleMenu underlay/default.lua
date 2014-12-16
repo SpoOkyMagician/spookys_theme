@@ -43,6 +43,7 @@ local t = Def.ActorFrame{
 	LoadActor(THEME:GetPathG("","arrow"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X-96;y,SCREEN_CENTER_Y;baserotationz,90;SetSize,32,32);
 		UpLeftCommand=function(self)
+			self:finishtweening();
 			self:x(SCREEN_CENTER_X-96-2);
 			self:sleep(0.02);
 			self:x(SCREEN_CENTER_X-96-1);
@@ -61,6 +62,7 @@ local t = Def.ActorFrame{
 	LoadActor(THEME:GetPathG("","arrow"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X+96;y,SCREEN_CENTER_Y;baserotationz,-90;SetSize,32,32);
 		DownRightCommand=function(self)
+			self:finishtweening();
 			self:x(SCREEN_CENTER_X+96+2);
 			self:sleep(0.02);
 			self:x(SCREEN_CENTER_X+96+1);
@@ -84,6 +86,7 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y/3;diffuse,color(theme_color);zoom,3.0;align,0.5,0.5;shadowlength,3;shadowcolor,color(theme_background));
 		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
+			self:finishtweening();
 			self:diffuseupperleft(color("1,0.9,1,1"));
 			self:zoom(1.0);
 			self:diffusealpha(0.2);
@@ -140,6 +143,7 @@ local t = Def.ActorFrame{
 			else
 				self:settext(GetServerName());
 			end;
+			self:finishtweening();
 		end;
 	},
 	-- server text
@@ -153,6 +157,7 @@ local t = Def.ActorFrame{
 			else
 				self:settext("Disconnected");
 			end;
+			self:finishtweening();
 		end;
 	},
 	-- life text
@@ -162,6 +167,7 @@ local t = Def.ActorFrame{
 		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = GetTimingDifficulty();
+			self:finishtweening();
 			self:settext("Life Difficulty: " .. tostring(value));
 		end;
 	},
@@ -172,6 +178,7 @@ local t = Def.ActorFrame{
 		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = GetTimingDifficulty();
+			self:finishtweening();
 			self:settext("Timing Difficulty: " .. tostring(value));
 		end;
 	},
@@ -182,6 +189,7 @@ local t = Def.ActorFrame{
 		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = SONGMAN:GetNumSongGroups();
+			self:finishtweening();
 			self:settext("Song Groups: " .. tostring(value));
 		end;
 	},
@@ -192,6 +200,7 @@ local t = Def.ActorFrame{
 		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = SONGMAN:GetNumSongs();
+			self:finishtweening();
 			self:settext("Song Total: " .. tostring(value));
 		end;
 	},
@@ -203,6 +212,7 @@ local t = Def.ActorFrame{
 		OnCommand=function(self)
 			local game = GAMESTATE:GetCurrentGame();
 			local value = game:GetName();
+			self:finishtweening();
 			self:settext("Game Type: " .. tostring(value));
 		end;
 	},
@@ -213,6 +223,7 @@ local t = Def.ActorFrame{
 		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = SONGMAN:GetNumCourseGroups();
+			self:finishtweening();
 			self:settext("Course Groups: " .. tostring(value));
 		end;
 	},
@@ -223,6 +234,7 @@ local t = Def.ActorFrame{
 		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = SONGMAN:GetNumCourses();
+			self:finishtweening();
 			self:settext("Courses: " .. tostring(value));
 		end;
 	},
@@ -233,6 +245,7 @@ local t = Def.ActorFrame{
 		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = SONGMAN:GetNumAdditionalCourses();
+			self:finishtweening();
 			self:settext("Additional Courses: " .. tostring(value));
 		end;
 	},
@@ -243,6 +256,7 @@ local t = Def.ActorFrame{
 		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = SONGMAN:GetNumAdditionalSongs();
+			self:finishtweening();
 			self:settext("Additional Songs: " .. tostring(value));
 		end;
 	},
@@ -254,6 +268,7 @@ local t = Def.ActorFrame{
 		OnCommand=function(self)
 			local value = SONGMAN:GetNumLockedSongs();
 			local other_value = SONGMAN:GetNumUnlockedSongs();
+			self:finishtweening();
 			self:settext("Locked/Unlocked Songs: " .. tostring(value) .. "/" .. tostring(other_value));
 		end;
 	},

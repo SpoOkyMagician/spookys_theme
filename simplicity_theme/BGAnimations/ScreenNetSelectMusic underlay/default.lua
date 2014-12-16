@@ -59,6 +59,7 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "sort_icon_unknown"));
 			end;
+			self:finishtweening();
 			self:zoomto(50,28);
 		end;
 		SortOrderChangedMessageCommand=cmd(playcommand,"WheelSort");
@@ -103,13 +104,7 @@ local t = Def.ActorFrame{
 				self:Load(THEME:GetPathG("", "no_banner"));
 			end;
 			self:finishtweening();
-			self:stoptweening();
 			self:zoomto(256,80);
-			self:diffusealpha(0);
-			self:diffusealpha(0.25);
-			self:diffusealpha(0.5);
-			self:diffusealpha(0.75);
-			self:diffusealpha(1.0);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"Banner");
 	},
@@ -138,13 +133,7 @@ local t = Def.ActorFrame{
 					self:Load(THEME:GetPathG("", "difficulty_unknown"));
 				end;
 			self:finishtweening();
-			self:stoptweening();
 			self:zoomto(64,64);
-			self:diffusealpha(0);
-			self:diffusealpha(0.25);
-			self:diffusealpha(0.5);
-			self:diffusealpha(0.75);
-			self:diffusealpha(1.0);
 		end;
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"DifficultyPA");
 		CurrentSongChangedMessageCommand=cmd(playcommand,"DifficultyPA");
@@ -162,13 +151,7 @@ local t = Def.ActorFrame{
 					self:Load(THEME:GetPathG("", "meter_0_display"));
 				end;
 			self:finishtweening();
-			self:stoptweening();
 			self:zoomto(192,64);
-			self:diffusealpha(0);
-			self:diffusealpha(0.25);
-			self:diffusealpha(0.5);
-			self:diffusealpha(0.75);
-			self:diffusealpha(1.0);
 		end;
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"MeterPA");
 		CurrentSongChangedMessageCommand=cmd(playcommand,"MeterPA");
@@ -200,12 +183,6 @@ local t = Def.ActorFrame{
 				self:settext("N/A");
 			end;
 			self:finishtweening();
-			self:stoptweening();
-			self:diffuse(color("#FFFFFF00"));
-			self:diffuse(color("#FFFFFF44"));
-			self:diffuse(color("#FFFFFF88"));
-			self:diffuse(color("#FFFFFFCC"));
-			self:diffuse(color(theme_color));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"StringPA");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"StringPA");
@@ -219,13 +196,7 @@ local t = Def.ActorFrame{
 		RadarTapsPACommand=function(self)
 			local percentage = (steps_p1_taps / steps_p1_total)*100;
 			self:finishtweening();
-			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+299,SCREEN_TOP+114,(SCREEN_LEFT+299)+percentage,SCREEN_TOP+118);
-			self:diffuse(color("#FFFFFF00"));
-			self:diffuse(color("#FFFFFF44"));
-			self:diffuse(color("#FFFFFF88"));
-			self:diffuse(color("#FFFFFFCC"));
-			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarTapsPA");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarTapsPA");
@@ -237,13 +208,7 @@ local t = Def.ActorFrame{
 		RadarJumpsPACommand=function(self)
 			local p1_percentage = (steps_p1_jumps / steps_p1_total)*100;
 			self:finishtweening();
-			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+299,SCREEN_TOP+121,(SCREEN_LEFT+299)+p1_percentage,SCREEN_TOP+125);
-			self:diffuse(color("#FFFFFF00"));
-			self:diffuse(color("#FFFFFF44"));
-			self:diffuse(color("#FFFFFF88"));
-			self:diffuse(color("#FFFFFFCC"));
-			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarJumpsPA");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarJumpsPA");
@@ -255,13 +220,7 @@ local t = Def.ActorFrame{
 		RadarHoldsPACommand=function(self)
 			local p1_percentage = (steps_p1_holds / steps_p1_total)*100;
 			self:finishtweening();
-			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+299,SCREEN_TOP+128,(SCREEN_LEFT+299)+p1_percentage,SCREEN_TOP+132);
-			self:diffuse(color("#FFFFFF00"));
-			self:diffuse(color("#FFFFFF44"));
-			self:diffuse(color("#FFFFFF88"));
-			self:diffuse(color("#FFFFFFCC"));
-			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHoldsPA");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarHoldsPA");
@@ -273,13 +232,7 @@ local t = Def.ActorFrame{
 		RadarMinesPACommand=function(self)
 			local p1_percentage = (steps_p1_mines / steps_p1_total)*100;
 			self:finishtweening();
-			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+299,SCREEN_TOP+135,(SCREEN_LEFT+299)+p1_percentage,SCREEN_TOP+139);
-			self:diffuse(color("#FFFFFF00"));
-			self:diffuse(color("#FFFFFF44"));
-			self:diffuse(color("#FFFFFF88"));
-			self:diffuse(color("#FFFFFFCC"));
-			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarMinesPA");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarMinesPA");
@@ -291,13 +244,7 @@ local t = Def.ActorFrame{
 		RadarHandsPACommand=function(self)
 			local p1_percentage = (steps_p1_hands / steps_p1_total)*100;
 			self:finishtweening();
-			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+299,SCREEN_TOP+142,(SCREEN_LEFT+299)+p1_percentage,SCREEN_TOP+146);
-			self:diffuse(color("#FFFFFF00"));
-			self:diffuse(color("#FFFFFF44"));
-			self:diffuse(color("#FFFFFF88"));
-			self:diffuse(color("#FFFFFFCC"));
-			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHandsPA");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarHandsPA");
@@ -309,13 +256,7 @@ local t = Def.ActorFrame{
 		RadarRollsPACommand=function(self)
 			local p1_percentage = (steps_p1_rolls / steps_p1_total)*100;
 			self:finishtweening();
-			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+299,SCREEN_TOP+149,(SCREEN_LEFT+299)+p1_percentage,SCREEN_TOP+153);
-			self:diffuse(color("#FFFFFF00"));
-			self:diffuse(color("#FFFFFF44"));
-			self:diffuse(color("#FFFFFF88"));
-			self:diffuse(color("#FFFFFFCC"));
-			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarRollsPA");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarRollsPA");
@@ -327,13 +268,7 @@ local t = Def.ActorFrame{
 		RadarLiftsPACommand=function(self)
 			local p1_percentage = (steps_p1_lifts / steps_p1_total)*100;
 			self:finishtweening();
-			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+299,SCREEN_TOP+156,(SCREEN_LEFT+299)+p1_percentage,SCREEN_TOP+160);
-			self:diffuse(color("#FFFFFF00"));
-			self:diffuse(color("#FFFFFF44"));
-			self:diffuse(color("#FFFFFF88"));
-			self:diffuse(color("#FFFFFFCC"));
-			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarLiftsPA");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarLiftsPA");
@@ -345,13 +280,7 @@ local t = Def.ActorFrame{
 		RadarFakesPACommand=function(self)
 			local p1_percentage = (steps_p1_fakes / steps_p1_total)*100;
 			self:finishtweening();
-			self:stoptweening();
 			self:stretchto(SCREEN_LEFT+299,SCREEN_TOP+163,(SCREEN_LEFT+299)+p1_percentage,SCREEN_TOP+167);
-			self:diffuse(color("#FFFFFF00"));
-			self:diffuse(color("#FFFFFF44"));
-			self:diffuse(color("#FFFFFF88"));
-			self:diffuse(color("#FFFFFFCC"));
-			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarFakesPA");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarFakesPA");
@@ -386,13 +315,7 @@ local t = Def.ActorFrame{
 				self:settext("Title: " .. "N/A" .. "\nSub Title: " .. "N/A" .. "\nSong Artist: " .. "N/A" .. "\nTempo: " .. "N/A" .. "\nGenre: " .. "N/A" .. "\nGroup: " .. "N/A" .. "\nLength: " .. "N/A" .. "\nSeconds: " .. "N/A" );
 			end;
 			self:finishtweening();
-			self:stoptweening();
 			self:scaletofit(SCREEN_LEFT+548,SCREEN_TOP+42,SCREEN_LEFT+800,SCREEN_TOP+204);
-			self:diffuse(color("#FFFFFF00"));
-			self:diffuse(color("#FFFFFF44"));
-			self:diffuse(color("#FFFFFF88"));
-			self:diffuse(color("#FFFFFFCC"));
-			self:diffuse(color(theme_color));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"Information");
 	},
@@ -411,13 +334,7 @@ local t = Def.ActorFrame{
 					self:Load(THEME:GetPathG("", "no_background"));
 				end;
 			self:finishtweening();
-			self:stoptweening();
 			self:zoomto(559,234);
-			self:diffusealpha(0);
-			self:diffusealpha(0.25);
-			self:diffusealpha(0.5);
-			self:diffusealpha(0.75);
-			self:diffusealpha(1.0);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"BG");
 	},
@@ -436,13 +353,7 @@ local t = Def.ActorFrame{
 				self:Load(THEME:GetPathG("", "no_cd"));
 			end;
 			self:finishtweening();
-			self:stoptweening();
 			self:zoomto(80,80);
-			self:diffusealpha(0);
-			self:diffusealpha(0.25);
-			self:diffusealpha(0.5);
-			self:diffusealpha(0.75);
-			self:diffusealpha(1.0);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"CD");
 	},

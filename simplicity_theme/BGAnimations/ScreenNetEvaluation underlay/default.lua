@@ -54,6 +54,7 @@ local t = Def.ActorFrame{
 				--[ something went wrong...
 				stringgrade = "ERROR";
 			end;
+			self:finishtweening();
 			self:zoom(0.75);
 			self:align(0,0.5);
 			self:diffuse(color(theme_color));

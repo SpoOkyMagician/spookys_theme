@@ -167,6 +167,7 @@ local t = Def.ActorFrame{
 			if p1_lifebar ~= nil then
 				p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
 				local life_pa = p1_lifebar:GetLife();
+				self:finishtweening();
 				self:diffuse(color("1,0.5,0,1"));
 				self:stretchto(SCREEN_LEFT+102,SCREEN_TOP+2,SCREEN_LEFT+102+(300*life_pa),SCREEN_TOP+28);
 				self:sleep(0.05);
@@ -197,6 +198,7 @@ local t = Def.ActorFrame{
 			if p2_lifebar ~= nil then
 				p2_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P2');
 				local life_pb = p2_lifebar:GetLife();
+				self:finishtweening();
 				self:diffuse(color("0,0.75,1,1"));
 				self:stretchto(SCREEN_RIGHT-402,SCREEN_TOP+2,SCREEN_RIGHT-402+(300*life_pb),SCREEN_TOP+28);
 				self:sleep(0.05);
@@ -223,6 +225,7 @@ local t = Def.ActorFrame{
 			local player_stats = stats:GetPlayerStageStats('PlayerNumber_P1');
 			local combo = player_stats:GetCurrentCombo();
 			if combo >=2 then
+				self:finishtweening();
 				self:visible(true);
 				self:settext(tostring(combo));
 				self:zoom(1.25);
@@ -245,6 +248,7 @@ local t = Def.ActorFrame{
 			local player_stats = stats:GetPlayerStageStats('PlayerNumber_P2');
 			local combo = player_stats:GetCurrentCombo();
 			if combo >=2 then
+				self:finishtweening();
 				self:visible(true);
 				self:settext(tostring(combo));
 				self:zoom(1.25);
@@ -269,6 +273,7 @@ local t = Def.ActorFrame{
 			local stats = STATSMAN:GetCurStageStats();
 			local player_stats = stats:GetPlayerStageStats('PlayerNumber_P1');
 			local score = player_stats:GetScore();
+			self:finishtweening();
 			self:settext(tostring(score));
 			self:diffuse(color("1,0.5,0.5,1"));
 			self:sleep(0.05);
@@ -287,6 +292,7 @@ local t = Def.ActorFrame{
 			local stats = STATSMAN:GetCurStageStats();
 			local player_stats = stats:GetPlayerStageStats('PlayerNumber_P2');
 			local score = player_stats:GetScore();
+			self:finishtweening();
 			self:settext(tostring(score));
 			self:diffuse(color("0.5,0.75,1,1"));
 			self:sleep(0.05);
@@ -320,6 +326,7 @@ local t = Def.ActorFrame{
 					beat_start = beat_start + 1;
 				end;
 				local beat_current = (beat_start / beat_end) * 790;
+				self:finishtweening();
 				self:stretchto(SCREEN_LEFT+32,SCREEN_TOP+33,(SCREEN_LEFT+32)+beat_current,SCREEN_TOP+49);
 			end;
 		end;

@@ -153,6 +153,7 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "sort_icon_unknown"));
 			end;
+			self:finishtweening();
 		end;
 		SortOrderChangedMessageCommand=cmd(playcommand,"Sort");
 	},
@@ -169,6 +170,7 @@ local t = Def.ActorFrame{
 					self:Load(THEME:GetPathG("", "no_banner"));
 				end;
 			end;
+			self:finishtweening();
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"Banner");
 	},
@@ -176,16 +178,17 @@ local t = Def.ActorFrame{
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_LEFT+556;y,SCREEN_TOP+240;scaletoclipped,592,420;Load,THEME:GetPathG("", "no_background"));
 		BGCommand=function(self)
-				course = GAMESTATE:GetCurrentCourse();
-				if wheel and course ~= nil then
-					if course:HasBackground() == true then
-						self:LoadFromCurrentSongBackground();
-					else
-						self:Load(THEME:GetPathG("", "no_background"));
-					end;
+			course = GAMESTATE:GetCurrentCourse();
+			if wheel and course ~= nil then
+				if course:HasBackground() == true then
+					self:LoadFromCurrentSongBackground();
 				else
 					self:Load(THEME:GetPathG("", "no_background"));
 				end;
+			else
+				self:Load(THEME:GetPathG("", "no_background"));
+			end;
+			self:finishtweening();
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"BG");
 	},
@@ -213,6 +216,7 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "difficulty_unknown"));
 			end;
+			self:finishtweening();
 		end;
 		CurrentTrailP1ChangedMessageCommand=cmd(playcommand,"DifficultyPA");
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"DifficultyPA");
@@ -241,6 +245,7 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "difficulty_unknown"));
 			end;
+			self:finishtweening();
 		end;
 		CurrentTrailP2ChangedMessageCommand=cmd(playcommand,"DifficultyPB");
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"DifficultyPB");
@@ -257,6 +262,7 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "meter_0_display"));
 			end;
+			self:finishtweening();
 		end;
 		CurrentTrailP1ChangedMessageCommand=cmd(playcommand,"MeterPA");
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"MeterPA");
@@ -273,6 +279,7 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "meter_0_display"));
 			end;
+			self:finishtweening();
 		end;
 		CurrentTrailP2ChangedMessageCommand=cmd(playcommand,"MeterPB");
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"MeterPB");
@@ -288,6 +295,7 @@ local t = Def.ActorFrame{
 			else
 				self:settext("Title:\n" .. "N/A" .. "\nDescription:\n" .. "N/A" .. "\nCreator:\n" .. "N/A" .. "\nStages:\n" .. "N/A");
 			end;
+			self:finishtweening();
 			self:scaletofit(SCREEN_LEFT+2,SCREEN_TOP+110,SCREEN_LEFT+256,SCREEN_TOP+250);
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"Information");
@@ -318,6 +326,7 @@ local t = Def.ActorFrame{
 			else
 				self:settext("N/A");
 			end;
+			self:finishtweening();
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"StringPA");
 		CurrentTrailP1ChangedMessageCommand=cmd(playcommand,"StringPA");
@@ -348,6 +357,7 @@ local t = Def.ActorFrame{
 			else
 				self:settext("N/A");
 			end;
+			self:finishtweening();
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"StringPB");
 		CurrentTrailP2ChangedMessageCommand=cmd(playcommand,"StringPB");
@@ -360,6 +370,7 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+386,SCREEN_LEFT+115,SCREEN_TOP+390;diffuse,color("1,0.25,0,1"));
 		RadarTapsPACommand=function(self)
 			local percentage = (trail_p1_taps / trail_p1_total)*100;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+386,SCREEN_LEFT+15+percentage,SCREEN_TOP+390);
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarTapsPA");
@@ -371,6 +382,7 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+393,SCREEN_LEFT+115,SCREEN_TOP+397;diffuse,color("1,0.25,0,1"));
 		RadarJumpsPACommand=function(self)
 			local p1_percentage = (trail_p1_jumps / trail_p1_total)*100;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+393,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+397);
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarJumpsPA");
@@ -382,6 +394,7 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+400,SCREEN_LEFT+115,SCREEN_TOP+404;diffuse,color("1,0.25,0,1"));
 		RadarHoldsPACommand=function(self)
 			local p1_percentage = (trail_p1_holds / trail_p1_total)*100;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+400,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+404);
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarHoldsPA");
@@ -393,6 +406,7 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+407,SCREEN_LEFT+115,SCREEN_TOP+411;diffuse,color("1,0.25,0,1"));
 		RadarMinesPACommand=function(self)
 			local p1_percentage = (trail_p1_mines / trail_p1_total)*100;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+407,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+411);
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarMinesPA");
@@ -404,6 +418,7 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+414,SCREEN_LEFT+115,SCREEN_TOP+418;diffuse,color("1,0.25,0,1"));
 		RadarHandsPACommand=function(self)
 			local p1_percentage = (trail_p1_hands / trail_p1_total)*100;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+414,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+418);
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarHandsPA");
@@ -415,6 +430,7 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+421,SCREEN_LEFT+115,SCREEN_TOP+425;diffuse,color("1,0.25,0,1"));
 		RadarRollsPACommand=function(self)
 			local p1_percentage = (trail_p1_rolls / trail_p1_total)*100;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+421,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+425);
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarRollsPA");
@@ -426,6 +442,7 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+428,SCREEN_LEFT+115,SCREEN_TOP+432;diffuse,color("1,0.25,0,1"));
 		RadarLiftsPACommand=function(self)
 			local p1_percentage = (trail_p1_lifts / trail_p1_total)*100;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+428,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+432);
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarLiftsPA");
@@ -437,6 +454,7 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+434,SCREEN_LEFT+115,SCREEN_TOP+438;diffuse,color("1,0.25,0,1"));
 		RadarFakesPACommand=function(self)
 			local p1_percentage = (trail_p1_fakes / trail_p1_total)*100;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+434,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+438);
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarFakesPA");
@@ -448,6 +466,7 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+386,SCREEN_LEFT+243,SCREEN_TOP+390;diffuse,color("0,0.5,1,1"));
 		RadarTapsPBCommand=function(self)
 			local p2_percentage = (trail_p2_taps / trail_p2_total)*100;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+386,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+390);
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarTapsPB");
@@ -459,6 +478,7 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+393,SCREEN_LEFT+243,SCREEN_TOP+397;diffuse,color("0,0.5,1,1"));
 		RadarJumpsPBCommand=function(self)
 			local p2_percentage = (trail_p2_jumps / trail_p2_total)*100;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+393,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+397);
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarJumpsPB");
@@ -470,6 +490,7 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+400,SCREEN_LEFT+243,SCREEN_TOP+404;diffuse,color("0,0.5,1,1"));
 		RadarHoldsPBCommand=function(self)
 			local p2_percentage = (trail_p2_holds / trail_p2_total)*100;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+400,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+404);
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarHoldsPB");
@@ -481,6 +502,7 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+407,SCREEN_LEFT+243,SCREEN_TOP+411;diffuse,color("0,0.5,1,1"));
 		RadarMinesPBCommand=function(self)
 			local p2_percentage = (trail_p2_mines / trail_p2_total)*100;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+407,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+411);
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarMinesPB");
@@ -492,6 +514,7 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+414,SCREEN_LEFT+243,SCREEN_TOP+418;diffuse,color("0,0.5,1,1"));
 		RadarHandsPBCommand=function(self)
 			local p2_percentage = (trail_p2_hands / trail_p2_total)*100;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+414,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+418);
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarHandsPB");
@@ -503,6 +526,7 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+421,SCREEN_LEFT+243,SCREEN_TOP+425;diffuse,color("0,0.5,1,1"));
 		RadarRollsPBCommand=function(self)
 			local p2_percentage = (trail_p2_rolls / trail_p2_total)*100;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+421,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+425);
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarRollsPB");
@@ -514,6 +538,7 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+428,SCREEN_LEFT+243,SCREEN_TOP+432;diffuse,color("0,0.5,1,1"));
 		RadarLiftsPBCommand=function(self)
 			local p2_percentage = (trail_p2_lifts / trail_p2_total)*100;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+428,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+432);
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarLiftsPB");
@@ -525,6 +550,7 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+434,SCREEN_LEFT+243,SCREEN_TOP+438;diffuse,color("0,0.5,1,1"));
 		RadarFakesPBCommand=function(self)
 			local p2_percentage = (trail_p2_fakes / trail_p2_total)*100;
+			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+434,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+438);
 		end;
 		CurrentCourseChangedMessageCommand=cmd(playcommand,"RadarFakesPB");

@@ -66,6 +66,7 @@ local t = Def.ActorFrame{
 				self:settext("ERROR!");
 				last_known_stage = 'Stage_Event'
 			end;
+			self:finishtweening();
 		end;
 	}
 };

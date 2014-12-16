@@ -10,8 +10,8 @@ local t = Def.ActorFrame{
 	},
 	LoadFont("SpoOky")..{
 		Text="Press &START; again to select options!";
-		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color("1,0.8,0,0");align,0.5,0.5;zoom,2.0;shadowlength,1);
-		OffCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,0.5,0.5;zoom,2.0)
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;finishtweening;diffuse,color("1,0.8,0,0");align,0.5,0.5;zoom,2.0;shadowlength,1);
+		OffCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;finishtweening;diffuse,color(theme_color);align,0.5,0.5;zoom,2.0)
 	}
 };
 

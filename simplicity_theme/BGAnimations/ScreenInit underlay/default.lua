@@ -29,8 +29,8 @@ local t = Def.ActorFrame{
 				theme_background="0,0,0,1";
 			elseif pref == 4 then
 				-- Blue (Common)
-				theme_color="0,0,1,1";
-				theme_dark_color="0,0,0.5,1";
+				theme_color="0,0.5,1,1";
+				theme_dark_color="0,0.25,0.5,1";
 				theme_background="0,0,0,1";
 			elseif pref == 5 then
 				-- Yellow (MIX)
@@ -46,6 +46,31 @@ local t = Def.ActorFrame{
 				-- Purple (MIX)
 				theme_color="1,0,1,1";
 				theme_dark_color="0.5,0,0.5,1";
+				theme_background="0,0,0,1";
+			elseif pref == 8 then
+				-- Orange (MIX)
+				theme_color="1,0.5,0,1";
+				theme_dark_color="0.5,0.25,0,1";
+				theme_background="0,0,0,1";
+			elseif pref == 9 then
+				-- Magenta (MIX)
+				theme_color="1,0,0.5,1";
+				theme_dark_color="0.5,0,0.25,1";
+				theme_background="0,0,0,1";
+			elseif pref == 10 then
+				-- Lime (MIX)
+				theme_color="0.5,1,0,1";
+				theme_dark_color="0.25,0.5,0,1";
+				theme_background="0,0,0,1";
+			elseif pref == 11 then
+				-- Sky Blue (MIX)
+				theme_color="0,0.75,1,1";
+				theme_dark_color="0,0.25,0.5,1";
+				theme_background="0,0,0,1";
+			elseif pref == 12 then
+				-- Grey (MIX)
+				theme_color="0.75,0.75,0.75,1";
+				theme_dark_color="0.5,0.5,0.5,1";
 				theme_background="0,0,0,1";
 			else
 				-- Original Gold - Primary Theme Color

@@ -12,6 +12,7 @@ local t = Def.ActorFrame{
 	LoadActor(THEME:GetPathG("","arrow"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X-96;y,SCREEN_CENTER_Y;baserotationz,90;SetSize,32,32);
 		UpLeftCommand=function(self)
+			self:finishtweening();
 			self:x(SCREEN_CENTER_X-96-2);
 			self:sleep(0.02);
 			self:x(SCREEN_CENTER_X-96-1);
@@ -30,6 +31,7 @@ local t = Def.ActorFrame{
 	LoadActor(THEME:GetPathG("","arrow"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X+96;y,SCREEN_CENTER_Y;baserotationz,-90;SetSize,32,32);
 		DownRightCommand=function(self)
+			self:finishtweening();
 			self:x(SCREEN_CENTER_X+96+2);
 			self:sleep(0.02);
 			self:x(SCREEN_CENTER_X+96+1);
