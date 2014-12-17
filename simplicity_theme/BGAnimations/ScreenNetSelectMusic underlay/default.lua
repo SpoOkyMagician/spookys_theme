@@ -357,8 +357,12 @@ local t = Def.ActorFrame{
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"CD");
 	},
-	-- new theme skin i am experimenting with...
+	-- need this to fix sort icon...
 	LoadActor(THEME:GetPathG("","theme_skin"))..{
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
+	},
+	-- new theme skin i am experimenting with...
+	LoadActor(THEME:GetPathG("","online_theme_skin"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
 	}
 };
