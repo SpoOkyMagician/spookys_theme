@@ -4,10 +4,6 @@ local t = Def.ActorFrame{
 	Name="ScreenEvaluationNormalUnderlayActorFrame";
 	-- GLOBAL dark quad
 	grid_t,
-	-- player score divider
-	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_RIGHT/2-2,SCREEN_TOP+30,SCREEN_RIGHT/2,SCREEN_BOTTOM-30;diffuse,color(theme_color));
-	},
 	-- GLOBAL screen text
 	common_text("Evaluation"),
 	-- results P1 text
@@ -119,6 +115,10 @@ local t = Def.ActorFrame{
 			self:y(SCREEN_BOTTOM/2);
 			self:settext("Here are your results Player 2!\n\n\n\n\nGrade: " .. stringgrade .. "\nPercent: " .. tostring(round(percent,1)) .. "%\n\n\n\n\nFlawless: " .. tostring(flawless) .. "\nPerfects: " .. tostring(perfects) .. "\nGreats: " .. tostring(greats) .. "\nGoods: " .. tostring(goods) .. "\nBads: " .. tostring(bads) .. "\nMiss: " .. tostring(misses) .. "\nHeld: " .. tostring(held) .. "\nReleased: " .. tostring(released) .. "\nCombo: " .. tostring(combo) .. "\n\n\n\n\nScore: " .. tostring(points) .. "/" .. tostring(maxpoints))
 		end;
+	},
+	-- new theme skin i am experimenting with...
+	LoadActor(THEME:GetPathG("","evaluation_theme_skin"))..{
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
 	},
 	-- GLOBAL play music
 	main_song

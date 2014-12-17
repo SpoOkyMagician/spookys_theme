@@ -50,6 +50,7 @@ local t = Def.ActorFrame{
 		OnCommand=function(self)
 			-- this MUST be after the screen is done or it will not work correctly.
 			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
+			self:queuecommand("Variables");
 		end;
 		VariablesCommand=function(self)
 			p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
@@ -120,6 +121,9 @@ local t = Def.ActorFrame{
 	-- sort icon
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_RIGHT-26;y,SCREEN_TOP+15;zoomto,50,28;Load,THEME:GetPathG("", "sort_icon_unknown"));
+		OnCommand=function(self)
+			self:queuecommand("WheelSort");
+		end;
 		WheelSortCommand=function(self)
 			-- thanks Jousway
 			sort = GAMESTATE:GetSortOrder();
@@ -136,6 +140,9 @@ local t = Def.ActorFrame{
 	-- song banner
 	Def.Banner{
 		InitCommand=cmd(x,SCREEN_LEFT+130;y,SCREEN_TOP+70;zoomto,256,80;Load,THEME:GetPathG("", "no_banner"));
+		OnCommand=function(self)
+			self:queuecommand("SongBanner");
+		end;
 		SongBannerCommand=function(self)
 			song = GAMESTATE:GetCurrentSong();
 			group = GAMESTATE:GetExpandedSectionName();
@@ -160,6 +167,9 @@ local t = Def.ActorFrame{
 	-- song background
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_LEFT+556;y,SCREEN_TOP+240;zoomto,592,420;Load,THEME:GetPathG("", "no_background"));
+		OnCommand=function(self)
+			self:queuecommand("SongBackground");
+		end;
 		SongBackgroundCommand=function(self)
 			song = GAMESTATE:GetCurrentSong();
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
@@ -179,6 +189,9 @@ local t = Def.ActorFrame{
 	-- song cd
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_LEFT+300;y,SCREEN_TOP+69;zoomto,80,80;Load,THEME:GetPathG("", "no_cd"));
+		OnCommand=function(self)
+			self:queuecommand("SongCD");
+		end;
 		SongCDCommand=function(self)
 			song = GAMESTATE:GetCurrentSong();
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
@@ -198,6 +211,9 @@ local t = Def.ActorFrame{
 	-- song difficulty p1
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_LEFT+34;y,SCREEN_TOP+286;zoomto,64,64;Load,THEME:GetPathG("", "difficulty_unknown"));
+		OnCommand=function(self)
+			self:queuecommand("DifficultyP1");
+		end;
 		DifficultyP1Command=function(self)
 			-- good lord, thank you for helping me out with this Kyzentun...
 			p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
@@ -227,7 +243,10 @@ local t = Def.ActorFrame{
 	-- song difficulty p2
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_LEFT+34;y,SCREEN_TOP+350;scaletoclipped,64,64;Load,THEME:GetPathG("", "difficulty_unknown"));
-		DifficultyPBCommand=function(self)
+		OnCommand=function(self)
+			self:queuecommand("DifficultyP2");
+		end;
+		DifficultyP2Command=function(self)
 			p2_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P2');
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' and p2_steps ~= nil then
 				if p2_steps:GetDifficulty() == 'Difficulty_Beginner' then
@@ -250,13 +269,16 @@ local t = Def.ActorFrame{
 			end;
 			self:finishtweening();
 		end;
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"DifficultyPB");
-		CurrentSongChangedMessageCommand=cmd(playcommand,"DifficultyPB");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"DifficultyP2");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"DifficultyP2");
 	},
 	-- song meter p1
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_LEFT+162;y,SCREEN_TOP+286;scaletoclipped,192,64;Load,THEME:GetPathG("", "meter_0"));
-		MeterPACommand=function(self)
+		OnCommand=function(self)
+			self:queuecommand("MeterP1");
+		end;
+		MeterP1Command=function(self)
 			p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' and p1_steps ~= nil then
 				-- use this instead... thanks again Kyzentun.
@@ -267,13 +289,16 @@ local t = Def.ActorFrame{
 			end;
 			self:finishtweening();
 		end;
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"MeterPA");
-		CurrentSongChangedMessageCommand=cmd(playcommand,"MeterPA");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"MeterP1");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"MeterP1");
 	},
 	-- song meter p2
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_LEFT+162;y,SCREEN_TOP+350;scaletoclipped,192,64;Load,THEME:GetPathG("", "meter_0"));
-		MeterPBCommand=function(self)
+		OnCommand=function(self)
+			self:queuecommand("MeterP2");
+		end;
+		MeterP2Command=function(self)
 			p2_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P2');
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' and p2_steps ~= nil then
 				-- use this instead... thanks again Kyzentun.
@@ -284,13 +309,16 @@ local t = Def.ActorFrame{
 			end;
 			self:finishtweening();
 		end;
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"MeterPB");
-		CurrentSongChangedMessageCommand=cmd(playcommand,"MeterPB");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"MeterP2");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"MeterP2");
 	},
 	-- song/trail/group/sort/etc information
 	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(scaletofit,SCREEN_LEFT+2,SCREEN_TOP+110,SCREEN_LEFT+256,SCREEN_TOP+250;diffuse,color(theme_color);align,0,0.5;shadowlength,1);
+		OnCommand=function(self)
+			self:queuecommand("Information");
+		end;
 		InformationCommand=function(self)
 			song = GAMESTATE:GetCurrentSong();
 			local length_result = "Normal";
@@ -328,7 +356,10 @@ local t = Def.ActorFrame{
 	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_LEFT+72;y,SCREEN_TOP+300;diffuse,color(theme_color);align,0,0.5;shadowlength,1;zoom,0.5);
-		StringPACommand=function(self)
+		OnCommand=function(self)
+			self:queuecommand("StringP1");
+		end;
+		StringP1Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 				local stdifficulty = "Unknown";
@@ -356,14 +387,17 @@ local t = Def.ActorFrame{
 			end;
 			self:finishtweening();
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"StringPA");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"StringPA");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"StringP1");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"StringP1");
 	},
 	-- song/trail difficulty P2 text
 	LoadFont("SpoOky")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_LEFT+72;y,SCREEN_TOP+365;diffuse,color(theme_color);align,0,0.5;shadowlength,1;zoom,0.5);
-		StringPBCommand=function(self)
+		OnCommand=function(self)
+			self:queuecommand("StringP2");
+		end;
+		StringP2Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p2_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P2');
 				local stdifficulty = "Unknown";
@@ -391,8 +425,8 @@ local t = Def.ActorFrame{
 			end;
 			self:finishtweening();
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"StringPB");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"StringPB");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"StringP2");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"StringP2");
 	},
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_LEFT+130;y,SCREEN_TOP+417;scaletoclipped,256,70;Load,THEME:GetPathG("", "radar_values"));
@@ -400,7 +434,10 @@ local t = Def.ActorFrame{
 	-- quad p1 taps
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+386,SCREEN_LEFT+15,SCREEN_TOP+390;diffuse,color("1,0.25,0,1"));
-		RadarTapsPACommand=function(self)
+		OnCommand=function(self)
+			self:queuecommand("RadarTapsP1");
+		end;
+		RadarTapsP1Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_taps / steps_p1_total)*100;
 			else
@@ -409,14 +446,17 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+386,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+390);
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarTapsPA");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarTapsPA");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarTapsPA");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarTapsP1");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarTapsP1");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarTapsP1");
 	},
 	-- quad p1 jumps
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+393,SCREEN_LEFT+15,SCREEN_TOP+397;diffuse,color("1,0.25,0,1"));
-		RadarJumpsPACommand=function(self)
+		OnCommand=function(self)
+			self:queuecommand("RadarJumpsP1");
+		end;
+		RadarJumpsP1Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_jumps / steps_p1_total)*100;
 			else
@@ -425,14 +465,17 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+393,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+397);
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarJumpsPA");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarJumpsPA");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarJumpsPA");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarJumpsP1");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarJumpsP1");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarJumpsP1");
 	},
 	-- quad p1 holds
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+400,SCREEN_LEFT+15,SCREEN_TOP+404;diffuse,color("1,0.25,0,1"));
-		RadarHoldsPACommand=function(self)
+		OnCommand=function(self)
+			self:queuecommand("RadarHoldsP1");
+		end;
+		RadarHoldsP1Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_holds / steps_p1_total)*100;
 			else
@@ -441,14 +484,17 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+400,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+404);
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHoldsPA");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarHoldsPA");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarHoldsPA");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHoldsP1");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarHoldsP1");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarHoldsP1");
 	},
 	-- quad p1 mines
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+407,SCREEN_LEFT+15,SCREEN_TOP+411;diffuse,color("1,0.25,0,1"));
-		RadarMinesPACommand=function(self)
+		OnCommand=function(self)
+			self:queuecommand("RadarMinesP1");
+		end;
+		RadarMinesP1Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_mines / steps_p1_total)*100;
 			else
@@ -457,14 +503,17 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+407,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+411);
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarMinesPA");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarMinesPA");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarMinesPA");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarMinesP1");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarMinesP1");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarMinesP1");
 	},
 	-- quad p1 hands
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+414,SCREEN_LEFT+15,SCREEN_TOP+418;diffuse,color("1,0.25,0,1"));
-		RadarHandsPACommand=function(self)
+		OnCommand=function(self)
+			self:queuecommand("RadarHandsP1");
+		end;
+		RadarHandsP1Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_hands / steps_p1_total)*100;
 			else
@@ -473,14 +522,17 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+414,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+418);
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHandsPA");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarHandsPA");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarHandsPA");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHandsP1");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarHandsP1");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarHandsP1");
 	},
 	-- quad p1 rolls
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+421,SCREEN_LEFT+15,SCREEN_TOP+425;diffuse,color("1,0.25,0,1"));
-		RadarRollsPACommand=function(self)
+		OnCommand=function(self)
+			self:queuecommand("RadarRollsP1");
+		end;
+		RadarRollsP1Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_rolls / steps_p1_total)*100;
 			else
@@ -489,14 +541,17 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+421,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+425);
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarRollsPA");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarRollsPA");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarRollsPA");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarRollsP1");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarRollsP1");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarRollsP1");
 	},
 	-- quad p1 lifts
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+428,SCREEN_LEFT+15,SCREEN_TOP+432;diffuse,color("1,0.25,0,1"));
-		RadarLiftsPACommand=function(self)
+		OnCommand=function(self)
+			self:queuecommand("RadarLiftsP1");
+		end;
+		RadarLiftsP1Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_lifts / steps_p1_total)*100;
 			else
@@ -505,14 +560,17 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+428,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+432);
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarLiftsPA");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarLiftsPA");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarLiftsPA");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarLiftsP1");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarLiftsP1");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarLiftsP1");
 	},
 	-- quad p1 fakes
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+434,SCREEN_LEFT+15,SCREEN_TOP+438;diffuse,color("1,0.25,0,1"));
-		RadarFakesPACommand=function(self)
+		OnCommand=function(self)
+			self:queuecommand("RadarFakesP1");
+		end;
+		RadarFakesP1Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_fakes / steps_p1_total)*100;
 			else
@@ -521,14 +579,17 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+434,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+438);
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarFakesPA");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarFakesPA");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarFakesPA");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarFakesP1");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarFakesP1");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarFakesP1");
 	},
 	-- quad p2 taps
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+386,SCREEN_LEFT+143,SCREEN_TOP+390;diffuse,color("0,0.5,1,1"));
-		RadarTapsPBCommand=function(self)
+		OnCommand=function(self)
+			self:queuecommand("RadarTapsP2");
+		end;
+		RadarTapsP2Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_taps / steps_p2_total)*100;
 			else
@@ -537,14 +598,17 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+386,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+390);
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarTapsPB");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarTapsPB");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarTapsPB");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarTapsP2");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarTapsP2");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarTapsP2");
 	},
 	-- quad p2 jumps
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+393,SCREEN_LEFT+143,SCREEN_TOP+397;diffuse,color("0,0.5,1,1"));
-		RadarJumpsPBCommand=function(self)
+		OnCommand=function(self)
+			self:queuecommand("RadarJumpsP2");
+		end;
+		RadarJumpsP2Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_jumps / steps_p2_total)*100;
 			else
@@ -553,14 +617,17 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+393,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+397);
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarJumpsPB");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarJumpsPB");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarJumpsPB");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarJumpsP2");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarJumpsP2");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarJumpsP2");
 	},
 	-- quad p2 holds
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+400,SCREEN_LEFT+143,SCREEN_TOP+404;diffuse,color("0,0.5,1,1"));
-		RadarHoldsPBCommand=function(self)
+		OnCommand=function(self)
+			self:queuecommand("RadarHoldsP2");
+		end;
+		RadarHoldsP2Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_holds / steps_p2_total)*100;
 			else
@@ -569,14 +636,17 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+400,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+404);
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHoldsPB");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarHoldsPB");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarHoldsPB");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHoldsP2");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarHoldsP2");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarHoldsP2");
 	},
 	-- quad p2 mines
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+407,SCREEN_LEFT+143,SCREEN_TOP+411;diffuse,color("0,0.5,1,1"));
-		RadarMinesPBCommand=function(self)
+		OnCommand=function(self)
+			self:queuecommand("RadarMinesP2");
+		end;
+		RadarMinesP2Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_mines / steps_p2_total)*100;
 			else
@@ -585,14 +655,17 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+407,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+411);
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarMinesPB");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarMinesPB");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarMinesPB");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarMinesP2");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarMinesP2");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarMinesP2");
 	},
 	-- quad p2 hands
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+414,SCREEN_LEFT+143,SCREEN_TOP+418;diffuse,color("0,0.5,1,1"));
-		RadarHandsPBCommand=function(self)
+		OnCommand=function(self)
+			self:queuecommand("RadarHandsP2");
+		end;
+		RadarHandsP2Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_hands / steps_p2_total)*100;
 			else
@@ -601,14 +674,17 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+414,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+418);
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHandsPB");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarHandsPB");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarHandsPB");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHandsP2");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarHandsP2");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarHandsP2");
 	},
 	-- quad p2 rolls
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+421,SCREEN_LEFT+143,SCREEN_TOP+425;diffuse,color("0,0.5,1,1"));
-		RadarRollsPBCommand=function(self)
+		OnCommand=function(self)
+			self:queuecommand("RadarRollsP2");
+		end;
+		RadarRollsP2Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_rolls / steps_p2_total)*100;
 			else
@@ -617,14 +693,17 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+421,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+425);
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarRollsPB");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarRollsPB");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarRollsPB");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarRollsP2");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarRollsP2");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarRollsP2");
 	},
 	-- quad p2 lifts
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+428,SCREEN_LEFT+143,SCREEN_TOP+432;diffuse,color("0,0.5,1,1"));
-		RadarLiftsPBCommand=function(self)
+		OnCommand=function(self)
+			self:queuecommand("RadarLiftsP2");
+		end;
+		RadarLiftsP2Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_lifts / steps_p2_total)*100;
 			else
@@ -633,14 +712,17 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+428,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+432);
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarLiftsPB");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarLiftsPB");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarLiftsPB");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarLiftsP2");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarLiftsP2");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarLiftsP2");
 	},
 	-- quad p2 fakes
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+434,SCREEN_LEFT+143,SCREEN_TOP+438;diffuse,color("0,0.5,1,1"));
-		RadarFakesPBCommand=function(self)
+		OnCommand=function(self)
+			self:queuecommand("RadarFakesP2");
+		end;
+		RadarFakesP2Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_fakes / steps_p2_total)*100;
 			else
@@ -649,9 +731,9 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+434,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+438);
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarFakesPB");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarFakesPB");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarFakesPB");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarFakesP2");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarFakesP2");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarFakesP2");
 	},
 	-- new theme skin i am experimenting with...
 	Def.Sprite{

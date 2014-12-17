@@ -11,7 +11,7 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,0.5,0.5;shadowlength,1);
 	},
 	-- GLOBAL play music
-	asian_song
+	slow_song
 };
 
 return t;

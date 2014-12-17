@@ -5,10 +5,6 @@ local t = Def.ActorFrame{
 	Name="ScreenEvaluationSummaryUnderlayActorFrame";
 	-- GLOBAL dark quad
 	grid_t,
-	-- player score divider
-	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_RIGHT/2-2,SCREEN_TOP+30,SCREEN_RIGHT/2,SCREEN_BOTTOM-30;diffuse,color(theme_color));
-	},
 	-- GLOBAL screen text
 	common_text("Summary"),
 	-- results P1 text
@@ -20,13 +16,13 @@ local t = Def.ActorFrame{
 			self:queuecommand('Results');
 		end;
 		ResultsCommand=function(self)
-			local results = STATSMAN:GetCurStageStats();
+			local results = STATSMAN:GetAccumPlayedStageStats();
 			local tableresults =  results:GetPlayerStageStats('PlayerNumber_P1');
 			local points = tableresults:GetScore();
 			local combo = tableresults:MaxCombo();
-			local calories = tableresults:GetCaloriesBurned();
+		--	local calories = tableresults:GetCaloriesBurned();
 			local maxpoints = tableresults:GetCurMaxScore();
-			local grade = tableresults:GetGrade();
+			local grade = STATSMAN:GetBestFinalGrade();
 			local released = tableresults:GetHoldNoteScores('HoldNoteScore_LetGo');
 			local held = tableresults:GetHoldNoteScores('HoldNoteScore_Held');
 			local percent = tableresults:GetPercentDancePoints()*100;
@@ -63,7 +59,7 @@ local t = Def.ActorFrame{
 			self:diffuse(color(theme_color));
 			self:x(SCREEN_LEFT+8);
 			self:y(SCREEN_BOTTOM/2);
-			self:settext("Here are your results Player 1!\n\nGrade: " .. stringgrade .. "\nPercent: " .. tostring(round(percent,1)) .. "%\nCalories Burned: " .. tostring(round(calories,1)) .. "\n\nFlawless: " .. tostring(flawless) .. "\nPerfects: " .. tostring(perfects) .. "\nGreats: " .. tostring(greats) .. "\nGoods: " .. tostring(goods) .. "\nBads: " .. tostring(bads) .. "\nMiss: " .. tostring(misses) .. "\nHeld: " .. tostring(held) .. "\nReleased: " .. tostring(released) .. "\nCombo: " .. tostring(combo) .. "\nScore: " .. tostring(points) .. "/" .. tostring(maxpoints))
+			self:settext("Here are your results Player 1!\n\n\n\n\nGrade: " .. stringgrade .. "\nPercent: " .. tostring(round(percent,1)) .. "%\n\n\n\n\nFlawless: " .. tostring(flawless) .. "\nPerfects: " .. tostring(perfects) .. "\nGreats: " .. tostring(greats) .. "\nGoods: " .. tostring(goods) .. "\nBads: " .. tostring(bads) .. "\nMiss: " .. tostring(misses) .. "\nHeld: " .. tostring(held) .. "\nReleased: " .. tostring(released) .. "\nCombo: " .. tostring(combo) .. "\n\n\n\n\nScore: " .. tostring(points) .. "/" .. tostring(maxpoints))
 		end;
 	},
 	-- results P2 text
@@ -75,13 +71,13 @@ local t = Def.ActorFrame{
 			self:queuecommand('Results');
 		end;
 		ResultsCommand=function(self)
-			local results = STATSMAN:GetCurStageStats();
+			local results = STATSMAN:GetAccumPlayedStageStats();
 			local tableresults =  results:GetPlayerStageStats('PlayerNumber_P2');
 			local points = tableresults:GetScore();
 			local combo = tableresults:MaxCombo();
 			local calories = tableresults:GetCaloriesBurned();
 			local maxpoints = tableresults:GetCurMaxScore();
-			local grade = tableresults:GetGrade();
+			local grade = STATSMAN:GetBestFinalGrade();
 			local released = tableresults:GetHoldNoteScores('HoldNoteScore_LetGo');
 			local held = tableresults:GetHoldNoteScores('HoldNoteScore_Held');
 			local percent = tableresults:GetPercentDancePoints()*100;
@@ -118,8 +114,12 @@ local t = Def.ActorFrame{
 			self:diffuse(color(theme_color));
 			self:x(SCREEN_RIGHT-8);
 			self:y(SCREEN_BOTTOM/2);
-			self:settext("Here are your results Player 2!\n\nGrade: " .. stringgrade .. "\nPercent: " .. tostring(round(percent,1)) .. "%\nCalories Burned: " .. tostring(round(calories,1)) .. "\n\nFlawless: " .. tostring(flawless) .. "\nPerfects: " .. tostring(perfects) .. "\nGreats: " .. tostring(greats) .. "\nGoods: " .. tostring(goods) .. "\nBads: " .. tostring(bads) .. "\nMiss: " .. tostring(misses) .. "\nHeld: " .. tostring(held) .. "\nReleased: " .. tostring(released) .. "\nCombo: " .. tostring(combo) .. "\nScore: " .. tostring(points) .. "/" .. tostring(maxpoints))
+			self:settext("Here are your results Player 2!\n\n\n\n\nGrade: " .. stringgrade .. "\nPercent: " .. tostring(round(percent,1)) .. "%\n\n\n\n\nFlawless: " .. tostring(flawless) .. "\nPerfects: " .. tostring(perfects) .. "\nGreats: " .. tostring(greats) .. "\nGoods: " .. tostring(goods) .. "\nBads: " .. tostring(bads) .. "\nMiss: " .. tostring(misses) .. "\nHeld: " .. tostring(held) .. "\nReleased: " .. tostring(released) .. "\nCombo: " .. tostring(combo) .. "\n\n\n\n\nScore: " .. tostring(points) .. "/" .. tostring(maxpoints))
 		end;
+	},
+	-- new theme skin i am experimenting with...
+	LoadActor(THEME:GetPathG("","evaluation_theme_skin"))..{
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
 	},
 	-- GLOBAL play music
 	main_song
