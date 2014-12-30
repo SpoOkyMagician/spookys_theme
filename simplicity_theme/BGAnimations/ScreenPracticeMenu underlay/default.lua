@@ -1,10 +1,10 @@
--- ScreenEditCourseModsMenu overlay
+-- ScreenPracticeMenu underlay
 
 local t = Def.ActorFrame{
-	Name="ScreenEditCourseModsMenuOverlayActorFrame";
+	Name="ScreenPracticeMenuOverlayActorFrame";
 	-- GLOBAL screen text
-	common_text("Edit Courses and Mods"),
-	-- this is overlapping text... fix this... use grid_t
+	common_text("Practice Songs and Steps"),
+	-- GLOBAL dark quad
 	grid_t,
 	-- new theme skin i am experimenting with...
 	LoadActor(THEME:GetPathG("","options_theme_skin"))..{

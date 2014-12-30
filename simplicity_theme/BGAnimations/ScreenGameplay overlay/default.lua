@@ -2,6 +2,8 @@
 
 local p1_lifebar = nil;
 local p2_lifebar = nil;
+local p1_joined = false;
+local p2_joined = false;
 
 local t = Def.ActorFrame{
 	Name="ScreenGameplayOverlayActorFrame";
@@ -273,8 +275,14 @@ local t = Def.ActorFrame{
 			local stats = STATSMAN:GetCurStageStats();
 			local player_stats = stats:GetPlayerStageStats('PlayerNumber_P1');
 			local score = player_stats:GetScore();
+			local percentage = round(player_stats:GetPercentDancePoints()*100, 2);
+			local pref = PREFSMAN:GetPreference("PercentageScoring");
 			self:finishtweening();
-			self:settext(tostring(score));
+			if pref == true then
+				self:settext(tostring(percentage).."%");
+			else
+				self:settext(tostring(score));
+			end;
 			self:diffuse(color("1,0.5,0.5,1"));
 			self:sleep(0.05);
 			self:diffuse(color("1,0.25,0,1"));
@@ -292,8 +300,14 @@ local t = Def.ActorFrame{
 			local stats = STATSMAN:GetCurStageStats();
 			local player_stats = stats:GetPlayerStageStats('PlayerNumber_P2');
 			local score = player_stats:GetScore();
+			local percentage = round(player_stats:GetPercentDancePoints()*100, 2);
+			local pref = PREFSMAN:GetPreference("PercentageScoring");
 			self:finishtweening();
-			self:settext(tostring(score));
+			if pref == true then
+				self:settext(tostring(percentage).."%");
+			else
+				self:settext(tostring(score));
+			end;
 			self:diffuse(color("0.5,0.75,1,1"));
 			self:sleep(0.05);
 			self:diffuse(color("0,0.5,1,1"));
@@ -337,6 +351,152 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+32,SCREEN_TOP+33,SCREEN_RIGHT-32,SCREEN_TOP+49;diffuseleftedge,color("0,0,0,0.5");diffusealpha,0.25);
 	},
+	-- p1 (2 players) danger/hot quad...
+	Def.Quad{
+		InitCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_TOP+54,SCREEN_LEFT+427,SCREEN_BOTTOM-54;diffuse,color("1,0,0,0.25");visible,false);
+		OnCommand=function(self)
+			p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
+			p2_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P2');
+			self:queuecommand('P1Performance');
+		end;
+		P1PerformanceCommand=function(self)
+			p1_joined = GAMESTATE:IsPlayerEnabled('PlayerNumber_P1');
+			p2_joined = GAMESTATE:IsPlayerEnabled('PlayerNumber_P2');
+			if p1_lifebar ~= nil and p2_lifebar ~= nil and p1_joined == true and p2_joined == true then
+				p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
+				if p1_lifebar:IsInDanger() == true then
+					self:visible(true);
+					self:diffuse(color("1,0,0,0.25"));
+				elseif p1_lifebar:IsHot() == true then
+					self:visible(true);
+					self:diffuse(color("1,1,1,0.25"));
+				elseif p1_lifebar:IsFailing() == true then
+					self:visible(true);
+					self:diffuse(color("0,0,0,0.25"));
+				else
+					self:visible(false);
+				end;
+			end;
+		end;
+		LifeMeterChangedP1MessageCommand=cmd(playcommand,"P1Performance");
+	},
+	-- p2 (2 players) danger/hot quad...
+	Def.Quad{
+		InitCommand=cmd(stretchto,SCREEN_RIGHT-2,SCREEN_TOP+54,SCREEN_RIGHT-427,SCREEN_BOTTOM-54;diffuse,color("1,0,0,0.25");visible,false);
+		OnCommand=function(self)
+			p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
+			p2_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P2');
+			self:queuecommand('P2Performance');
+		end;
+		P2PerformanceCommand=function(self)
+			p1_joined = GAMESTATE:IsPlayerEnabled('PlayerNumber_P1');
+			p2_joined = GAMESTATE:IsPlayerEnabled('PlayerNumber_P2');
+			if p1_lifebar ~= nil and p2_lifebar ~= nil and p1_joined == true and p2_joined == true then
+				p2_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P2');
+				if p2_lifebar:IsInDanger() == true then
+					self:visible(true);
+					self:diffuse(color("1,0,0,0.25"));
+				elseif p2_lifebar:IsHot() == true then
+					self:visible(true);
+					self:diffuse(color("1,1,1,0.25"));
+				elseif p2_lifebar:IsFailing() == true then
+					self:visible(true);
+					self:diffuse(color("0,0,0,0.25"));
+				else
+					self:visible(false);
+				end;
+			end;
+		end;
+		LifeMeterChangedP2MessageCommand=cmd(playcommand,"P2Performance");
+	},
+	-- p1/p2 (1 player) danger/hot quad...
+	Def.Quad{
+		InitCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_TOP+54,SCREEN_RIGHT-2,SCREEN_BOTTOM-54;diffuse,color("1,1,1,0.25");visible,false);
+		OnCommand=function(self)
+			p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
+			p2_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P2');
+			self:queuecommand('P1P2Performance');
+		end;
+		P1P2PerformanceCommand=function(self)
+			p1_joined = GAMESTATE:IsPlayerEnabled('PlayerNumber_P1');
+			p2_joined = GAMESTATE:IsPlayerEnabled('PlayerNumber_P2');
+			if p1_lifebar ~= nil and p1_joined == true and p2_joined == false then
+				p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
+				if p1_lifebar:IsInDanger() == true then
+					self:visible(true);
+					self:diffuse(color("1,0,0,0.25"));
+				elseif p1_lifebar:IsHot() == true then
+					self:visible(true);
+					self:diffuse(color("1,1,1,0.25"));
+				elseif p1_lifebar:IsFailing() == true then
+					self:visible(true);
+					self:diffuse(color("0,0,0,0.25"));
+				else
+					self:visible(false);
+				end;
+			end;
+			if p2_lifebar ~= nil and p2_joined == true and p1_joined == false then
+				p2_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P2');
+				if p2_lifebar:IsInDanger() == true then
+					self:visible(true);
+					self:diffuse(color("1,0,0,0.25"));
+				elseif p2_lifebar:IsHot() == true then
+					self:visible(true);
+					self:diffuse(color("1,1,1,0.25"));
+				elseif p2_lifebar:IsFailing() == true then
+					self:visible(true);
+					self:diffuse(color("0,0,0,0.25"));
+				else
+					self:visible(false);
+				end;
+			end;
+		end;
+		LifeMeterChangedP1MessageCommand=cmd(playcommand,"P1P2Performance");
+		LifeMeterChangedP2MessageCommand=cmd(playcommand,"P1P2Performance");
+	},
+	--[[
+	---- p1 hot quad...
+	--Def.Quad{
+	--	InitCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_TOP+54,SCREEN_LEFT+427,SCREEN_BOTTOM-54;diffuse,color("1,1,1,0.25");visible,false);
+	--	OnCommand=function(self)
+	--		p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
+	--		self:queuecommand('P1Hot');
+	--	end;
+	--	P1HotCommand=function(self)
+	--		p1_joined = GAMESTATE:IsPlayerEnabled('PlayerNumber_P1');
+	--		if p1_lifebar ~= nil and p1_joined == true then
+	--			p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
+	--			if p1_lifebar:IsHot() == true then
+	--				self:visible(true);
+	--			else
+	--				self:visible(false);
+	--			end
+	--		end;
+	--	end;
+	--	LifeMeterChangedP1MessageCommand=cmd(playcommand,"P1Hot");
+	--},
+	---- p2 hot quad...
+	--Def.Quad{
+	--	InitCommand=cmd(stretchto,SCREEN_RIGHT-2,SCREEN_TOP+54,SCREEN_RIGHT-427,SCREEN_BOTTOM-54;diffuse,color("1,1,1,0.25");visible,false);
+	--	OnCommand=function(self)
+	--		p2_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P2');
+	--		self:queuecommand('P2Hot');
+	--	end;
+	--	P2HotCommand=function(self)
+	--		p2_joined = GAMESTATE:IsPlayerEnabled('PlayerNumber_P2');
+	--		if p2_lifebar ~= nil and p2_joined == true then
+	--			p2_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P2');
+	--			if p2_lifebar:IsHot() == true then
+	--				self:visible(true);
+	--			else
+	--				self:visible(false);
+	--			end
+	--		end;
+	--	end;
+	--	LifeMeterChangedP2MessageCommand=cmd(playcommand,"P2Hot");
+	--},
+	]]
+
 	-- progress meter actor
 	LoadActor(THEME:GetPathG("", "progress_meter"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_TOP+41);
