@@ -2,6 +2,8 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenNetworkOptionsUnderlayActorFrame";
+	-- GLOBAL Function Theme Color
+	refresh_color(),
 	-- GLOBAL screen text
 	common_text("Network Options"),
 	-- GLOBAL dark quad

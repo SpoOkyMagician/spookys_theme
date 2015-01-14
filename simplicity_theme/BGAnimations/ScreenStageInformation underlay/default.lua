@@ -2,6 +2,8 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenStageInformationUnderlayActorFrame";
+	-- GLOBAL Function Theme Color
+	refresh_color(),
 	-- GLOBAL screen text
 	common_text("Stage Information"),
 	-- GLOBAL dark quad

@@ -2,6 +2,8 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenGameOverUnderlayActorFrame";
+	-- GLOBAL Function Theme Color
+	refresh_color(),
 	-- GLOBAL screen text
 	common_text("Game Over"),
 	-- GLOBAL dark quad

@@ -2,6 +2,8 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenNetRoomUnderlayActorFrame";
+	-- GLOBAL Function Theme Color
+	refresh_color(),
 	-- GLOBAL screen text
 	common_text("StepMania Online Lobby"),
 	-- last round info quad

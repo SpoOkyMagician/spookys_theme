@@ -2,6 +2,8 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenSelectMusicBackgroundActorFrame";
+	-- GLOBAL Function Theme Color
+	refresh_color(),
 	-- GLOBAL black quad
 	grid_a,
 	-- GLOBAL dark gold header quad

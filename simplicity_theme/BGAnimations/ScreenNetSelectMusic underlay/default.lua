@@ -3,6 +3,8 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenNetSelectMusicUnderlayActorFrame";
+	-- GLOBAL Function Theme Color
+	refresh_color(),
 	-- GLOBAL screen text
 	common_text("Select Music"),
 	-- last known difficulty variable online hidden actor

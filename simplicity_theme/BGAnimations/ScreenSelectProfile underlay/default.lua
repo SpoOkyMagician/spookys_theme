@@ -2,6 +2,8 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenSelectProfileUnderlayActorFrame";
+	-- GLOBAL Function Theme Color
+	refresh_color(),
 	-- GLOBAL screen text
 	common_text("Select Profile"),
 	-- profile quad

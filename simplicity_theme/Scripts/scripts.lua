@@ -83,6 +83,83 @@ grid_t = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_BOTTOM-30,SCRE
 
 grid_u = Def.Quad{ InitCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,color(theme_color);basealpha,0.25); };
 
+-- grab the preference set in theme color picker
+function refresh_color()
+	return Def.Actor{
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;playcommand,"ColorPicked");
+		-- this should be okay. i have to call it somehow... can't use init...
+		ColorPickedCommand=function(self)
+			local pref = GetThemePref("ColorPref");
+			if pref == 1 then
+				-- Original Gold - Primary Theme Color
+				theme_color="1,0.9,0,1";
+				theme_dark_color="0.5,0.4,0,1";
+				theme_background="0,0,0,1";
+			elseif pref == 2 then
+				-- Red (Common)
+				theme_color="1,0,0,1";
+				theme_dark_color="0.5,0,0,1";
+				theme_background="0,0,0,1";
+			elseif pref == 3 then
+				-- Green (Common)
+				theme_color="0,1,0,1";
+				theme_dark_color="0,0.5,0,1";
+				theme_background="0,0,0,1";
+			elseif pref == 4 then
+				-- Blue (Common)
+				theme_color="0,0.5,1,1";
+				theme_dark_color="0,0.25,0.5,1";
+				theme_background="0,0,0,1";
+			elseif pref == 5 then
+				-- Yellow (MIX)
+				theme_color="1,1,0,1";
+				theme_dark_color="0.5,0.5,0,1";
+				theme_background="0,0,0,1";
+			elseif pref == 6 then
+				-- Teal (MIX)
+				theme_color="0,1,1,1";
+				theme_dark_color="0,0.5,0.5,1";
+				theme_background="0,0,0,1";
+			elseif pref == 7 then
+				-- Purple (MIX)
+				theme_color="1,0,1,1";
+				theme_dark_color="0.5,0,0.5,1";
+				theme_background="0,0,0,1";
+			elseif pref == 8 then
+				-- Orange (MIX)
+				theme_color="1,0.5,0,1";
+				theme_dark_color="0.5,0.25,0,1";
+				theme_background="0,0,0,1";
+			elseif pref == 9 then
+				-- Magenta (MIX)
+				theme_color="1,0,0.5,1";
+				theme_dark_color="0.5,0,0.25,1";
+				theme_background="0,0,0,1";
+			elseif pref == 10 then
+				-- Lime (MIX)
+				theme_color="0.5,1,0,1";
+				theme_dark_color="0.25,0.5,0,1";
+				theme_background="0,0,0,1";
+			elseif pref == 11 then
+				-- Sky Blue (MIX)
+				theme_color="0,0.75,1,1";
+				theme_dark_color="0,0.25,0.5,1";
+				theme_background="0,0,0,1";
+			elseif pref == 12 then
+				-- Grey (MIX)
+				theme_color="0.75,0.75,0.75,1";
+				theme_dark_color="0.5,0.5,0.5,1";
+				theme_background="0,0,0,1";
+			else
+				-- Original Gold - Primary Theme Color
+				theme_color="1,0.9,0,1";
+				theme_dark_color="0.5,0.4,0,1";
+				theme_background="0,0,0,1";
+			end
+		end;
+	}
+end
+
 function common_text(string_text)
 	return LoadFont("SpoOky")..{
 		Text=string_text;

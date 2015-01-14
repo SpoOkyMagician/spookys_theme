@@ -2,6 +2,8 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenReloadSongsBackgroundActorFrame";
+	-- GLOBAL Function Theme Color
+	refresh_color(),
 	-- GLOBAL black quad
 	grid_a,
 	LoadActor(THEME:GetPathG("","bg_generic"))..{

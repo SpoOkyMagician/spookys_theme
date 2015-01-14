@@ -2,6 +2,8 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenSetBGFitUnderlayActorFrame";
+	-- GLOBAL Function Theme Color
+	refresh_color(),
 	-- GLOBAL screen text
 	common_text("Select Background Fit"),
 	-- GLOBAL dark quad

@@ -7,6 +7,8 @@ local p2_joined = false;
 
 local t = Def.ActorFrame{
 	Name="ScreenGameplayOverlayActorFrame";
+	-- GLOBAL Function Theme Color
+	refresh_color(),
 	-- GLOBAL dark gold header quad
 	grid_b,
 	-- GLOBAL dark gold footer quad
@@ -353,7 +355,7 @@ local t = Def.ActorFrame{
 	},
 	-- p1 (2 players) danger/hot quad...
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_TOP+54,SCREEN_LEFT+427,SCREEN_BOTTOM-54;diffuse,color("1,0,0,0.25");visible,false);
+		InitCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_TOP+54,SCREEN_LEFT+427,SCREEN_BOTTOM-54;diffuse,color("1,0,0,0.10");visible,false);
 		OnCommand=function(self)
 			p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
 			p2_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P2');
@@ -366,13 +368,13 @@ local t = Def.ActorFrame{
 				p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
 				if p1_lifebar:IsInDanger() == true then
 					self:visible(true);
-					self:diffuse(color("1,0,0,0.25"));
+					self:diffuse(color("1,0,0,0.10"));
 				elseif p1_lifebar:IsHot() == true then
 					self:visible(true);
-					self:diffuse(color("1,1,1,0.25"));
+					self:diffuse(color("1,1,1,0.10"));
 				elseif p1_lifebar:IsFailing() == true then
 					self:visible(true);
-					self:diffuse(color("0,0,0,0.25"));
+					self:diffuse(color("0,0,0,0.10"));
 				else
 					self:visible(false);
 				end;
@@ -382,7 +384,7 @@ local t = Def.ActorFrame{
 	},
 	-- p2 (2 players) danger/hot quad...
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_RIGHT-2,SCREEN_TOP+54,SCREEN_RIGHT-427,SCREEN_BOTTOM-54;diffuse,color("1,0,0,0.25");visible,false);
+		InitCommand=cmd(stretchto,SCREEN_RIGHT-2,SCREEN_TOP+54,SCREEN_RIGHT-427,SCREEN_BOTTOM-54;diffuse,color("1,0,0,0.10");visible,false);
 		OnCommand=function(self)
 			p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
 			p2_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P2');
@@ -395,13 +397,13 @@ local t = Def.ActorFrame{
 				p2_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P2');
 				if p2_lifebar:IsInDanger() == true then
 					self:visible(true);
-					self:diffuse(color("1,0,0,0.25"));
+					self:diffuse(color("1,0,0,0.10"));
 				elseif p2_lifebar:IsHot() == true then
 					self:visible(true);
-					self:diffuse(color("1,1,1,0.25"));
+					self:diffuse(color("1,1,1,0.10"));
 				elseif p2_lifebar:IsFailing() == true then
 					self:visible(true);
-					self:diffuse(color("0,0,0,0.25"));
+					self:diffuse(color("0,0,0,0.10"));
 				else
 					self:visible(false);
 				end;
@@ -411,7 +413,7 @@ local t = Def.ActorFrame{
 	},
 	-- p1/p2 (1 player) danger/hot quad...
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_TOP+54,SCREEN_RIGHT-2,SCREEN_BOTTOM-54;diffuse,color("1,1,1,0.25");visible,false);
+		InitCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_TOP+54,SCREEN_RIGHT-2,SCREEN_BOTTOM-54;diffuse,color("1,1,1,0.10");visible,false);
 		OnCommand=function(self)
 			p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
 			p2_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P2');
@@ -424,13 +426,13 @@ local t = Def.ActorFrame{
 				p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
 				if p1_lifebar:IsInDanger() == true then
 					self:visible(true);
-					self:diffuse(color("1,0,0,0.25"));
+					self:diffuse(color("1,0,0,0.10"));
 				elseif p1_lifebar:IsHot() == true then
 					self:visible(true);
-					self:diffuse(color("1,1,1,0.25"));
+					self:diffuse(color("1,1,1,0.10"));
 				elseif p1_lifebar:IsFailing() == true then
 					self:visible(true);
-					self:diffuse(color("0,0,0,0.25"));
+					self:diffuse(color("0,0,0,0.10"));
 				else
 					self:visible(false);
 				end;

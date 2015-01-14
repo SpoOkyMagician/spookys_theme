@@ -2,6 +2,8 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenTestInputUnderlayActorFrame";
+	-- GLOBAL Function Theme Color
+	refresh_color(),
 	-- GLOBAL dark quad
 	grid_t,
 	-- had to borrow this code to not overwrite fallback... i need to change the color anyway...

@@ -2,6 +2,8 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenOptionsInputUnderlayActorFrame";
+	-- GLOBAL Function Theme Color
+	refresh_color(),
 	-- GLOBAL screen text
 	common_text("Input Options"),
 	-- GLOBAL dark quad

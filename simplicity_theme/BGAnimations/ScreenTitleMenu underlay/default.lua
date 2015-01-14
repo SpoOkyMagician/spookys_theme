@@ -2,15 +2,13 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenTitleMenuUnderlayActorFrame";
+	-- GLOBAL Function Theme Color
+	refresh_color(),
 	-- GLOBAL black quad
 	grid_a,
 	LoadActor(THEME:GetPathG("","bg_generic"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
 	},
-	-- testing
---	LoadActor(THEME:GetPathG("","isometric_sm5"))..{
---		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
---	},
 	-- GLOBAL theme color quad
 	grid_u,
 	-- GLOBAL dark gold header quad
@@ -115,6 +113,7 @@ local t = Def.ActorFrame{
 			self:zoom(3.0);
 			self:diffusealpha(1);
 			self:sleep(0.1);
+			THEME:ReloadMetrics();
 		end;
 	},
 	-- product version text

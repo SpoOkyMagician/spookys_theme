@@ -2,6 +2,8 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenOptionsUIUnderlayActorFrame";
+	-- GLOBAL Function Theme Color
+	refresh_color(),
 	-- GLOBAL screen text
 	common_text("User Interface Options"),
 	-- GLOBAL dark quad

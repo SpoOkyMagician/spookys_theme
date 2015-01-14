@@ -44,6 +44,8 @@ local p2_percentage = 0;
 
 local t = Def.ActorFrame{
 	Name="ScreenSelectMusicUnderlayActorFrame";
+	-- GLOBAL Function Theme Color
+	refresh_color(),
 	-- last known difficulty/radar variables P1/P2 (hidden actor)
 	Def.Actor{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);

@@ -2,6 +2,8 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenSelectGameUnderlayActorFrame";
+	-- GLOBAL Function Theme Color
+	refresh_color(),
 	-- GLOBAL screen text
 	common_text("Select Game Mode"),
 	-- GLOBAL dark quad

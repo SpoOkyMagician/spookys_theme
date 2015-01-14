@@ -2,6 +2,9 @@
 -- this needs to be updated...
 
 local t = Def.ActorFrame{
+	Name="ScreenGameplayFailedActorFrame";
+	-- GLOBAL Function Theme Color
+	refresh_color(),
 	-- screen text
 	LoadFont("SpoOky")..{
 		Text="Failed!";

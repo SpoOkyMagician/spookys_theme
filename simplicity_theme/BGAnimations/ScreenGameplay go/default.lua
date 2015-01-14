@@ -1,6 +1,9 @@
 -- ScreenGameplay go
 
 local t = Def.ActorFrame{
+	Name="ScreenGameplayGoActorFrame";
+	-- GLOBAL Function Theme Color
+	refresh_color(),
 	-- screen text
 	LoadFont("SpoOky")..{
 		Text="Here we go!";

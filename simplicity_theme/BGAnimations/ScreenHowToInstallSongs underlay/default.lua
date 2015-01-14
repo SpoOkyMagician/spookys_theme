@@ -2,6 +2,8 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenHowToInstallSongsActorFrame";
+	-- GLOBAL Function Theme Color
+	refresh_color(),
 	-- GLOBAL screen text
 	common_text("No Songs Loaded"),
 	-- GLOBAL dark quad

@@ -2,6 +2,8 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenEvaluationNormalUnderlayActorFrame";
+	-- GLOBAL Function Theme Color
+	refresh_color(),
 	-- GLOBAL dark quad
 	grid_t,
 	-- GLOBAL screen text
