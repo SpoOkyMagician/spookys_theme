@@ -11,5 +11,13 @@
 |
 | I would like to thank the SM5 Developers Team for putting up with me with my questions/frustrations/etc on the IRC... Especially Kyzentun. Doubt I would of finished this without him... Shoutout to Jousway as well.
 | (Shown me a better way to code my sorting icons.)
+|
+| Here are a few screenshots you can view of the theme:
+| 
+| Title: https://dl.dropboxusercontent.com/u/105712481/screenshot_theme_title.png
+| Music: https://dl.dropboxusercontent.com/u/105712481/screenshot_theme_music.png
+| Gameplay: https://dl.dropboxusercontent.com/u/105712481/screenshot_theme_gameplay.png
+| Settings: https://dl.dropboxusercontent.com/u/105712481/screenshot_theme_settings.png
+| Evaluation: https://dl.dropboxusercontent.com/u/105712481/screenshot_theme_evaluation.png
 | 
 =========================================================================================================================
