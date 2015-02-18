@@ -2,13 +2,13 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenProfileSaveUnderlayActorFrame";
-	-- GLOBAL Function Theme Color
+	-- Function (scripts)
 	refresh_color(),
-	-- GLOBAL screen text
+	-- Function (scripts)
 	common_text("Save Profile"),
-	-- GLOBAL dark quad
+	-- Actor (scripts)
 	grid_t,
-	-- GLOBAL play music
+	-- Actor (scripts)
 	main_song
 };
 

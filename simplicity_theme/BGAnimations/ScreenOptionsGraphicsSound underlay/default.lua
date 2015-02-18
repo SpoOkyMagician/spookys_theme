@@ -2,17 +2,15 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenOptionsGraphicsSoundUnderlayActorFrame";
-	-- GLOBAL Function Theme Color
+	-- Function (scripts)
 	refresh_color(),
-	-- GLOBAL screen text
+	-- Function (scripts)
 	common_text("Graphics and Sound Options"),
-	-- GLOBAL dark quad
+	-- Actor (scripts)
 	grid_t,
-	-- new theme skin i am experimenting with...
-	LoadActor(THEME:GetPathG("","options_theme_skin"))..{
-		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
-	},
-	-- GLOBAL play music
+	-- Function (scripts)
+	theme_skin("options_theme_skin"),
+	-- Actor (scripts)
 	slow_song
 };
 

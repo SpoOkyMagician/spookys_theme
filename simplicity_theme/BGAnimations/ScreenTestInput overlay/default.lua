@@ -2,11 +2,11 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenTestInputOverlayActorFrame";
-	-- GLOBAL Function Theme Color
+	-- Function (scripts)
 	refresh_color(),
-	-- GLOBAL screen text
+	-- Function (scripts)
 	common_text("Test Input"),
-	-- GLOBAL play music
+	-- Actor (scripts)
 	slow_song
 };
 

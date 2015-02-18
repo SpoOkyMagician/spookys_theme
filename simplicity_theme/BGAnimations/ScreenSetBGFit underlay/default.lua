@@ -2,13 +2,13 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenSetBGFitUnderlayActorFrame";
-	-- GLOBAL Function Theme Color
+	-- Function (scripts)
 	refresh_color(),
-	-- GLOBAL screen text
+	-- Function (scripts)
 	common_text("Select Background Fit"),
-	-- GLOBAL dark quad
+	-- Actor (scripts)
 	grid_t,
-	-- GLOBAL play music
+	-- Actor (scripts)
 	slow_song
 };
 

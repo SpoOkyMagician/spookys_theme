@@ -2,26 +2,29 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenEvaluationNormalUnderlayActorFrame";
-	-- GLOBAL Function Theme Color
+	-- Function (scripts)
 	refresh_color(),
-	-- GLOBAL dark quad
+	-- Actor (scripts)
 	grid_t,
-	-- GLOBAL screen text
+	-- Function (scripts)
 	common_text("Evaluation"),
-	-- results P1 text
-	LoadFont("SpoOky")..{
-		Text="Results P1";
+	-- Actor (Results P1 Translation Text)
+	LoadFont("Common", "normal")..{
+		Text=ScreenString("Here are your results Player 1") .. "!" .. "\n\n" .. ScreenString("Grade") .. ":" .. "\n" .. ScreenString("Percent") .. ":" .. "\n\n" .. ScreenString("Flawless") .. ":" .. "\n" .. ScreenString("Perfects") .. ":" .. "\n" .. ScreenString("Greats") .. ":" .. "\n" .. ScreenString("Goods") .. ":" .. "\n" .. ScreenString("Bad") .. ":" .. "\n" .. ScreenString("Missed") .. ":" .. "\n" .. ScreenString("Held") .. ":" .. "\n" .. ScreenString("Released") .. ":" .. "\n" .. ScreenString("Combo") .. ":" .. "\n\n" .. ScreenString("Score") .. ":";
 		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);zoom,0.75;align,0,0.5;shadowlength,1);
-		-- this should be okay. i have to call it somehow... can't use init...
+	},
+	-- Actor (Results P1 Actual Text)
+	LoadFont("Common", "normal")..{
+		Text="";
+		InitCommand=cmd(x,SCREEN_RIGHT/2-8;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);zoom,0.75;align,1,0.5;shadowlength,1);
 		OnCommand=function(self)
-			self:queuecommand('Results');
+			self:queuecommand('ResultsP1');
 		end;
-		ResultsCommand=function(self)
+		ResultsP1Command=function(self)
 			local results = STATSMAN:GetCurStageStats();
-			local tableresults =  results:GetPlayerStageStats('PlayerNumber_P1');
+			local tableresults = results:GetPlayerStageStats('PlayerNumber_P1');
 			local points = tableresults:GetScore();
 			local combo = tableresults:MaxCombo();
-		--	local calories = tableresults:GetCaloriesBurned();
 			local maxpoints = tableresults:GetCurMaxScore();
 			local grade = tableresults:GetGrade();
 			local released = tableresults:GetHoldNoteScores('HoldNoteScore_LetGo');
@@ -51,32 +54,34 @@ local t = Def.ActorFrame{
 			elseif grade == 'Grade_Failed' then
 				stringgrade = "F";
 			else
-				--[ something went wrong...
 				stringgrade = "ERROR";
 			end;
 			self:finishtweening();
 			self:zoom(0.75);
-			self:align(0,0.5);
+			self:align(1,0.5);
 			self:diffuse(color(theme_color));
-			self:x(SCREEN_LEFT+8);
+			self:x(SCREEN_RIGHT/2-8);
 			self:y(SCREEN_BOTTOM/2);
-			self:settext("Here are your results Player 1!\n\n\n\n\nGrade: " .. stringgrade .. "\nPercent: " .. tostring(round(percent,1)) .. "%\n\n\n\n\nFlawless: " .. tostring(flawless) .. "\nPerfects: " .. tostring(perfects) .. "\nGreats: " .. tostring(greats) .. "\nGoods: " .. tostring(goods) .. "\nBads: " .. tostring(bads) .. "\nMiss: " .. tostring(misses) .. "\nHeld: " .. tostring(held) .. "\nReleased: " .. tostring(released) .. "\nCombo: " .. tostring(combo) .. "\n\n\n\n\nScore: " .. tostring(points) .. "/" .. tostring(maxpoints))
+			self:settext("\n" .. "\n" .. stringgrade .. "\n" .. tostring(round(percent,1)) .. "%\n\n" .. tostring(flawless) .. "\n" .. tostring(perfects) .. "\n" .. tostring(greats) .. "\n" .. tostring(goods) .. "\n" .. tostring(bads) .. "\n" .. tostring(misses) .. "\n" .. tostring(held) .. "\n" .. tostring(released) .. "\n" .. tostring(combo) .. "\n\n" .. tostring(points) .. "/" .. tostring(maxpoints))
 		end;
 	},
-	-- results P2 text
-	LoadFont("SpoOky")..{
-		Text="Results P2";
+	-- Actor (Results P2 Translation Text)
+	LoadFont("Common", "normal")..{
+		Text=ScreenString("Here are your results Player 2") .. "!" .. "\n\n" .. ScreenString("Grade") .. ":" .. "\n" .. ScreenString("Percent") .. ":" .. "\n\n" .. ScreenString("Flawless") .. ":" .. "\n" .. ScreenString("Perfects") .. ":" .. "\n" .. ScreenString("Greats") .. ":" .. "\n" .. ScreenString("Goods") .. ":" .. "\n" .. ScreenString("Bad") .. ":" .. "\n" .. ScreenString("Missed") .. ":" .. "\n" .. ScreenString("Held") .. ":" .. "\n" .. ScreenString("Released") .. ":" .. "\n" .. ScreenString("Combo") .. ":" .. "\n\n" .. ScreenString("Score") .. ":";
+		InitCommand=cmd(x,SCREEN_RIGHT/2+8;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);zoom,0.75;align,0,0.5;shadowlength,1);
+	},
+	-- Actor (Results P2 Actual Text)
+	LoadFont("Common", "normal")..{
+		Text="";
 		InitCommand=cmd(x,SCREEN_RIGHT-8;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);zoom,0.75;align,1,0.5;shadowlength,1);
-		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
-			self:queuecommand('Results');
+			self:queuecommand('ResultsP2');
 		end;
-		ResultsCommand=function(self)
+		ResultsP2Command=function(self)
 			local results = STATSMAN:GetCurStageStats();
-			local tableresults =  results:GetPlayerStageStats('PlayerNumber_P2');
+			local tableresults = results:GetPlayerStageStats('PlayerNumber_P2');
 			local points = tableresults:GetScore();
 			local combo = tableresults:MaxCombo();
-		--	local calories = tableresults:GetCaloriesBurned();
 			local maxpoints = tableresults:GetCurMaxScore();
 			local grade = tableresults:GetGrade();
 			local released = tableresults:GetHoldNoteScores('HoldNoteScore_LetGo');
@@ -106,7 +111,6 @@ local t = Def.ActorFrame{
 			elseif grade == 'Grade_Failed' then
 				stringgrade = "F";
 			else
-				--[ something went wrong...
 				stringgrade = "ERROR";
 			end;
 			self:finishtweening();
@@ -115,14 +119,12 @@ local t = Def.ActorFrame{
 			self:diffuse(color(theme_color));
 			self:x(SCREEN_RIGHT-8);
 			self:y(SCREEN_BOTTOM/2);
-			self:settext("Here are your results Player 2!\n\n\n\n\nGrade: " .. stringgrade .. "\nPercent: " .. tostring(round(percent,1)) .. "%\n\n\n\n\nFlawless: " .. tostring(flawless) .. "\nPerfects: " .. tostring(perfects) .. "\nGreats: " .. tostring(greats) .. "\nGoods: " .. tostring(goods) .. "\nBads: " .. tostring(bads) .. "\nMiss: " .. tostring(misses) .. "\nHeld: " .. tostring(held) .. "\nReleased: " .. tostring(released) .. "\nCombo: " .. tostring(combo) .. "\n\n\n\n\nScore: " .. tostring(points) .. "/" .. tostring(maxpoints))
+			self:settext("\n" .. "\n" .. stringgrade .. "\n" .. tostring(round(percent,1)) .. "%\n\n" .. tostring(flawless) .. "\n" .. tostring(perfects) .. "\n" .. tostring(greats) .. "\n" .. tostring(goods) .. "\n" .. tostring(bads) .. "\n" .. tostring(misses) .. "\n" .. tostring(held) .. "\n" .. tostring(released) .. "\n" .. tostring(combo) .. "\n\n" .. tostring(points) .. "/" .. tostring(maxpoints))
 		end;
 	},
-	-- new theme skin i am experimenting with...
-	LoadActor(THEME:GetPathG("","evaluation_theme_skin"))..{
-		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
-	},
-	-- GLOBAL play music
+	-- Function (scripts)
+	theme_skin("evaluation_theme_skin"),
+	-- Actor (scripts)
 	main_song
 };
 

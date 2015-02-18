@@ -2,7 +2,7 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenCancelActorFrame";
-	-- GLOBAL quad fades to black
+	-- Actor (scripts)
 	grid_fast_fade_out
 };
 

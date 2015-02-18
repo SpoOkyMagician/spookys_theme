@@ -1,71 +1,58 @@
 -- ScreenStageInformation underlay
+-- Kyzentun: THEME:GetString('ScreenStageInformation', 'foo')"
 
 local t = Def.ActorFrame{
 	Name="ScreenStageInformationUnderlayActorFrame";
-	-- GLOBAL Function Theme Color
+	-- Function (scripts)
 	refresh_color(),
-	-- GLOBAL screen text
+	-- Function (scripts)
 	common_text("Stage Information"),
-	-- GLOBAL dark quad
+	-- Actor (scripts)
 	grid_t,
-	-- stage text
-	LoadFont("SpoOky")..{
+	-- Actor (Stage Text)
+	LoadFont("Common","normal")..{
 		Text="Stage";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,0.5,0.5;zoom,2.0;shadowlength,1);
-		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			self:queuecommand('FindStage');
 		end;
 		FindStageCommand=function(self)
 			local stage = GAMESTATE:GetCurrentStage();
 			if stage == 'Stage_1st' then
-				self:settext("Stage 1");
+				self:settext(THEME:GetString('ScreenStageInformation', "First Stage"));
 				last_known_stage = 'Stage_1st';
 			elseif stage == 'Stage_2nd' then
-				self:settext("Stage 2");
+				self:settext(THEME:GetString('ScreenStageInformation', "Second Stage"));
 				last_known_stage = 'Stage_2nd'
 			elseif stage == 'Stage_3rd' then
-				self:settext("Stage 3");
+				self:settext(THEME:GetString('ScreenStageInformation', "Third Stage"));
 				last_known_stage = 'Stage_3rd'
 			elseif stage == 'Stage_4th' then
-				self:settext("Stage 4");
+				self:settext(THEME:GetString('ScreenStageInformation', "Fourth Stage"));
 				last_known_stage = 'Stage_4th'
 			elseif stage == 'Stage_5th' then
-				self:settext("Stage 5");
+				self:settext(THEME:GetString('ScreenStageInformation', "Fifth Stage"));
 				last_known_stage = 'Stage_5th'
 			elseif stage == 'Stage_6th' then
-				self:settext("Stage 6");
+				self:settext(THEME:GetString('ScreenStageInformation', "Sixth Stage"));
 				last_known_stage = 'Stage_6th'
 			elseif stage == 'Stage_Next' then
-				self:settext("Next Stage");
+				self:settext(THEME:GetString('ScreenStageInformation', "Next Stage"));
 				last_known_stage = 'Stage_Next'
 			elseif stage == 'Stage_Final' then
-				self:settext("Final Stage");
+				self:settext(THEME:GetString('ScreenStageInformation', "Final Stage"));
 				last_known_stage = 'Stage_Final'
 			elseif stage == 'Stage_Extra1' then
-				self:settext("Extra Stage");
+				self:settext(THEME:GetString('ScreenStageInformation', "Extra Stage"));
 				last_known_stage = 'Stage_Extra1'
 			elseif stage == 'Stage_Extra2' then
-				self:settext("Encore Extra Stage");
+				self:settext(THEME:GetString('ScreenStageInformation', "Encore Extra Stage"));
 				last_known_stage = 'Stage_Extra2'
-			elseif stage == 'Stage_Nonstop' then
-				self:settext("Non Stop");
-				last_known_stage = 'Stage_Nonstop'
-			elseif stage == 'Stage_Oni' then
-				self:settext("Oni");
-				last_known_stage = 'Stage_Oni'
-			elseif stage == 'Stage_Endless' then
-				self:settext("Endless");
-				last_known_stage = 'Stage_Endless'
 			elseif stage == 'Stage_Event' then
-				self:settext("Event");
+				self:settext(THEME:GetString('ScreenStageInformation', "Event"));
 				last_known_stage = 'Stage_Event'
-			elseif stage == 'Stage_Demo' then
-				self:settext("Demo");
-				last_known_stage = 'Stage_Demo'
 			else
-				-- something went wrong...
-				self:settext("ERROR!");
+				self:settext(ScreenString("ERROR"));
 				last_known_stage = 'Stage_Event'
 			end;
 			self:finishtweening();

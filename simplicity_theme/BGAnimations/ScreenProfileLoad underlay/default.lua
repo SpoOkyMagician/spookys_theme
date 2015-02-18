@@ -2,13 +2,13 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenProfileLoadUnderlayActorFrame";
-	-- GLOBAL Function Theme Color
+	-- Function (scripts)
 	refresh_color(),
-	-- GLOBAL screen text
+	-- Function (scripts)
 	common_text("Load Profile"),
-	-- GLOBAL dark quad
+	-- Actor (scripts)
 	grid_t,
-	-- GLOBAL play music
+	-- Actor (scripts)
 	fast_song
 };
 

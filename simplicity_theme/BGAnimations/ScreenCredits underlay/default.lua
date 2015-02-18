@@ -2,13 +2,13 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenCreditsUnderlayActorFrame";
-	-- GLOBAL Function Theme Color
+	-- Function (scripts)
 	refresh_color(),
-	-- GLOBAL screen text
-	common_text("SM5 Credits"),
-	-- GLOBAL dark quad
+	-- Function (scripts)
+	common_text("StepMania Credits"),
+	-- Actor (scripts)
 	grid_t,
-	-- GLOBAL play music
+	-- Actor (scripts)
 	main_song
 };
 

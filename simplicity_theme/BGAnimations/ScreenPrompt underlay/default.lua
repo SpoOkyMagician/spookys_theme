@@ -2,9 +2,9 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenPromptUnderlayActorFrame";
-	-- GLOBAL Function Theme Color
+	-- Function (scripts)
 	refresh_color(),
-	-- GLOBAL dark quad
+	-- Actor (scripts)
 	grid_t
 };
 

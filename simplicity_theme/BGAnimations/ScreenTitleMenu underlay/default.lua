@@ -2,84 +2,30 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenTitleMenuUnderlayActorFrame";
-	-- GLOBAL Function Theme Color
+	-- Function (scripts)
 	refresh_color(),
-	-- GLOBAL black quad
-	grid_a,
+	-- Actor (scripts)
 	LoadActor(THEME:GetPathG("","bg_generic"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
 	},
-	-- GLOBAL theme color quad
+	-- Actor (scripts)
 	grid_u,
-	-- GLOBAL dark gold header quad
+	-- Actor (scripts)
 	grid_b,
-	-- GLOBAL dark gold footer quad
+	-- Actor (scripts)
 	grid_c,
-	-- GLOBAL top border
-	grid_d,
-	-- GLOBAL bottom border
-	grid_e,
-	-- GLOBAL left border
-	grid_f,
-	-- GLOBAL right border
-	grid_g,
-	-- GLOBAL profile border
-	grid_h,
-	-- GLOBAL screen border
-	grid_i,
-	-- GLOBAL profile divider
-	grid_s,
-	-- menu items quad
-	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+314,SCREEN_BOTTOM/2-18,SCREEN_RIGHT-314,SCREEN_BOTTOM/2+18;diffuse,color("0,0,0,0.5"));
-	},
-	-- menu info quad
+	-- Function (scripts)
+	grid_m(),
+	-- Actor (Menu Info Quad)
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_BOTTOM-115,SCREEN_RIGHT-2,SCREEN_BOTTOM-30;diffuse,color("0,0,0,0.5"));
 	},
-	-- neat arrows
-	LoadActor(THEME:GetPathG("","arrow"))..{
-		InitCommand=cmd(x,SCREEN_CENTER_X-96;y,SCREEN_CENTER_Y;baserotationz,90;SetSize,32,32);
-		UpLeftCommand=function(self)
-			self:finishtweening();
-			self:x(SCREEN_CENTER_X-96-2);
-			self:sleep(0.02);
-			self:x(SCREEN_CENTER_X-96-1);
-			self:sleep(0.02);
-			self:x(SCREEN_CENTER_X-96+2);
-			self:sleep(0.02);
-			self:x(SCREEN_CENTER_X-96+1);
-			self:sleep(0.02);
-		end;
-		MenuLeft1MessageCommand=cmd(playcommand,"UpLeft");
-		MenuUp1MessageCommand=cmd(playcommand,"UpLeft");
-		MenuLeft2MessageCommand=cmd(playcommand,"UpLeft");
-		MenuUp2MessageCommand=cmd(playcommand,"UpLeft");
-		MenuSelectionChangedMessageCommand=cmd(playcommand,"UpLeft");
-	},
-	LoadActor(THEME:GetPathG("","arrow"))..{
-		InitCommand=cmd(x,SCREEN_CENTER_X+96;y,SCREEN_CENTER_Y;baserotationz,-90;SetSize,32,32);
-		DownRightCommand=function(self)
-			self:finishtweening();
-			self:x(SCREEN_CENTER_X+96+2);
-			self:sleep(0.02);
-			self:x(SCREEN_CENTER_X+96+1);
-			self:sleep(0.02);
-			self:x(SCREEN_CENTER_X+96-2);
-			self:sleep(0.02);
-			self:x(SCREEN_CENTER_X+96-1);
-			self:sleep(0.02);
-		end;
-		MenuRight1MessageCommand=cmd(playcommand,"DownRight");
-		MenuDown1MessageCommand=cmd(playcommand,"DownRight");
-		MenuRight2MessageCommand=cmd(playcommand,"DownRight");
-		MenuDown2MessageCommand=cmd(playcommand,"DownRight");
-		MenuSelectionChangedMessageCommand=cmd(playcommand,"DownRight");
-	},
-	-- GLOBAL screen text
+	neat_arrow_left(),
+	neat_arrow_right(),
+	-- Function (scripts)
 	common_text("Title Screen"),
-	-- logo text
-	LoadFont("SpoOky")..{
+	-- Actor (Logo Text)
+	LoadFont("Common","normal")..{
 		Text="STEPMANIA 5";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y/3;diffuse,color(theme_color);zoom,3.0;align,0.5,0.5;shadowlength,3;shadowcolor,color(theme_background));
 		-- this should be okay. i have to call it somehow... can't use init...
@@ -113,175 +59,156 @@ local t = Def.ActorFrame{
 			self:zoom(3.0);
 			self:diffusealpha(1);
 			self:sleep(0.1);
-			THEME:ReloadMetrics();
 		end;
 	},
-	-- product version text
-	LoadFont("SpoOky")..{
+	-- Actor (Product Version Text)
+	LoadFont("Common","normal")..{
 		Text=ProductVersion();
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y/0.7+32;diffuse,color(theme_color);zoom,0.5;align,0.5,0.5;shadowlength,1);
 	},
-	-- build date text
-	LoadFont("SpoOky")..{
+	-- Actor (Build Date Text)
+	LoadFont("Common","normal")..{
 		Text=VersionDate();
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y/0.7+48;diffuse,color(theme_color);zoom,0.5;align,0.5,0.5;shadowlength,1);
 	},
-	-- build time text
-	LoadFont("SpoOky")..{
+	-- Actor (Build Time Text)
+	LoadFont("Common","normal")..{
 		Text=VersionTime();
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y/0.7+64;diffuse,color(theme_color);zoom,0.5;align,0.5,0.5;shadowlength,1);
 	},
-	-- server text
-	LoadFont("SpoOky")..{
+	-- Actor (Server Name Text)
+	LoadFont("Common","normal")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y/0.7+80;diffuse,color(theme_color);zoom,0.5;align,0.5,0.5;shadowlength,1);
-		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			if GetServerName() == "" then
-				self:settext("No Server Name");
+				self:settext(ScreenString("No Server Name"));
 			else
 				self:settext(GetServerName());
 			end;
 			self:finishtweening();
 		end;
 	},
-	-- server text
-	LoadFont("SpoOky")..{
+	-- Actor (Server Status Text)
+	LoadFont("Common","normal")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y/0.7+96;diffuse,color(theme_color);zoom,0.5;align,0.5,0.5;shadowlength,1);
-		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			if IsNetConnected() == true then
-				self:settext("Connected");
+				self:settext(ScreenString("Connected"));
 			else
-				self:settext("Disconnected");
+				self:settext(ScreenString("Disconnected"));
 			end;
 			self:finishtweening();
 		end;
 	},
-	-- life text
-	LoadFont("SpoOky")..{
+	-- Actor (Life Difficulty Text)
+	LoadFont("Common","normal")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_CENTER_Y+136;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
-		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = GetTimingDifficulty();
 			self:finishtweening();
-			self:settext("Life Difficulty: " .. tostring(value));
+			self:settext(ScreenString("Life Difficulty") .. ": " .. tostring(value));
 		end;
 	},
-	-- timing text
-	LoadFont("SpoOky")..{
+	-- Actor (Timing Difficulty Text)
+	LoadFont("Common","normal")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_CENTER_Y+136+16;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
-		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = GetTimingDifficulty();
 			self:finishtweening();
-			self:settext("Timing Difficulty: " .. tostring(value));
+			self:settext(ScreenString("Timing Difficulty") .. ": " .. tostring(value));
 		end;
 	},
-	-- group text
-	LoadFont("SpoOky")..{
+	-- Actor (Song Group Text)
+	LoadFont("Common","normal")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_CENTER_Y+136+32;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
-		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = SONGMAN:GetNumSongGroups();
 			self:finishtweening();
-			self:settext("Song Groups: " .. tostring(value));
+			self:settext(ScreenString("Song Groups") .. ": " .. tostring(value));
 		end;
 	},
-	-- songs text
-	LoadFont("SpoOky")..{
+	-- Actor (Songs Total Text)
+	LoadFont("Common","normal")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_CENTER_Y+136+48;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
-		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = SONGMAN:GetNumSongs();
 			self:finishtweening();
-			self:settext("Song Total: " .. tostring(value));
+			self:settext(ScreenString("Song Total") .. ": " .. tostring(value));
 		end;
 	},
-	-- game text
-	LoadFont("SpoOky")..{
+	-- Actor (Game Type Text)
+	LoadFont("Common","normal")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_CENTER_Y+136+64;diffuse,color(theme_color);zoom,0.5;align,0,0.5;shadowlength,1);
-		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local game = GAMESTATE:GetCurrentGame();
 			local value = game:GetName();
 			self:finishtweening();
-			self:settext("Game Type: " .. tostring(value));
+			self:settext(ScreenString("Game Type") .. ": " .. tostring(value));
 		end;
 	},
-	-- course groups text
-	LoadFont("SpoOky")..{
+	-- Actor (Course Groups Text)
+	LoadFont("Common","normal")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_CENTER_Y+136;diffuse,color(theme_color);zoom,0.5;align,1,0.5;shadowlength,1);
-		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = SONGMAN:GetNumCourseGroups();
 			self:finishtweening();
-			self:settext("Course Groups: " .. tostring(value));
+			self:settext(ScreenString("Course Groups") .. ": " .. tostring(value));
 		end;
 	},
-	-- course total text
-	LoadFont("SpoOky")..{
+	-- Actor (Course Total Text)
+	LoadFont("Common","normal")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_CENTER_Y+136+16;diffuse,color(theme_color);zoom,0.5;align,1,0.5;shadowlength,1);
-		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = SONGMAN:GetNumCourses();
 			self:finishtweening();
-			self:settext("Courses: " .. tostring(value));
+			self:settext(ScreenString("Courses") .. ": " .. tostring(value));
 		end;
 	},
-	-- add courses text
-	LoadFont("SpoOky")..{
+	-- Actor (Additional Courses Text)
+	LoadFont("Common","normal")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_CENTER_Y+136+32;diffuse,color(theme_color);zoom,0.5;align,1,0.5;shadowlength,1);
-		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = SONGMAN:GetNumAdditionalCourses();
 			self:finishtweening();
-			self:settext("Additional Courses: " .. tostring(value));
+			self:settext(ScreenString("Additional Courses") .. ": " .. tostring(value));
 		end;
 	},
-	-- add songs text
-	LoadFont("SpoOky")..{
+	-- Actor (Additional Songs Text)
+	LoadFont("Common","normal")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_CENTER_Y+136+48;diffuse,color(theme_color);zoom,0.5;align,1,0.5;shadowlength,1);
-		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = SONGMAN:GetNumAdditionalSongs();
 			self:finishtweening();
-			self:settext("Additional Songs: " .. tostring(value));
+			self:settext(ScreenString("Additional Songs") .. ": " .. tostring(value));
 		end;
 	},
-	-- locks text
-	LoadFont("SpoOky")..{
+	-- Actor (Locked/Unlocked Songs Text)
+	LoadFont("Common","normal")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_CENTER_Y+136+64;diffuse,color(theme_color);zoom,0.5;align,1,0.5;shadowlength,1);
-		-- this should be okay. i have to call it somehow... can't use init...
 		OnCommand=function(self)
 			local value = SONGMAN:GetNumLockedSongs();
 			local other_value = SONGMAN:GetNumUnlockedSongs();
 			self:finishtweening();
-			self:settext("Locked/Unlocked Songs: " .. tostring(value) .. "/" .. tostring(other_value));
+			self:settext(ScreenString("Locked/Unlocked Songs") .. ": " .. tostring(value) .. "/" .. tostring(other_value));
 		end;
 	},
-	-- new theme skin i am experimenting with...
-	LoadActor(THEME:GetPathG("","theme_skin"))..{
-		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
-	},
-	-- new theme skin i am experimenting with...
-	LoadActor(THEME:GetPathG("","title_theme_skin"))..{
-		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
-	},
-	-- testing something
-	-- test_text("Testing Something", 427, 240, "#FFFFFFFF"),
-	-- GLOBAL play music
+	-- Function (scripts)
+	theme_skin("theme_skin"),
+	-- Function (scripts)
+	theme_skin("title_theme_skin"),
+	-- Actor (scripts)
 	main_song
 };
 

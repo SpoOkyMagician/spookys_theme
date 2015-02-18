@@ -2,7 +2,7 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenEvaluationNormalInActorFrame";
-	-- GLOBAL quad fades out of black
+	-- Actor (scripts)
 	grid_fast_fade_in
 };
 

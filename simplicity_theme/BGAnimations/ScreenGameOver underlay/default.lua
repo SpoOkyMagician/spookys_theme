@@ -2,17 +2,18 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenGameOverUnderlayActorFrame";
-	-- GLOBAL Function Theme Color
+	-- Function (scripts)
 	refresh_color(),
-	-- GLOBAL screen text
+	-- Function (scripts)
 	common_text("Game Over"),
-	-- GLOBAL dark quad
+	-- Actor (scripts)
 	grid_t,
-	LoadFont("SpoOky")..{
-		Text="GAME OVER";
+	-- Actor (Game Over Text)
+	LoadFont("Common", "normal")..{
+		Text=ScreenString("Game Over");
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,0.5,0.5;shadowlength,1);
 	},
-	-- GLOBAL play music
+	-- Actor (scripts)
 	slow_song
 };
 

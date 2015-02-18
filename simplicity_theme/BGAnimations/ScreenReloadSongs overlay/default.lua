@@ -1,7 +1,7 @@
--- ScreenTextInput underlay
+-- ScreenReloadSongs background
 
 local t = Def.ActorFrame{
-	Name="ScreenTextInputUnderlayActorFrame";
+	Name="ScreenReloadSongsBackgroundActorFrame";
 	-- Function (scripts)
 	refresh_color(),
 	-- Actor (Generic BG)
@@ -15,11 +15,13 @@ local t = Def.ActorFrame{
 	-- Actor (scripts)
 	grid_c,
 	-- Function (scripts)
-	common_text("Text Input"),
+	common_text("Reload Songs"),
 	-- Actor (scripts)
 	grid_t,
 	-- Function (scripts)
 	theme_skin("theme_skin"),
+	-- Actor (scripts)
+	slow_song
 };
 
 return t;

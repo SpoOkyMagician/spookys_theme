@@ -1,4 +1,5 @@
 -- ScreenSelectMusic underlay
+-- COME BACK TO THIS LAST
 
 -- good lord, thank you for helping me out with this Kyzentun...
 -- now i understand the problem...
@@ -15,38 +16,34 @@ local sort = false; -- GAMESTATE:GetSortOrder();
 local song = false; -- GAMESTATE:GetCurrentSong();
 local group = false; -- GAMESTATE:GetExpandedSectionName();
 
-local last_known_difficulty_P1 = 'Difficulty_Edit';
-local last_known_difficulty_P2 = 'Difficulty_Edit';
-local last_known_stage = 'Stage_1st';
+steps_p1_table[1] = 0;
+steps_p1_table[2] = 0;
+steps_p1_table[3] = 0;
+steps_p1_table[4] = 0;
+steps_p1_table[5] = 0;
+steps_p1_table[6] = 0;
+steps_p1_table[7] = 0;
+steps_p1_table[8] = 0;
+steps_p1_table[9] = 0;
 
-local steps_p1_taps = 0;
-local steps_p1_jumps = 0;
-local steps_p1_holds = 0;
-local steps_p1_mines = 0;
-local steps_p1_hands = 0;
-local steps_p1_rolls = 0;
-local steps_p1_lifts = 0;
-local steps_p1_fakes = 0;
-local steps_p1_total = 0;
+steps_p2_table[1] = 0;
+steps_p2_table[2] = 0;
+steps_p2_table[3] = 0;
+steps_p2_table[4] = 0;
+steps_p2_table[5] = 0;
+steps_p2_table[6] = 0;
+steps_p2_table[7] = 0;
+steps_p2_table[8] = 0;
+steps_p2_table[9] = 0;
 
-local steps_p2_taps = 0;
-local steps_p2_jumps = 0;
-local steps_p2_holds = 0;
-local steps_p2_mines = 0;
-local steps_p2_hands = 0;
-local steps_p2_rolls = 0;
-local steps_p2_lifts = 0;
-local steps_p2_fakes = 0;
-local steps_p2_total = 0;
-
-local p1_percentage = 0;
-local p2_percentage = 0;
+p1_percentage = 0;
+p2_percentage = 0;
 
 local t = Def.ActorFrame{
 	Name="ScreenSelectMusicUnderlayActorFrame";
-	-- GLOBAL Function Theme Color
+	-- Function (scripts)
 	refresh_color(),
-	-- last known difficulty/radar variables P1/P2 (hidden actor)
+	-- Actor (Last Known Difficulty/Radar Variables P1/P2 hidden)
 	Def.Actor{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
 		OnCommand=function(self)
@@ -55,79 +52,73 @@ local t = Def.ActorFrame{
 			self:queuecommand("Variables");
 		end;
 		VariablesCommand=function(self)
+			self:finishtweening();
+			self:sleep(0.1);
 			p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 			p2_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P2');
 			if p1_steps ~= nil then
 				last_known_difficulty_P1 = p1_steps:GetDifficulty();
 				p1_values = p1_steps:GetRadarValues('PlayerNumber_P1');
-				steps_p1_taps = p1_values:GetValue('RadarCategory_TapsAndHolds');
-				steps_p1_jumps = p1_values:GetValue('RadarCategory_Jumps');
-				steps_p1_holds = p1_values:GetValue('RadarCategory_Holds');
-				steps_p1_mines = p1_values:GetValue('RadarCategory_Mines');
-				steps_p1_hands = p1_values:GetValue('RadarCategory_Hands');
-				steps_p1_rolls = p1_values:GetValue('RadarCategory_Rolls');
-				steps_p1_lifts = p1_values:GetValue('RadarCategory_Lifts');
-				steps_p1_fakes = p1_values:GetValue('RadarCategory_Fakes');
-				steps_p1_total = steps_p1_taps + steps_p1_jumps + steps_p1_holds + steps_p1_mines + steps_p1_hands + steps_p1_rolls + steps_p1_lifts + steps_p1_fakes;
+				steps_p1_table[1] = p1_values:GetValue('RadarCategory_TapsAndHolds');
+				steps_p1_table[2] = p1_values:GetValue('RadarCategory_Jumps');
+				steps_p1_table[3] = p1_values:GetValue('RadarCategory_Holds');
+				steps_p1_table[4] = p1_values:GetValue('RadarCategory_Mines');
+				steps_p1_table[5] = p1_values:GetValue('RadarCategory_Hands');
+				steps_p1_table[6] = p1_values:GetValue('RadarCategory_Rolls');
+				steps_p1_table[7] = p1_values:GetValue('RadarCategory_Lifts');
+				steps_p1_table[8] = p1_values:GetValue('RadarCategory_Fakes');
+				steps_p1_table[9] = steps_p1_table[1] + steps_p1_table[2] + steps_p1_table[3] + steps_p1_table[4] + steps_p1_table[5] + steps_p1_table[6] + steps_p1_table[7] + steps_p1_table[8];
 			else
 				last_known_difficulty_P1 = 'Difficulty_Edit';
-				steps_p1_taps = 0;
-				steps_p1_jumps = 0;
-				steps_p1_holds = 0;
-				steps_p1_mines = 0;
-				steps_p1_hands = 0;
-				steps_p1_rolls = 0;
-				steps_p1_lifts = 0;
-				steps_p1_fakes = 0;
-				steps_p1_total = 0;
-				steps_p1_total = 1; -- i don't think 0 is a good idea...
+				steps_p1_table[1] = 0;
+				steps_p1_table[2] = 0;
+				steps_p1_table[3] = 0;
+				steps_p1_table[4] = 0;
+				steps_p1_table[5] = 0;
+				steps_p1_table[6] = 0;
+				steps_p1_table[7] = 0;
+				steps_p1_table[8] = 0;
+				steps_p1_table[9] = 1;
 			end;
 			if p2_steps ~= nil then
 				last_known_difficulty_P2 = p2_steps:GetDifficulty();
 				p2_values = p2_steps:GetRadarValues('PlayerNumber_P2');
-				steps_p2_taps = p2_values:GetValue('RadarCategory_TapsAndHolds');
-				steps_p2_jumps = p2_values:GetValue('RadarCategory_Jumps');
-				steps_p2_holds = p2_values:GetValue('RadarCategory_Holds');
-				steps_p2_mines = p2_values:GetValue('RadarCategory_Mines');
-				steps_p2_hands = p2_values:GetValue('RadarCategory_Hands');
-				steps_p2_rolls = p2_values:GetValue('RadarCategory_Rolls');
-				steps_p2_lifts = p2_values:GetValue('RadarCategory_Lifts');
-				steps_p2_fakes = p2_values:GetValue('RadarCategory_Fakes');
-				steps_p2_total = steps_p2_taps + steps_p2_jumps + steps_p2_holds + steps_p2_mines + steps_p2_hands + steps_p2_rolls + steps_p2_lifts + steps_p2_fakes;
+				steps_p2_table[1] = p2_values:GetValue('RadarCategory_TapsAndHolds');
+				steps_p2_table[2] = p2_values:GetValue('RadarCategory_Jumps');
+				steps_p2_table[3] = p2_values:GetValue('RadarCategory_Holds');
+				steps_p2_table[4] = p2_values:GetValue('RadarCategory_Mines');
+				steps_p2_table[5] = p2_values:GetValue('RadarCategory_Hands');
+				steps_p2_table[6] = p2_values:GetValue('RadarCategory_Rolls');
+				steps_p2_table[7] = p2_values:GetValue('RadarCategory_Lifts');
+				steps_p2_table[8] = p2_values:GetValue('RadarCategory_Fakes');
+				steps_p2_table[9] = steps_p2_table[1] + steps_p2_table[2] + steps_p2_table[3] + steps_p2_table[4] + steps_p2_table[5] + steps_p2_table[6] + steps_p2_table[7] + steps_p2_table[8];
 			else
 				last_known_difficulty_P2 = 'Difficulty_Edit';
-				steps_p2_taps = 0;
-				steps_p2_jumps = 0;
-				steps_p2_holds = 0;
-				steps_p2_mines = 0;
-				steps_p2_hands = 0;
-				steps_p2_rolls = 0;
-				steps_p2_lifts = 0;
-				steps_p2_fakes = 0;
-				steps_p2_total = 0;
-				steps_p2_total = 1; -- i don't think 0 is a good idea...
+				steps_p2_table[1] = 0;
+				steps_p2_table[2] = 0;
+				steps_p2_table[3] = 0;
+				steps_p2_table[4] = 0;
+				steps_p2_table[5] = 0;
+				steps_p2_table[6] = 0;
+				steps_p2_table[7] = 0;
+				steps_p2_table[8] = 0;
+				steps_p2_table[9] = 1;
 			end;
-			-- just in case i need to know...
-			Trace("P1 Taps: " .. tostring(steps_p1_taps) .. ", P1 Jumps: " .. tostring(steps_p1_jumps) .. ", P1 Holds: " .. tostring(steps_p1_holds) .. ", P1 Mines: " .. tostring(steps_p1_mines) .. ", P1 Hands: " .. tostring(steps_p1_hands) .. ", P1 Rolls: " .. tostring(steps_p1_rolls) .. ", P1 Lifts: " .. tostring(steps_p1_lifts) .. ", P1 Fakes: " .. tostring(steps_p1_fakes) .. ", P1 Total: " .. tostring(steps_p1_total));
-			Trace("P2 Taps: " .. tostring(steps_p2_taps) .. ", P2 Jumps: " .. tostring(steps_p2_jumps) .. ", P2 Holds: " .. tostring(steps_p2_holds) .. ", P2 Mines: " .. tostring(steps_p2_mines) .. ", P2 Hands: " .. tostring(steps_p2_hands) .. ", P2 Rolls: " .. tostring(steps_p2_rolls) .. ", P2 Lifts: " .. tostring(steps_p2_lifts) .. ", P2 Fakes: " .. tostring(steps_p2_fakes) .. ", P2 Total: " .. tostring(steps_p2_total));
-			Trace("P1 Last Known Difficulty: " .. tostring(last_known_difficulty_P1));
-			Trace("P2 Last Known Difficulty: " .. tostring(last_known_difficulty_P2));
-			Trace("Last known Stage: " ..tostring(last_known_stage));
 		end;
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"Variables");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"Variables");
 		CurrentSongChangedMessageCommand=cmd(playcommand,"Variables");
 	},
-	-- GLOBAL screen text
+	-- Function (scripts)
 	common_text("Select Music"),
-	-- sort icon
+	-- Actor (Sort Icon)
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_RIGHT-26;y,SCREEN_TOP+15;zoomto,50,28;Load,THEME:GetPathG("", "sort_icon_unknown"));
 		OnCommand=function(self)
 			self:queuecommand("WheelSort");
 		end;
 		WheelSortCommand=function(self)
-			-- thanks Jousway
+			-- Thanks Jousway
 			sort = GAMESTATE:GetSortOrder();
 			if sort ~= nil then
 				self:Load(THEME:GetPathG("icon", sort));
@@ -139,7 +130,7 @@ local t = Def.ActorFrame{
 		end;
 		SortOrderChangedMessageCommand=cmd(playcommand,"WheelSort");
 	},
-	-- song banner
+	-- Actor (Song Banner)
 	Def.Banner{
 		InitCommand=cmd(x,SCREEN_LEFT+130;y,SCREEN_TOP+70;zoomto,256,80;Load,THEME:GetPathG("", "no_banner"));
 		OnCommand=function(self)
@@ -166,7 +157,7 @@ local t = Def.ActorFrame{
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"SongBanner");
 	},
-	-- song background
+	-- Actor (Song Background)
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_LEFT+556;y,SCREEN_TOP+240;zoomto,592,420;Load,THEME:GetPathG("", "no_background"));
 		OnCommand=function(self)
@@ -188,7 +179,7 @@ local t = Def.ActorFrame{
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"SongBackground");
 	},
-	-- song cd
+	-- Actor (Song CD)
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_LEFT+300;y,SCREEN_TOP+69;zoomto,80,80;Load,THEME:GetPathG("", "no_cd"));
 		OnCommand=function(self)
@@ -210,7 +201,7 @@ local t = Def.ActorFrame{
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"SongCD");
 	},
-	-- song difficulty p1
+	-- Actor (Song Difficulty P1)
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_LEFT+34;y,SCREEN_TOP+286;zoomto,64,64;Load,THEME:GetPathG("", "difficulty_unknown"));
 		OnCommand=function(self)
@@ -220,18 +211,11 @@ local t = Def.ActorFrame{
 			-- good lord, thank you for helping me out with this Kyzentun...
 			p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' and p1_steps ~= nil then
-				if p1_steps:GetDifficulty() == 'Difficulty_Beginner' then
-					self:Load(THEME:GetPathG("", "difficulty_beginner"));
-				elseif p1_steps:GetDifficulty() == 'Difficulty_Easy' then
-					self:Load(THEME:GetPathG("", "difficulty_easy"));
-				elseif p1_steps:GetDifficulty() == 'Difficulty_Medium' then
-					self:Load(THEME:GetPathG("", "difficulty_normal"));
-				elseif p1_steps:GetDifficulty() == 'Difficulty_Hard' then
-					self:Load(THEME:GetPathG("", "difficulty_hard"));
-				elseif p1_steps:GetDifficulty() == 'Difficulty_Challenge' then
-					self:Load(THEME:GetPathG("", "difficulty_challenge"));
-				elseif p1_steps:GetDifficulty() == 'Difficulty_Edit' then
-					self:Load(THEME:GetPathG("", "difficulty_edit"));
+				local difficulty = p1_steps:GetDifficulty();
+				if difficulty ~= nil then
+					self:Load(THEME:GetPathG("other", difficulty));
+				else
+					self:Load(THEME:GetPathG("", "difficulty_unknown"));
 				end;
 			else
 				self:Load(THEME:GetPathG("", "difficulty_unknown"));
@@ -251,18 +235,9 @@ local t = Def.ActorFrame{
 		DifficultyP2Command=function(self)
 			p2_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P2');
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' and p2_steps ~= nil then
-				if p2_steps:GetDifficulty() == 'Difficulty_Beginner' then
-					self:Load(THEME:GetPathG("", "difficulty_beginner"));
-				elseif p2_steps:GetDifficulty() == 'Difficulty_Easy' then
-					self:Load(THEME:GetPathG("", "difficulty_easy"));
-				elseif p2_steps:GetDifficulty() == 'Difficulty_Medium' then
-					self:Load(THEME:GetPathG("", "difficulty_normal"));
-				elseif p2_steps:GetDifficulty() == 'Difficulty_Hard' then
-					self:Load(THEME:GetPathG("", "difficulty_hard"));
-				elseif p2_steps:GetDifficulty() == 'Difficulty_Challenge' then
-					self:Load(THEME:GetPathG("", "difficulty_challenge"));
-				elseif p2_steps:GetDifficulty() == 'Difficulty_Edit' then
-					self:Load(THEME:GetPathG("", "difficulty_edit"));
+				local difficulty = p2_steps:GetDifficulty();
+				if difficulty ~= nil then
+					self:Load(THEME:GetPathG("other", difficulty));
 				else
 					self:Load(THEME:GetPathG("", "difficulty_unknown"));
 				end;
@@ -274,7 +249,7 @@ local t = Def.ActorFrame{
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"DifficultyP2");
 		CurrentSongChangedMessageCommand=cmd(playcommand,"DifficultyP2");
 	},
-	-- song meter p1
+	-- Actor (Song Meter P1)
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_LEFT+162;y,SCREEN_TOP+286;scaletoclipped,192,64;Load,THEME:GetPathG("", "meter_0"));
 		OnCommand=function(self)
@@ -283,7 +258,7 @@ local t = Def.ActorFrame{
 		MeterP1Command=function(self)
 			p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' and p1_steps ~= nil then
-				-- use this instead... thanks again Kyzentun.
+				-- Thanks Kyzentun.
 				local half_meter=clamp(math.round(p1_steps:GetMeter() / 2), 0, 10);
 				self:Load(THEME:GetPathG("", "meter_" .. half_meter .. "_display"));
 			else
@@ -294,7 +269,7 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"MeterP1");
 		CurrentSongChangedMessageCommand=cmd(playcommand,"MeterP1");
 	},
-	-- song meter p2
+	-- Actor (Song Meter P2)
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_LEFT+162;y,SCREEN_TOP+350;scaletoclipped,192,64;Load,THEME:GetPathG("", "meter_0"));
 		OnCommand=function(self)
@@ -303,7 +278,7 @@ local t = Def.ActorFrame{
 		MeterP2Command=function(self)
 			p2_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P2');
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' and p2_steps ~= nil then
-				-- use this instead... thanks again Kyzentun.
+				-- Thanks Kyzentun.
 				local half_meter=clamp(math.round(p2_steps:GetMeter() / 2), 0, 10);
 				self:Load(THEME:GetPathG("", "meter_"..half_meter.."_display"));
 			else
@@ -314,10 +289,10 @@ local t = Def.ActorFrame{
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"MeterP2");
 		CurrentSongChangedMessageCommand=cmd(playcommand,"MeterP2");
 	},
-	-- song/trail/group/sort/etc information
-	LoadFont("SpoOky")..{
+	-- Actor (Song/Group/Sort/etc. Information)
+	LoadFont("Common","normal")..{
 		Text="N/A";
-		InitCommand=cmd(scaletofit,SCREEN_LEFT+2,SCREEN_TOP+110,SCREEN_LEFT+256,SCREEN_TOP+250;diffuse,color(theme_color);align,0,0.5;shadowlength,1);
+		InitCommand=cmd(scaletofit,SCREEN_LEFT+2,SCREEN_TOP+118,SCREEN_LEFT+256,SCREEN_TOP+242;diffuse,color(theme_color);align,0,0.5;shadowlength,1);
 		OnCommand=function(self)
 			self:queuecommand("Information");
 		end;
@@ -341,7 +316,7 @@ local t = Def.ActorFrame{
 				else
 					length_result = "Normal";
 				end;
-				self:settext("Title: " .. song:GetDisplayMainTitle() .. "\nSub Title: " .. song:GetDisplaySubTitle() .. "\nSong Artist: " .. song:GetDisplayArtist() .. "\nTempo: " .. results_tempo .. "\nGenre: " .. song:GetGenre() .. "\nGroup: " .. song:GetGroupName() .. "\nLength: " .. length_result .. "\nSeconds: " .. round(song:MusicLengthSeconds(),1) );
+				self:settext(song:GetDisplayMainTitle() .. "\n" .. song:GetDisplaySubTitle() .. "\n" .. song:GetDisplayArtist() .. "\n" .. results_tempo .. " BPM" .. "\n" .. song:GetGenre() .. "\n" .. song:GetGroupName() .. "\n" .. length_result .. "\n" .. round(song:MusicLengthSeconds(),1) .. " Seconds" );
 			end;
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Roulette' then
 				self:settext("Random");
@@ -350,12 +325,12 @@ local t = Def.ActorFrame{
 				self:settext(wheel:GetSelectedSection());
 			end;
 			self:finishtweening();
-			self:scaletofit(SCREEN_LEFT+2,SCREEN_TOP+110,SCREEN_LEFT+256,SCREEN_TOP+250);
+			self:scaletofit(SCREEN_LEFT+2,SCREEN_TOP+118,SCREEN_LEFT+256,SCREEN_TOP+242);
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"Information");
 	},
-	-- song difficulty P1 text
-	LoadFont("SpoOky")..{
+	-- Actor (Song Difficulty P1 Text)
+	LoadFont("Common","normal")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_LEFT+72;y,SCREEN_TOP+300;diffuse,color(theme_color);align,0,0.5;shadowlength,1;zoom,0.5);
 		OnCommand=function(self)
@@ -392,8 +367,8 @@ local t = Def.ActorFrame{
 		CurrentSongChangedMessageCommand=cmd(playcommand,"StringP1");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"StringP1");
 	},
-	-- song/trail difficulty P2 text
-	LoadFont("SpoOky")..{
+	-- Actor (Song Difficulty P2 Text)
+	LoadFont("Common","normal")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_LEFT+72;y,SCREEN_TOP+365;diffuse,color(theme_color);align,0,0.5;shadowlength,1;zoom,0.5);
 		OnCommand=function(self)
@@ -430,10 +405,11 @@ local t = Def.ActorFrame{
 		CurrentSongChangedMessageCommand=cmd(playcommand,"StringP2");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"StringP2");
 	},
+	-- Actor (Radar)
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_LEFT+130;y,SCREEN_TOP+417;scaletoclipped,256,70;Load,THEME:GetPathG("", "radar_values"));
 	},
-	-- quad p1 taps
+	-- Actor (P1 Taps)
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+386,SCREEN_LEFT+15,SCREEN_TOP+390;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
@@ -441,7 +417,7 @@ local t = Def.ActorFrame{
 		end;
 		RadarTapsP1Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
-				p1_percentage = (steps_p1_taps / steps_p1_total)*100;
+				p1_percentage = (steps_p1_table[1] / steps_p1_table[9])*100;
 			else
 				p1_percentage = 1;
 			end;
@@ -452,7 +428,7 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarTapsP1");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarTapsP1");
 	},
-	-- quad p1 jumps
+	-- Actor (P1 Jumps)
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+393,SCREEN_LEFT+15,SCREEN_TOP+397;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
@@ -460,7 +436,7 @@ local t = Def.ActorFrame{
 		end;
 		RadarJumpsP1Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
-				p1_percentage = (steps_p1_jumps / steps_p1_total)*100;
+				p1_percentage = (steps_p1_table[2] / steps_p1_table[9])*100;
 			else
 				p1_percentage = 1;
 			end;
@@ -471,7 +447,7 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarJumpsP1");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarJumpsP1");
 	},
-	-- quad p1 holds
+	-- Actor (P1 Holds)
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+400,SCREEN_LEFT+15,SCREEN_TOP+404;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
@@ -479,7 +455,7 @@ local t = Def.ActorFrame{
 		end;
 		RadarHoldsP1Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
-				p1_percentage = (steps_p1_holds / steps_p1_total)*100;
+				p1_percentage = (steps_p1_table[3] / steps_p1_table[9])*100;
 			else
 				p1_percentage = 1;
 			end;
@@ -490,7 +466,7 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarHoldsP1");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarHoldsP1");
 	},
-	-- quad p1 mines
+	-- Actor (P1 Mines)
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+407,SCREEN_LEFT+15,SCREEN_TOP+411;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
@@ -498,7 +474,7 @@ local t = Def.ActorFrame{
 		end;
 		RadarMinesP1Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
-				p1_percentage = (steps_p1_mines / steps_p1_total)*100;
+				p1_percentage = (steps_p1_table[4] / steps_p1_table[9])*100;
 			else
 				p1_percentage = 1;
 			end;
@@ -509,7 +485,7 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarMinesP1");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarMinesP1");
 	},
-	-- quad p1 hands
+	-- Actor (P1 Hands)
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+414,SCREEN_LEFT+15,SCREEN_TOP+418;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
@@ -517,7 +493,7 @@ local t = Def.ActorFrame{
 		end;
 		RadarHandsP1Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
-				p1_percentage = (steps_p1_hands / steps_p1_total)*100;
+				p1_percentage = (steps_p1_table[5] / steps_p1_table[9])*100;
 			else
 				p1_percentage = 1;
 			end;
@@ -528,7 +504,7 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarHandsP1");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarHandsP1");
 	},
-	-- quad p1 rolls
+	-- Actor (P1 Rolls)
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+421,SCREEN_LEFT+15,SCREEN_TOP+425;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
@@ -536,7 +512,7 @@ local t = Def.ActorFrame{
 		end;
 		RadarRollsP1Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
-				p1_percentage = (steps_p1_rolls / steps_p1_total)*100;
+				p1_percentage = (steps_p1_table[6] / steps_p1_table[9])*100;
 			else
 				p1_percentage = 1;
 			end;
@@ -547,7 +523,7 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarRollsP1");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarRollsP1");
 	},
-	-- quad p1 lifts
+	-- Actor (P1 Lifts)
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+428,SCREEN_LEFT+15,SCREEN_TOP+432;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
@@ -555,7 +531,7 @@ local t = Def.ActorFrame{
 		end;
 		RadarLiftsP1Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
-				p1_percentage = (steps_p1_lifts / steps_p1_total)*100;
+				p1_percentage = (steps_p1_table[7] / steps_p1_table[9])*100;
 			else
 				p1_percentage = 1;
 			end;
@@ -566,7 +542,7 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarLiftsP1");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarLiftsP1");
 	},
-	-- quad p1 fakes
+	-- Actor (P1 Fakes)
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+434,SCREEN_LEFT+15,SCREEN_TOP+438;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
@@ -574,7 +550,7 @@ local t = Def.ActorFrame{
 		end;
 		RadarFakesP1Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
-				p1_percentage = (steps_p1_fakes / steps_p1_total)*100;
+				p1_percentage = (steps_p1_table[8] / steps_p1_table[9])*100;
 			else
 				p1_percentage = 1;
 			end;
@@ -585,7 +561,7 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarFakesP1");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarFakesP1");
 	},
-	-- quad p2 taps
+	-- Actor (P2 Taps)
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+386,SCREEN_LEFT+143,SCREEN_TOP+390;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
@@ -593,7 +569,7 @@ local t = Def.ActorFrame{
 		end;
 		RadarTapsP2Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
-				p2_percentage = (steps_p2_taps / steps_p2_total)*100;
+				p2_percentage = (steps_p2_table[1] / steps_p2_table[9])*100;
 			else
 				p2_percentage = 1;
 			end;
@@ -604,7 +580,7 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarTapsP2");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarTapsP2");
 	},
-	-- quad p2 jumps
+	-- Actor (P2 Jumps)
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+393,SCREEN_LEFT+143,SCREEN_TOP+397;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
@@ -612,7 +588,7 @@ local t = Def.ActorFrame{
 		end;
 		RadarJumpsP2Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
-				p2_percentage = (steps_p2_jumps / steps_p2_total)*100;
+				p2_percentage = (steps_p2_table[2] / steps_p2_table[9])*100;
 			else
 				p2_percentage = 1;
 			end;
@@ -623,7 +599,7 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarJumpsP2");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarJumpsP2");
 	},
-	-- quad p2 holds
+	-- Actor (P2 Holds)
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+400,SCREEN_LEFT+143,SCREEN_TOP+404;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
@@ -631,7 +607,7 @@ local t = Def.ActorFrame{
 		end;
 		RadarHoldsP2Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
-				p2_percentage = (steps_p2_holds / steps_p2_total)*100;
+				p2_percentage = (steps_p2_table[3] / steps_p2_table[9])*100;
 			else
 				p2_percentage = 1;
 			end;
@@ -642,7 +618,7 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarHoldsP2");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarHoldsP2");
 	},
-	-- quad p2 mines
+	-- Actor (P2 Mines)
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+407,SCREEN_LEFT+143,SCREEN_TOP+411;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
@@ -650,7 +626,7 @@ local t = Def.ActorFrame{
 		end;
 		RadarMinesP2Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
-				p2_percentage = (steps_p2_mines / steps_p2_total)*100;
+				p2_percentage = (steps_p2_table[4] / steps_p2_table[9])*100;
 			else
 				p2_percentage = 1;
 			end;
@@ -661,7 +637,7 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarMinesP2");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarMinesP2");
 	},
-	-- quad p2 hands
+	-- Actor (P2 Hands)
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+414,SCREEN_LEFT+143,SCREEN_TOP+418;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
@@ -669,7 +645,7 @@ local t = Def.ActorFrame{
 		end;
 		RadarHandsP2Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
-				p2_percentage = (steps_p2_hands / steps_p2_total)*100;
+				p2_percentage = (steps_p2_table[5] / steps_p2_table[9])*100;
 			else
 				p2_percentage = 1;
 			end;
@@ -680,7 +656,7 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarHandsP2");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarHandsP2");
 	},
-	-- quad p2 rolls
+	-- Actor (P2 Rolls)
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+421,SCREEN_LEFT+143,SCREEN_TOP+425;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
@@ -688,7 +664,7 @@ local t = Def.ActorFrame{
 		end;
 		RadarRollsP2Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
-				p2_percentage = (steps_p2_rolls / steps_p2_total)*100;
+				p2_percentage = (steps_p2_table[6] / steps_p2_table[9])*100;
 			else
 				p2_percentage = 1;
 			end;
@@ -699,7 +675,7 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarRollsP2");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarRollsP2");
 	},
-	-- quad p2 lifts
+	-- Actor (P2 Lifts)
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+428,SCREEN_LEFT+143,SCREEN_TOP+432;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
@@ -707,7 +683,7 @@ local t = Def.ActorFrame{
 		end;
 		RadarLiftsP2Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
-				p2_percentage = (steps_p2_lifts / steps_p2_total)*100;
+				p2_percentage = (steps_p2_table[7] / steps_p2_table[9])*100;
 			else
 				p2_percentage = 1;
 			end;
@@ -718,7 +694,7 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarLiftsP2");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarLiftsP2");
 	},
-	-- quad p2 fakes
+	-- Actor (P2 Fakes)
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+434,SCREEN_LEFT+143,SCREEN_TOP+438;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
@@ -726,7 +702,7 @@ local t = Def.ActorFrame{
 		end;
 		RadarFakesP2Command=function(self)
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
-				p2_percentage = (steps_p2_fakes / steps_p2_total)*100;
+				p2_percentage = (steps_p2_table[8] / steps_p2_table[9])*100;
 			else
 				p2_percentage = 1;
 			end;
@@ -737,14 +713,10 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarFakesP2");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarFakesP2");
 	},
-	-- new theme skin i am experimenting with...
-	Def.Sprite{
-		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;Load,THEME:GetPathG("", "theme_skin"));
-	},
-	-- new theme skin i am experimenting with...
-	Def.Sprite{
-		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;Load,THEME:GetPathG("", "music_theme_skin"));
-	}
+	-- Function (scripts)
+	theme_skin("theme_skin"),
+	-- Function (scripts)
+	theme_skin("music_theme_skin")
 };
 
 return t;

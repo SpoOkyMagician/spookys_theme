@@ -2,7 +2,7 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenWithMenuElementsOutActorFrame";
-	-- GLOBAL quad fades to black
+	-- Actor (scripts)
 	grid_fast_fade_out
 };
 
