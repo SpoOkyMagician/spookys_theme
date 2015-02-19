@@ -31,7 +31,7 @@ local t = Def.ActorFrame{
 		end;
 	},
 	-- Actor (Song Difficulty P1)
-	LoadActor(THEME:GetPathG("", "difficulty_unknown"))..{
+	LoadActor(THEME:GetPathG("", "icon_unknown"))..{
 		InitCommand=cmd(x,SCREEN_LEFT+51;y,SCREEN_TOP+15);
 		-- this should be okay. i have to call it somehow... there are other messagecommands but, this is good...
 		OnCommand=function(self)
@@ -41,12 +41,12 @@ local t = Def.ActorFrame{
 			if last_known_difficulty_P1 ~= nil then
 				self:Load(THEME:GetPathG("icon", last_known_difficulty_P1));
 			else
-				self:Load(THEME:GetPathG("", "difficulty_unknown"));
+				self:Load(THEME:GetPathG("", "icon_unknown"));
 			end;
 		end;
 	},
 	-- Actor (Song Difficulty P2)
-	LoadActor(THEME:GetPathG("", "difficulty_unknown"))..{
+	LoadActor(THEME:GetPathG("", "icon_unknown"))..{
 		InitCommand=cmd(x,SCREEN_RIGHT-51;y,SCREEN_TOP+15);
 		OnCommand=function(self)
 			self:queuecommand('IconPB');
@@ -55,7 +55,7 @@ local t = Def.ActorFrame{
 			if last_known_difficulty_P2 ~= nil then
 				self:Load(THEME:GetPathG("icon", last_known_difficulty_P2));
 			else
-				self:Load(THEME:GetPathG("", "difficulty_unknown"));
+				self:Load(THEME:GetPathG("", "icon_unknown"));
 			end;
 		end;
 	},
