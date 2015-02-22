@@ -121,36 +121,49 @@ local t = Def.ActorFrame{
 	LoadActor(THEME:GetPathG("", "life_meter_overlay"))..{
 		InitCommand=cmd(x,SCREEN_RIGHT-252;y,SCREEN_TOP+15);
 	},
-	-- TEMP CURRENT GRADE
+	-- Actor (P1 NPS)
 	LoadFont("Common","normal")..{
-		Text="AAAA";
-		InitCommand=cmd(x,SCREEN_LEFT+128+128;y,SCREEN_BOTTOM/2;align,0.5,0.5;diffuse,color(theme_color);shadowlength,1);
-		TempGradeCommand=function(self)
-			local stats = STATSMAN:GetCurStageStats();
-			local player_stats = stats:GetPlayerStageStats('PlayerNumber_P1');
-			local grade = player_stats:GetGrade();
-			self:finishtweening();
-			if grade == 'Grade_Tier01' then
-				self:settext("AAAA");
-			elseif grade == 'Grade_Tier02' then
-				self:settext("AAA");
-			elseif grade == 'Grade_Tier03' then
-				self:settext("AA");
-			elseif grade == 'Grade_Tier04' then
-				self:settext("A");
-			elseif grade == 'Grade_Tier05' then
-				self:settext("B");
-			elseif grade == 'Grade_Tier06' then
-				self:settext("C");
-			elseif grade == 'Grade_Tier07' then
-				self:settext("D");
-			elseif grade == 'Grade_Failed' then
-				self:settext("F");
-			else
-				self:settext("Error");
-			end
+		Text="NPS: 0";
+		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+64;align,0,0.5;diffuse,color(theme_color);shadowlength,1);
+		OnCommand=function(self)
+			total_p1 = 0;
+			last_second_p1 = -1;
+			current_second_p1 = Second();
 		end;
-		CurrentComboChangedP1MessageCommand=cmd(playcommand,"TempGrade");
+		TotalACommand=function(self)
+			last_second_p1 = current_second_p1;
+			current_second_p1 = Second();
+			if current_second_p1 ~= last_second_p1 then
+				local nps_p1 = total_p1;
+				total_p1 = 0;
+				self:settext("NPS: " .. tostring(nps_p1));
+			else
+				total_p1 = (total_p1 + 1);
+			end;
+		end;
+		CurrentComboChangedP1MessageCommand=cmd(playcommand,"TotalA");
+	},
+	-- Actor (P2 NPS)
+	LoadFont("Common","normal")..{
+		Text="NPS: 0";
+		InitCommand=cmd(x,SCREEN_RIGHT-8;y,SCREEN_TOP+64;align,1,0.5;diffuse,color(theme_color);shadowlength,1);
+		OnCommand=function(self)
+			total_p2 = 0;
+			last_second_p2 = -1;
+			current_second_p2 = Second();
+		end;
+		TotalACommand=function(self)
+			last_second_p2 = current_second_p2;
+			current_second_p2 = Second();
+			if current_second_p2 ~= last_second_p2 then
+				local nps_p2 = total_p2;
+				total_p2 = 0;
+				self:settext("NPS: " .. tostring(nps_p2));
+			else
+				total_p2 = (total_p2 + 1);
+			end;
+		end;
+		CurrentComboChangedP1MessageCommand=cmd(playcommand,"TotalA");
 	},
 	-- Actor (Combo Text P1)
 	LoadFont("Common","normal")..{
