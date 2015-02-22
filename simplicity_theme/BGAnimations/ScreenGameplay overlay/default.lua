@@ -152,7 +152,7 @@ local t = Def.ActorFrame{
 			last_second_p2 = -1;
 			current_second_p2 = Second();
 		end;
-		TotalACommand=function(self)
+		TotalBCommand=function(self)
 			last_second_p2 = current_second_p2;
 			current_second_p2 = Second();
 			if current_second_p2 ~= last_second_p2 then
@@ -163,7 +163,7 @@ local t = Def.ActorFrame{
 				total_p2 = (total_p2 + 1);
 			end;
 		end;
-		CurrentComboChangedP1MessageCommand=cmd(playcommand,"TotalA");
+		CurrentComboChangedP2MessageCommand=cmd(playcommand,"TotalB");
 	},
 	-- Actor (Combo Text P1)
 	LoadFont("Common","normal")..{
