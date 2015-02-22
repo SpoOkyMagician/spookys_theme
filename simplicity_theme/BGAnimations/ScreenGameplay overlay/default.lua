@@ -123,10 +123,11 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (P1 NPS)
 	LoadFont("Common","normal")..{
-		Text="NPS: 0";
-		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+64;align,0,0.5;diffuse,color(theme_color);shadowlength,1);
+		Text="NPS: 0 (Peak: 0)";
+		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+64;align,0,0.5;diffuse,color(theme_color);shadowlength,1;zoom,0.5);
 		OnCommand=function(self)
 			total_p1 = 0;
+			peak_nps_p1 = 0;
 			last_second_p1 = -1;
 			current_second_p1 = Second();
 		end;
@@ -135,20 +136,40 @@ local t = Def.ActorFrame{
 			current_second_p1 = Second();
 			if current_second_p1 ~= last_second_p1 then
 				local nps_p1 = total_p1;
+				if nps_p1 >= peak_nps_p1 then
+					peak_nps_p1 = nps_p1;
+				end;
 				total_p1 = 0;
-				self:settext("NPS: " .. tostring(nps_p1));
+				self:settext("NPS: " .. tostring(nps_p1) .. " (Peak: " .. tostring(peak_nps_p1) .. ")");
+			else
+				total_p1 = (total_p1 + 1);
+			end;
+		end;
+		BeatA=function(self)
+			-- this needs to be updated even when there are no notes.
+			last_second_p1 = current_second_p1;
+			current_second_p1 = Second();
+			if current_second_p1 ~= last_second_p1 then
+				local nps_p1 = total_p1;
+				if nps_p1 >= peak_nps_p1 then
+					peak_nps_p1 = nps_p1;
+				end;
+				total_p1 = 0;
+				self:settext("NPS: " .. tostring(nps_p1) .. " (Peak: " .. tostring(peak_nps_p1) .. ")");
 			else
 				total_p1 = (total_p1 + 1);
 			end;
 		end;
 		CurrentComboChangedP1MessageCommand=cmd(playcommand,"TotalA");
+		BeatCrossedMessageCommand=cmd(playcommand,'BeatA');
 	},
 	-- Actor (P2 NPS)
 	LoadFont("Common","normal")..{
-		Text="NPS: 0";
-		InitCommand=cmd(x,SCREEN_RIGHT-8;y,SCREEN_TOP+64;align,1,0.5;diffuse,color(theme_color);shadowlength,1);
+		Text="NPS: 0 (Peak: 0)";
+		InitCommand=cmd(x,SCREEN_RIGHT-8;y,SCREEN_TOP+64;align,1,0.5;diffuse,color(theme_color);shadowlength,1;zoom,0.5);
 		OnCommand=function(self)
 			total_p2 = 0;
+			peak_nps_p2 = 0;
 			last_second_p2 = -1;
 			current_second_p2 = Second();
 		end;
@@ -157,13 +178,31 @@ local t = Def.ActorFrame{
 			current_second_p2 = Second();
 			if current_second_p2 ~= last_second_p2 then
 				local nps_p2 = total_p2;
+				if nps_p2 >= peak_nps_p2 then
+					peak_nps_p2 = nps_p2;
+				end;
 				total_p2 = 0;
-				self:settext("NPS: " .. tostring(nps_p2));
+				self:settext("NPS: " .. tostring(nps_p2) .. " (Peak: " .. tostring(peak_nps_p2) .. ")");
+			else
+				total_p2 = (total_p2 + 1);
+			end;
+		end;
+		BeatB=function(self)
+			last_second_p2 = current_second_p2;
+			current_second_p2 = Second();
+			if current_second_p2 ~= last_second_p2 then
+				local nps_p2 = total_p2;
+				if nps_p2 >= peak_nps_p2 then
+					peak_nps_p2 = nps_p2;
+				end;
+				total_p2 = 0;
+				self:settext("NPS: " .. tostring(nps_p2) .. " (Peak: " .. tostring(peak_nps_p2) .. ")");
 			else
 				total_p2 = (total_p2 + 1);
 			end;
 		end;
 		CurrentComboChangedP2MessageCommand=cmd(playcommand,"TotalB");
+		BeatCrossedMessageCommand=cmd(playcommand,'BeatB');
 	},
 	-- Actor (Combo Text P1)
 	LoadFont("Common","normal")..{
