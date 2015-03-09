@@ -28,6 +28,25 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "stage_icon_unknown"));
 			end;
+			self:finishtweening();
+			self:diffuse(color("#FFFFFF00"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF11"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF33"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF55"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF77"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF99"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFFBB"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFFDD"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFFFF"));
+			self:sleep(0.025);
 		end;
 	},
 	-- Actor (Song Difficulty P1)
@@ -43,6 +62,25 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "icon_unknown"));
 			end;
+			self:finishtweening();
+			self:diffuse(color("#FFFFFF00"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF11"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF33"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF55"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF77"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF99"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFFBB"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFFDD"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFFFF"));
+			self:sleep(0.025);
 		end;
 	},
 	-- Actor (Song Difficulty P2)
@@ -57,6 +95,25 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "icon_unknown"));
 			end;
+			self:finishtweening();
+			self:diffuse(color("#FFFFFF00"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF11"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF33"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF55"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF77"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF99"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFFBB"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFFDD"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFFFF"));
+			self:sleep(0.025);
 		end;
 	},
 	-- Actor (Back Life Meter P1)
@@ -126,7 +183,6 @@ local t = Def.ActorFrame{
 		Text="NPS: 0 (Peak: 0)";
 		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+64;align,0,0.5;diffuse,color(theme_color);shadowlength,1;zoom,0.5);
 		OnCommand=function(self)
-			-- set some variables.
 			total_p1 = 0;
 			peak_nps_p1 = 0;
 			last_second_p1 = -1;
@@ -200,10 +256,86 @@ local t = Def.ActorFrame{
 		CurrentComboChangedP2MessageCommand=cmd(playcommand,"TotalB");
 		BeatCrossedMessageCommand=cmd(playcommand,'BeatB');
 	},
+	-- Actor (Real Time Timing Graphic P1)
+	LoadActor(THEME:GetPathG("icon", "rtt"))..{
+		InitCommand=cmd(x,SCREEN_LEFT+2;y,SCREEN_BOTTOM/2+12;align,0,0.5);
+	},
+	-- Actor (Results P1 Actual Text)
+	LoadFont("Common", "normal")..{
+		Text=" ";
+		InitCommand=cmd(x,SCREEN_LEFT+12;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);align,0,0.5;shadowlength,1;zoom,0.75);
+		OnCommand=function(self)
+			self:queuecommand('ResultsP1');
+		end;
+		ResultsP1Command=function(self)
+			local results = STATSMAN:GetCurStageStats();
+			local tableresults = results:GetPlayerStageStats('PlayerNumber_P1');
+			local combo = tableresults:MaxCombo();
+			local released = tableresults:GetHoldNoteScores('HoldNoteScore_LetGo');
+			local held = tableresults:GetHoldNoteScores('HoldNoteScore_Held');
+			local flawless = tableresults:GetTapNoteScores('TapNoteScore_W1');
+			local perfects = tableresults:GetTapNoteScores('TapNoteScore_W2');
+			local greats = tableresults:GetTapNoteScores('TapNoteScore_W3');
+			local goods = tableresults:GetTapNoteScores('TapNoteScore_W4');
+			local bads = tableresults:GetTapNoteScores('TapNoteScore_W5');
+			local misses = tableresults:GetTapNoteScores('TapNoteScore_Miss');
+			self:finishtweening();
+			self:align(0,0.5);
+			self:diffuse(color(theme_color));
+			self:x(SCREEN_LEFT+12);
+			self:y(SCREEN_BOTTOM/2);
+			self:settext("\n" .. tostring(flawless) .. "\n" .. tostring(perfects) .. "\n" .. tostring(greats) .. "\n" .. tostring(goods) .. "\n" .. tostring(bads) .. "\n" .. tostring(misses) .. "\n" .. tostring(held) .. "\n" .. tostring(released) .. "\n" .. tostring(combo));
+		end;
+		CurrentComboChangedP1MessageCommand=cmd(playcommand,'ResultsP1');
+	},
+	-- Actor (Real Time Timing Graphic P2)
+	LoadActor(THEME:GetPathG("icon", "rtt"))..{
+		InitCommand=cmd(x,SCREEN_RIGHT-2;y,SCREEN_BOTTOM/2+12;align,1,0.5);
+	},
+	-- Actor (Results P2 Actual Text)
+	LoadFont("Common", "normal")..{
+		Text=" ";
+		InitCommand=cmd(x,SCREEN_RIGHT-12;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);align,1,0.5;shadowlength,1;zoom,0.75);
+		OnCommand=function(self)
+			self:queuecommand('ResultsP2');
+		end;
+		ResultsP2Command=function(self)
+			local results = STATSMAN:GetCurStageStats();
+			local tableresults = results:GetPlayerStageStats('PlayerNumber_P2');
+			local combo = tableresults:MaxCombo();
+			local released = tableresults:GetHoldNoteScores('HoldNoteScore_LetGo');
+			local held = tableresults:GetHoldNoteScores('HoldNoteScore_Held');
+			local flawless = tableresults:GetTapNoteScores('TapNoteScore_W1');
+			local perfects = tableresults:GetTapNoteScores('TapNoteScore_W2');
+			local greats = tableresults:GetTapNoteScores('TapNoteScore_W3');
+			local goods = tableresults:GetTapNoteScores('TapNoteScore_W4');
+			local bads = tableresults:GetTapNoteScores('TapNoteScore_W5');
+			local misses = tableresults:GetTapNoteScores('TapNoteScore_Miss');
+			self:finishtweening();
+			self:align(1,0.5);
+			self:diffuse(color(theme_color));
+			self:x(SCREEN_RIGHT-12);
+			self:y(SCREEN_BOTTOM/2);
+			self:settext("\n" .. tostring(flawless) .. "\n" .. tostring(perfects) .. "\n" .. tostring(greats) .. "\n" .. tostring(goods) .. "\n" .. tostring(bads) .. "\n" .. tostring(misses) .. "\n" .. tostring(held) .. "\n" .. tostring(released) .. "\n" .. tostring(combo));
+		end;
+		CurrentComboChangedP2MessageCommand=cmd(playcommand,'ResultsP2');
+	},
+	-- Actor (Test)
+	LoadActor(THEME:GetPathS("","combo_tick"))..{
+		SoundComboCommand=function(self)
+			local stats = STATSMAN:GetCurStageStats();
+			local player_stats = stats:GetPlayerStageStats('PlayerNumber_P1');
+			local combo = player_stats:GetCurrentCombo();
+			if combo == 100 or combo == 200 or combo == 300 or combo == 400 or combo == 500 or combo == 600 or combo == 700 or combo == 800 or combo == 900 or combo == 1000 or combo == 2000 or combo == 3000 or combo == 4000 or combo == 5000 or combo == 6000 or combo == 7000 or combo == 8000 or combo == 9000 or combo == 10000 or combo == 20000 or combo == 30000 or combo == 40000 or combo == 50000 or combo == 60000 or combo == 70000 or combo == 80000 or combo == 90000 or combo == 100000 or combo == 200000 or combo == 300000 or combo == 400000 or combo == 500000 or combo == 600000 or combo == 700000 or combo == 800000 or combo == 900000 or combo == 1000000 then
+				self:play();
+			end;
+		end;
+		CurrentComboChangedP1MessageCommand=cmd(playcommand,"SoundCombo");
+	},
 	-- Actor (Combo Text P1)
 	LoadFont("Common","normal")..{
 		Text="0";
-		InitCommand=cmd(x,SCREEN_RIGHT/2-4;y,SCREEN_BOTTOM-40;align,1,0.5;diffuse,color("1,0.25,0,1");visible,false;shadowlength,1);
+		InitCommand=cmd(x,SCREEN_RIGHT/2-4;y,SCREEN_BOTTOM-42;align,1,0.5;diffuse,color("1,0.25,0,1");visible,false;shadowlength,1);
 		PAComboCommand=function(self)
 			local stats = STATSMAN:GetCurStageStats();
 			local player_stats = stats:GetPlayerStageStats('PlayerNumber_P1');
@@ -226,7 +358,7 @@ local t = Def.ActorFrame{
 	-- Actor (Combo Text P2)
 	LoadFont("Common","normal")..{
 		Text="0";
-		InitCommand=cmd(x,SCREEN_RIGHT/2+4;y,SCREEN_BOTTOM-40;align,0,0.5;diffuse,color("0,0.5,1,1");visible,false;shadowlength,1);
+		InitCommand=cmd(x,SCREEN_RIGHT/2+4;y,SCREEN_BOTTOM-42;align,0,0.5;diffuse,color("0,0.5,1,1");visible,false;shadowlength,1);
 		PBComboCommand=function(self)
 			local stats = STATSMAN:GetCurStageStats();
 			local player_stats = stats:GetPlayerStageStats('PlayerNumber_P2');
@@ -249,7 +381,7 @@ local t = Def.ActorFrame{
 	-- Actor (Score Text P1)
 	LoadFont("Common","normal")..{
 		Text="0";
-		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_BOTTOM-40;align,0,0.5;diffuse,color("1,0.25,0,1");shadowlength,1);
+		InitCommand=cmd(x,SCREEN_LEFT+4;y,SCREEN_BOTTOM-42;align,0,0.5;diffuse,color("1,0.25,0,1");shadowlength,1);
 		OnCommand=function(self)
 			self:queuecommand("PAScore");
 		end;
@@ -274,7 +406,7 @@ local t = Def.ActorFrame{
 	-- Actor (Score Text P2)
 	LoadFont("Common","normal")..{
 		Text="0";
-		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_BOTTOM-40;align,1,0.5;diffuse,color("0,0.5,1,1");shadowlength,1);
+		InitCommand=cmd(x,SCREEN_RIGHT-4;y,SCREEN_BOTTOM-42;align,1,0.5;diffuse,color("0,0.5,1,1");shadowlength,1);
 		OnCommand=function(self)
 			self:queuecommand("PBScore");
 		end;
@@ -341,6 +473,8 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_TOP+54,SCREEN_LEFT+427,SCREEN_BOTTOM-54;diffuse,color("1,0,0,0.10");visible,false);
 		OnCommand=function(self)
+			-- would this help?
+			self:sleep(0.1);
 			p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
 			p2_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P2');
 			self:queuecommand('P1Performance');
@@ -354,13 +488,13 @@ local t = Def.ActorFrame{
 				p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
 				if p1_lifebar:IsInDanger() == true then
 					self:visible(true);
-					self:diffuse(color("1,0,0,0.10"));
+					self:diffuse(color("1,0,0,0.05"));
 				elseif p1_lifebar:IsHot() == true then
 					self:visible(true);
-					self:diffuse(color("1,1,1,0.10"));
+					self:diffuse(color("1,1,1,0.05"));
 				elseif p1_lifebar:IsFailing() == true then
 					self:visible(true);
-					self:diffuse(color("0,0,0,0.10"));
+					self:diffuse(color("0,0,0,0.05"));
 				else
 					self:visible(false);
 				end;
@@ -387,13 +521,13 @@ local t = Def.ActorFrame{
 				p2_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P2');
 				if p2_lifebar:IsInDanger() == true then
 					self:visible(true);
-					self:diffuse(color("1,0,0,0.10"));
+					self:diffuse(color("1,0,0,0.05"));
 				elseif p2_lifebar:IsHot() == true then
 					self:visible(true);
-					self:diffuse(color("1,1,1,0.10"));
+					self:diffuse(color("1,1,1,0.05"));
 				elseif p2_lifebar:IsFailing() == true then
 					self:visible(true);
-					self:diffuse(color("0,0,0,0.10"));
+					self:diffuse(color("0,0,0,0.05"));
 				else
 					self:visible(false);
 				end;
@@ -420,13 +554,13 @@ local t = Def.ActorFrame{
 				p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
 				if p1_lifebar:IsInDanger() == true then
 					self:visible(true);
-					self:diffuse(color("1,0,0,0.10"));
+					self:diffuse(color("1,0,0,0.05"));
 				elseif p1_lifebar:IsHot() == true then
 					self:visible(true);
-					self:diffuse(color("1,1,1,0.10"));
+					self:diffuse(color("1,1,1,0.05"));
 				elseif p1_lifebar:IsFailing() == true then
 					self:visible(true);
-					self:diffuse(color("0,0,0,0.10"));
+					self:diffuse(color("0,0,0,0.05"));
 				else
 					self:visible(false);
 				end;
@@ -435,13 +569,13 @@ local t = Def.ActorFrame{
 				p2_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P2');
 				if p2_lifebar:IsInDanger() == true then
 					self:visible(true);
-					self:diffuse(color("1,0,0,0.25"));
+					self:diffuse(color("1,0,0,0.05"));
 				elseif p2_lifebar:IsHot() == true then
 					self:visible(true);
-					self:diffuse(color("1,1,1,0.25"));
+					self:diffuse(color("1,1,1,0.05"));
 				elseif p2_lifebar:IsFailing() == true then
 					self:visible(true);
-					self:diffuse(color("0,0,0,0.25"));
+					self:diffuse(color("0,0,0,0.05"));
 				else
 					self:visible(false);
 				end;

@@ -363,6 +363,32 @@ local t = Def.ActorFrame{
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"CD");
 	},
+	-- Actor (Experiment)
+	--LoadFont("Common","normal")..{
+	--	Text="Experimental Text";
+	--	InitCommand=cmd(x,SCREEN_CENTER_X+128;y,SCREEN_CENTER_Y-16;diffuse,color(theme_color);align,0.5,0.5;shadowlength,1;zoom,0.5);
+	--	PackCommand=function(self)
+	--		self:finishtweening();
+	--		local song = GAMESTATE:GetCurrentSong();
+	--		local group = "Nothing";
+	--		local last_known_group = "Nothing";
+	--		if song ~= nil then
+	--			group = song:GetGroupName();
+	--			-- the fun part...
+	--			if group == "SHARPNELSTREAMZ v2" and last_known_group ~= "SHARPNELSTREAMZ v2" then
+	--				last_known_group = group;
+	--				self:settext("http://stepmaniaonline.net/downloads/packs/SHARPNELSTREAMZ%20v2.zip");
+	--				GAMESTATE:ApplyGameCommand("urlnoexit,http://stepmaniaonline.net/downloads/packs/SHARPNELSTREAMZ%20v2.zip");
+	--			else
+	--				self:settext("Nothing");
+	--			end;
+	--		else
+	--			self:settext("Nothing");
+	--		end;
+	--		Trace("Pack Name: " .. group);
+	--	end;
+	--	CurrentSongChangedMessageCommand=cmd(playcommand,"Pack");
+	--},
 	-- Function (scripts/BugFix: Sort Icon)
 	theme_skin("theme_skin"),
 	-- Function (scripts)
