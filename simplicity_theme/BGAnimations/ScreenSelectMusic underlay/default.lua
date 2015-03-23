@@ -16,6 +16,9 @@ local sort = false; -- GAMESTATE:GetSortOrder();
 local song = false; -- GAMESTATE:GetCurrentSong();
 local group = false; -- GAMESTATE:GetExpandedSectionName();
 
+steps_p1_table = {};
+steps_p2_table = {};
+
 steps_p1_table[1] = 0;
 steps_p1_table[2] = 0;
 steps_p1_table[3] = 0;

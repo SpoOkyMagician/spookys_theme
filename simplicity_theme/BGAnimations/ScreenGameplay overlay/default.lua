@@ -124,7 +124,8 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+102,SCREEN_TOP+2,SCREEN_LEFT+402,SCREEN_TOP+28;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
-			p1_lifebar = nil;
+			self:sleep(1);
+			p1_lifebar = 0.5;
 			p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
 			self:queuecommand('PALife');
 		end;
@@ -155,7 +156,8 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_RIGHT-402,SCREEN_TOP+2,SCREEN_RIGHT-102,SCREEN_TOP+28;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
-			p2_lifebar = nil;
+			self:sleep(1);
+			p2_lifebar = 0.5;
 			p2_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P2');
 			self:queuecommand('PBLife');
 		end;
@@ -506,6 +508,7 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_RIGHT-2,SCREEN_TOP+54,SCREEN_RIGHT-427,SCREEN_BOTTOM-54;diffuse,color("1,0,0,0.10");visible,false);
 		OnCommand=function(self)
+			self:sleep(1);
 			p1_joined = false;
 			p2_joined = false;
 			p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
@@ -539,6 +542,7 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_TOP+54,SCREEN_RIGHT-2,SCREEN_BOTTOM-54;diffuse,color("1,1,1,0.10");visible,false);
 		OnCommand=function(self)
+			self:sleep(1);
 			p1_joined = false;
 			p2_joined = false;
 			p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
