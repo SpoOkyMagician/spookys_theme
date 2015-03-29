@@ -2,8 +2,6 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenGameplayGoActorFrame";
-	-- Function (scripts)
-	refresh_color(),
 	-- Actor (Here We Go Text)
 	LoadFont("Common", "normal")..{
 		Text=ScreenString("Here we go") .. "!";

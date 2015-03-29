@@ -3,8 +3,6 @@
 local t = Def.ActorFrame{
 	Name="ScreenNetRoomUnderlayActorFrame";
 	-- Function (scripts)
-	refresh_color(),
-	-- Function (scripts)
 	common_text("StepMania Online Lobby"),
 	-- Actor (Last Round Info Quad)
 	Def.Quad{

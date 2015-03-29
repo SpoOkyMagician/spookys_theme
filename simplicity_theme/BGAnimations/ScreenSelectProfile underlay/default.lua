@@ -3,8 +3,6 @@
 local t = Def.ActorFrame{
 	Name="ScreenSelectProfileUnderlayActorFrame";
 	-- Function (scripts)
-	refresh_color(),
-	-- Function (scripts)
 	common_text("Select Profile"),
 	-- Actor (Profile Quad)
 	Def.Quad{

@@ -3,8 +3,6 @@
 local t = Def.ActorFrame{
 	Name="ScreenSelectGameUnderlayActorFrame";
 	-- Function (scripts)
-	refresh_color(),
-	-- Function (scripts)
 	common_text("Select Game Mode"),
 	-- Actor (scripts)
 	grid_t,

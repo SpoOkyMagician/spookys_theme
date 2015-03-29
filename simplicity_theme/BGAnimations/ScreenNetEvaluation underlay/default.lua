@@ -3,8 +3,6 @@
 local t = Def.ActorFrame{
 	Name="ScreenNetEvaluationUnderlayActorFrame";
 	-- Function (scripts)
-	refresh_color(),
-	-- Function (scripts)
 	common_text("StepMania Online Evaluation"),
 	-- Actor (scripts)
 	grid_t,

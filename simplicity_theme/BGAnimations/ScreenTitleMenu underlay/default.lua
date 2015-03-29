@@ -2,8 +2,6 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenTitleMenuUnderlayActorFrame";
-	-- Function (scripts)
-	refresh_color(),
 	-- Actor (scripts)
 	LoadActor(THEME:GetPathG("","bg_generic"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);

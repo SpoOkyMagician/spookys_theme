@@ -4,8 +4,6 @@
 local t = Def.ActorFrame{
 	Name="ScreenStageInformationUnderlayActorFrame";
 	-- Function (scripts)
-	refresh_color(),
-	-- Function (scripts)
 	common_text("Stage Information"),
 	-- Actor (scripts)
 	grid_t,

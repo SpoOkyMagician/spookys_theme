@@ -2,8 +2,6 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenGameplayOverlayActorFrame";
-	-- Function
-	refresh_color(),
 	-- Actor (scripts)
 	grid_b,
 	-- Actor (scripts)

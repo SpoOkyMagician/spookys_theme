@@ -3,8 +3,6 @@
 local t = Def.ActorFrame{
 	Name="ScreenSetBGFitUnderlayActorFrame";
 	-- Function (scripts)
-	refresh_color(),
-	-- Function (scripts)
 	common_text("Select Background Fit"),
 	-- Actor (scripts)
 	grid_t,

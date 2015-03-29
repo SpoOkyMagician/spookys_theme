@@ -3,8 +3,6 @@
 local t = Def.ActorFrame{
 	Name="ScreenOptionsUIUnderlayActorFrame";
 	-- Function (scripts)
-	refresh_color(),
-	-- Function (scripts)
 	common_text("User Interface Options"),
 	-- Actor (scripts)
 	grid_t,

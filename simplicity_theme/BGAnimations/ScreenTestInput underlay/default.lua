@@ -2,8 +2,6 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenTestInputUnderlayActorFrame";
-	-- Function (scripts)
-	refresh_color(),
 	-- Actor (scripts)
 	grid_t,
 	-- Actor (had to borrow this code to not overwrite fallback... i need to change the color anyway...)

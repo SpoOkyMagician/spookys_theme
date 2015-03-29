@@ -3,8 +3,6 @@
 local t = Def.ActorFrame{
 	Name="ScreenSelectPlayModeUnderlayActorFrame";
 	-- Function (scripts)
-	refresh_color(),
-	-- Function (scripts)
 	common_text("Select Play Mode"),
 	-- Function (scripts)
 	grid_m(),

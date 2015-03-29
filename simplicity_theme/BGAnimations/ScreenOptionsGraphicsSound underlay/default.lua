@@ -3,8 +3,6 @@
 local t = Def.ActorFrame{
 	Name="ScreenOptionsGraphicsSoundUnderlayActorFrame";
 	-- Function (scripts)
-	refresh_color(),
-	-- Function (scripts)
 	common_text("Graphics and Sound Options"),
 	-- Actor (scripts)
 	grid_t,

@@ -3,8 +3,6 @@
 local t = Def.ActorFrame{
 	Name="ScreenAppearanceOptionsUnderlayActorFrame";
 	-- Function (scripts)
-	refresh_color(),
-	-- Function (scripts)
 	common_text("Appearance Options"),
 	-- Actor (scripts)
 	grid_t,

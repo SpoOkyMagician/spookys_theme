@@ -3,8 +3,6 @@
 local t = Def.ActorFrame{
 	Name="ScreenSelectStyleUnderlayActorFrame";
 	-- Function (scripts)
-	refresh_color(),
-	-- Function (scripts)
 	common_text("Select Style"),
 	-- Function (scripts)
 	grid_m(),

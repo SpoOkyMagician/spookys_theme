@@ -2,8 +2,6 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenSelectMusicOutActorFrame";
-	-- Function (scripts)
-	refresh_color(),
 	-- Actor (scripts)
 --	grid_slow_fade_out,
 	-- Actor (Screen Transition Left)

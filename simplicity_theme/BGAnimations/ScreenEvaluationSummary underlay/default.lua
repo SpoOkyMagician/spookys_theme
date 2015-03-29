@@ -2,8 +2,6 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenEvaluationSummaryUnderlayActorFrame";
-	-- Function (scripts)
-	refresh_color(),
 	-- Actor (scripts)
 	grid_t,
 	-- Function (scripts)

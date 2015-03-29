@@ -66,8 +66,6 @@ p2_percentage = 0;
 local t = Def.ActorFrame{
 	Name="ScreenNetSelectMusicUnderlayActorFrame";
 	-- Function (scripts)
-	refresh_color(),
-	-- Function (scripts)
 	common_text("Select Music"),
 	-- Actor (Last Known Difficulty Variable Online Hidden)
 	-- SMO Edit: Technically, it only uses P1. P2 does not work online.
@@ -657,7 +655,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (Song CD)
 	LoadActor(THEME:GetPathG("", "no_cd"))..{
-		InitCommand=cmd(x,SCREEN_LEFT+326;y,SCREEN_TOP+251;scaletofitto,80,80);
+		InitCommand=cmd(x,SCREEN_RIGHT-52;y,SCREEN_TOP+252;scaletofitto,80,80);
 		CDCommand=function(self)
 			self:finishtweening();
 			local song = GAMESTATE:GetCurrentSong();
@@ -718,6 +716,45 @@ local t = Def.ActorFrame{
 	--	end;
 	--	CurrentSongChangedMessageCommand=cmd(playcommand,"Pack");
 	--},
+	-- Actor (Player List Quad)
+	Def.Quad{
+		InitCommand=cmd(stretchto,SCREEN_LEFT+286,SCREEN_TOP+210,SCREEN_LEFT+426,SCREEN_BOTTOM-36;diffuse,color("0,0,0,0.8"));
+	},
+	-- Actor (Step Table Quad)
+	Def.Quad{
+		InitCommand=cmd(stretchto,SCREEN_RIGHT-150,SCREEN_TOP+210,SCREEN_RIGHT-10,SCREEN_BOTTOM-36;diffuse,color("0,0,0,0.8"));
+	},
+	-- Actor (P1 Step Table)
+	LoadFont("Common","normal")..{
+		Text="Step Table P1";
+		InitCommand=cmd(x,SCREEN_CENTER_X+282;y,SCREEN_CENTER_Y+130;diffuse,color(theme_color);align,0,0.5;shadowlength,1;zoom,0.5;tween);
+		OnCommand=function(self)
+			self:queuecommand("StepTableP1");
+		end;
+		StepTableP1Command=function(self)
+			self:finishtweening();
+			self:settext("TAPS: " .. tostring(steps_p1_table[1]) .. "\n" .. "JUMPS: " .. tostring(steps_p1_table[2]) .. "\n" .. "HOLDS: " .. tostring(steps_p1_table[3]) .. "\n" .. "MINES: " .. tostring(steps_p1_table[4]) .. "\n" .. "HANDS: " .. tostring(steps_p1_table[5]) .. "\n" .. "ROLLS: " .. tostring(steps_p1_table[6]) .. "\n" .. "LIFTS: " .. tostring(steps_p1_table[7]) .. "\n" .. "FAKES: " .. tostring(steps_p1_table[8]) .. "\n" .. "TOTAL: " .. tostring(steps_p1_table[9]));
+			self:diffuse(color("#FFFFFF00"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF11"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF33"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF55"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF77"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF99"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFFBB"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFFDD"));
+			self:sleep(0.025);
+			self:diffuse(color("1,0.25,0,1"));
+		end;
+		CurrentSongChangedMessageCommand=cmd(playcommand,"StepTableP1");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"StepTableP1");
+	},
 	-- Actor (Player List) ...some day...
 	LoadFont("Common","normal")..{
 		Text="Player List";

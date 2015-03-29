@@ -3,8 +3,6 @@
 local t = Def.ActorFrame{
 	Name="ScreenOptionsArcadeUnderlayActorFrame";
 	-- Function (scripts)
-	refresh_color(),
-	-- Function (scripts)
 	common_text("Arcade Options"),
 	-- Actor (scripts)
 	grid_t,

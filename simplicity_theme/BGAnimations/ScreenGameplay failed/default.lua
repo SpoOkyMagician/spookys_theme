@@ -2,8 +2,6 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenGameplayFailedActorFrame";
-	-- Function (scripts)
-	refresh_color(),
 	-- Actor (Screen Transition Left)
 	LoadActor(THEME:GetPathG("", "screen_transition_left"))..{
 		InitCommand=cmd(x,SCREEN_LEFT-213;y,SCREEN_CENTER_Y);

@@ -3,8 +3,6 @@
 local t = Def.ActorFrame{
 	Name="ScreenOptionsInputUnderlayActorFrame";
 	-- Function (scripts)
-	refresh_color(),
-	-- Function (scripts)
 	common_text("Input Options"),
 	-- Actor (scripts)
 	grid_t,

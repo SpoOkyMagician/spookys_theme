@@ -1,11 +1,9 @@
--- ScreenOptionsColor underlay
+-- ScreenOptionsTheme underlay
 
 local t = Def.ActorFrame{
-	Name="ScreenOptionsColorUnderlayActorFrame";
+	Name="ScreenOptionsThemeUnderlayActorFrame";
 	-- Function (scripts)
-	refresh_color(),
-	-- Function (scripts)
-	common_text("Theme Color"),
+	common_text("Theme Options"),
 	-- Actor (scripts)
 	grid_t,
 	-- Function (scripts)

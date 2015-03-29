@@ -3,8 +3,6 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenHowToInstallSongsActorFrame";
-	-- Function (scripts)
-	refresh_color(),
 	-- function (scripts)
 	common_text("No Songs Loaded"),
 	-- Actor (scripts)

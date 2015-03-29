@@ -3,8 +3,6 @@
 local t = Def.ActorFrame{
 	Name="ScreenSMOnlineLoginUnderlayActorFrame";
 	-- Function (scripts)
-	refresh_color(),
-	-- Function (scripts)
 	common_text("StepMania Online Login"),
 	-- Actor (scripts)
 	grid_t,

@@ -3,8 +3,6 @@
 local t = Def.ActorFrame{
 	Name="ScreenGameOverUnderlayActorFrame";
 	-- Function (scripts)
-	refresh_color(),
-	-- Function (scripts)
 	common_text("Game Over"),
 	-- Actor (scripts)
 	grid_t,

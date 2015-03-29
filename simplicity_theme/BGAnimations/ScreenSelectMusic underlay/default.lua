@@ -43,11 +43,9 @@ p2_percentage = 0;
 
 local t = Def.ActorFrame{
 	Name="ScreenSelectMusicUnderlayActorFrame";
-	-- Function (scripts)
-	refresh_color(),
 	-- Actor (Last Known Difficulty/Radar Variables P1/P2 hidden)
 	Def.Actor{
-		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;tween);
 		OnCommand=function(self)
 			-- this MUST be after the screen is done or it will not work correctly.
 			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
@@ -55,10 +53,9 @@ local t = Def.ActorFrame{
 		end;
 		VariablesCommand=function(self)
 			self:finishtweening();
-			self:sleep(0.025);
 			p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 			p2_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P2');
-			if p1_steps ~= nil then
+			if p1_steps ~= nil and wheel:GetSelectedType() == "WheelItemDataType_Song" then
 				last_known_difficulty_P1 = p1_steps:GetDifficulty();
 				p1_values = p1_steps:GetRadarValues('PlayerNumber_P1');
 				steps_p1_table[1] = p1_values:GetValue('RadarCategory_TapsAndHolds');
@@ -82,7 +79,7 @@ local t = Def.ActorFrame{
 				steps_p1_table[8] = 0;
 				steps_p1_table[9] = 1;
 			end;
-			if p2_steps ~= nil then
+			if p2_steps ~= nil and wheel:GetSelectedType() == "WheelItemDataType_Song" then
 				last_known_difficulty_P2 = p2_steps:GetDifficulty();
 				p2_values = p2_steps:GetRadarValues('PlayerNumber_P2');
 				steps_p2_table[1] = p2_values:GetValue('RadarCategory_TapsAndHolds');
@@ -106,6 +103,15 @@ local t = Def.ActorFrame{
 				steps_p2_table[8] = 0;
 				steps_p2_table[9] = 1;
 			end;
+			Trace("+--------+");
+			Trace("| DEBUG  |");
+			Trace("+--------+");
+			Trace("| LKD P1: " .. tostring(last_known_difficulty_P1));
+			Trace("| ST P1: " .. tostring(steps_p1_table[1]) .. ", " .. tostring(steps_p1_table[2]) .. ", " .. tostring(steps_p1_table[3]) .. ", " .. tostring(steps_p1_table[4]) .. ", " .. tostring(steps_p1_table[5]) .. ", " .. tostring(steps_p1_table[6]) .. ", " .. tostring(steps_p1_table[7]) .. ", " .. tostring(steps_p1_table[8]) .. " = " .. tostring(steps_p1_table[9]));
+			Trace("+--------+");
+			Trace("| LKD P2: " .. tostring(last_known_difficulty_P2));
+			Trace("| ST P2: " .. tostring(steps_p2_table[1]) .. ", " .. tostring(steps_p2_table[2]) .. ", " .. tostring(steps_p2_table[3]) .. ", " .. tostring(steps_p2_table[4]) .. ", " .. tostring(steps_p2_table[5]) .. ", " .. tostring(steps_p2_table[6]) .. ", " .. tostring(steps_p2_table[7]) .. ", " .. tostring(steps_p2_table[8]) .. " = " .. tostring(steps_p2_table[9]));
+			Trace("+--------+");
 		end;
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"Variables");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"Variables");
@@ -115,7 +121,7 @@ local t = Def.ActorFrame{
 	common_text("Select Music"),
 	-- Actor (Sort Icon)
 	Def.Sprite{
-		InitCommand=cmd(x,SCREEN_RIGHT-26;y,SCREEN_TOP+15;scaletoclipped,50,28;Load,THEME:GetPathG("", "sort_icon_unknown"));
+		InitCommand=cmd(x,SCREEN_RIGHT-26;y,SCREEN_TOP+15;scaletoclipped,50,28;Load,THEME:GetPathG("", "sort_icon_unknown");tween);
 		OnCommand=function(self)
 			self:queuecommand("WheelSort");
 		end;
@@ -152,7 +158,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (Song Banner)
 	Def.Banner{
-		InitCommand=cmd(x,SCREEN_LEFT+130;y,SCREEN_TOP+70;scaletoclipped,256,80;Load,THEME:GetPathG("", "no_banner"));
+		InitCommand=cmd(x,SCREEN_LEFT+130;y,SCREEN_TOP+70;scaletoclipped,256,80;Load,THEME:GetPathG("", "no_banner");tween);
 		OnCommand=function(self)
 			self:queuecommand("SongBanner");
 		end;
@@ -197,7 +203,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (Song Background)
 	Def.Sprite{
-		InitCommand=cmd(x,SCREEN_LEFT+556;y,SCREEN_TOP+240;scaletoclipped,592,420;Load,THEME:GetPathG("", "no_background"));
+		InitCommand=cmd(x,SCREEN_LEFT+556;y,SCREEN_TOP+240;scaletoclipped,592,420;Load,THEME:GetPathG("", "no_background");tween);
 		OnCommand=function(self)
 			self:queuecommand("SongBackground");
 		end;
@@ -237,7 +243,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (Song CD)
 	Def.Sprite{
-		InitCommand=cmd(x,SCREEN_LEFT+300;y,SCREEN_TOP+69;scaletoclipped,80,80;Load,THEME:GetPathG("", "no_cd"));
+		InitCommand=cmd(x,SCREEN_RIGHT-44;y,SCREEN_TOP+72;scaletoclipped,80,80;Load,THEME:GetPathG("", "no_cd");tween);
 		OnCommand=function(self)
 			self:queuecommand("SongCD");
 		end;
@@ -277,7 +283,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (Song Difficulty P1)
 	Def.Sprite{
-		InitCommand=cmd(x,SCREEN_LEFT+34;y,SCREEN_TOP+286;scaletoclipped,64,64;Load,THEME:GetPathG("", "difficulty_unknown"));
+		InitCommand=cmd(x,SCREEN_LEFT+34;y,SCREEN_TOP+286;scaletoclipped,64,64;Load,THEME:GetPathG("", "difficulty_unknown");tween);
 		OnCommand=function(self)
 			self:queuecommand("DifficultyP1");
 		end;
@@ -318,9 +324,9 @@ local t = Def.ActorFrame{
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"DifficultyP1");
 		CurrentSongChangedMessageCommand=cmd(playcommand,"DifficultyP1");
 	},
-	-- song difficulty p2
+	-- Actor (Song Difficulty P2)
 	Def.Sprite{
-		InitCommand=cmd(x,SCREEN_LEFT+34;y,SCREEN_TOP+350;scaletoclipped,64,64;Load,THEME:GetPathG("", "difficulty_unknown"));
+		InitCommand=cmd(x,SCREEN_LEFT+34;y,SCREEN_TOP+350;scaletoclipped,64,64;Load,THEME:GetPathG("", "difficulty_unknown");tween);
 		OnCommand=function(self)
 			self:queuecommand("DifficultyP2");
 		end;
@@ -362,7 +368,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (Song Meter P1)
 	Def.Sprite{
-		InitCommand=cmd(x,SCREEN_LEFT+162;y,SCREEN_TOP+286;scaletoclipped,192,64;Load,THEME:GetPathG("", "meter_0"));
+		InitCommand=cmd(x,SCREEN_LEFT+162;y,SCREEN_TOP+286;scaletoclipped,192,64;Load,THEME:GetPathG("", "meter_0");tween);
 		OnCommand=function(self)
 			self:queuecommand("MeterP1");
 		end;
@@ -399,7 +405,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (Song Meter P2)
 	Def.Sprite{
-		InitCommand=cmd(x,SCREEN_LEFT+162;y,SCREEN_TOP+350;scaletoclipped,192,64;Load,THEME:GetPathG("", "meter_0"));
+		InitCommand=cmd(x,SCREEN_LEFT+162;y,SCREEN_TOP+350;scaletoclipped,192,64;Load,THEME:GetPathG("", "meter_0");tween);
 		OnCommand=function(self)
 			self:queuecommand("MeterP2");
 		end;
@@ -437,7 +443,7 @@ local t = Def.ActorFrame{
 	-- Actor (Song/Group/Sort/etc. Information)
 	LoadFont("Common","normal")..{
 		Text="N/A";
-		InitCommand=cmd(scaletofit,SCREEN_LEFT+2,SCREEN_TOP+118,SCREEN_LEFT+256,SCREEN_TOP+242;diffuse,color(theme_color);align,0,0.5;shadowlength,1);
+		InitCommand=cmd(scaletofit,SCREEN_LEFT+2,SCREEN_TOP+118,SCREEN_LEFT+256,SCREEN_TOP+242;diffuse,color(theme_color);align,0,0.5;shadowlength,1;tween);
 		OnCommand=function(self)
 			self:queuecommand("Information");
 		end;
@@ -495,7 +501,7 @@ local t = Def.ActorFrame{
 	-- Actor (Song Difficulty P1 Text)
 	LoadFont("Common","normal")..{
 		Text="N/A";
-		InitCommand=cmd(x,SCREEN_LEFT+72;y,SCREEN_TOP+300;diffuse,color(theme_color);align,0,0.5;shadowlength,1);
+		InitCommand=cmd(x,SCREEN_LEFT+72;y,SCREEN_TOP+300;diffuse,color(theme_color);align,0,0.5;shadowlength,1;tween);
 		OnCommand=function(self)
 			self:queuecommand("StringP1");
 		end;
@@ -552,7 +558,7 @@ local t = Def.ActorFrame{
 	-- Actor (Song Difficulty P2 Text)
 	LoadFont("Common","normal")..{
 		Text="N/A";
-		InitCommand=cmd(x,SCREEN_LEFT+72;y,SCREEN_TOP+365;diffuse,color(theme_color);align,0,0.5;shadowlength,1);
+		InitCommand=cmd(x,SCREEN_LEFT+72;y,SCREEN_TOP+365;diffuse,color(theme_color);align,0,0.5;shadowlength,1;tween);
 		OnCommand=function(self)
 			self:queuecommand("StringP2");
 		end;
@@ -612,7 +618,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (P1 Taps)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+386,SCREEN_LEFT+15,SCREEN_TOP+390;diffuse,color("1,0.25,0,1"));
+		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+386,SCREEN_LEFT+15,SCREEN_TOP+390;diffuse,color("1,0.25,0,1");tween);
 		OnCommand=function(self)
 			self:queuecommand("RadarTapsP1");
 		end;
@@ -649,7 +655,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (P1 Jumps)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+393,SCREEN_LEFT+15,SCREEN_TOP+397;diffuse,color("1,0.25,0,1"));
+		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+393,SCREEN_LEFT+15,SCREEN_TOP+397;diffuse,color("1,0.25,0,1");tween);
 		OnCommand=function(self)
 			self:queuecommand("RadarJumpsP1");
 		end;
@@ -686,7 +692,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (P1 Holds)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+400,SCREEN_LEFT+15,SCREEN_TOP+404;diffuse,color("1,0.25,0,1"));
+		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+400,SCREEN_LEFT+15,SCREEN_TOP+404;diffuse,color("1,0.25,0,1");tween);
 		OnCommand=function(self)
 			self:queuecommand("RadarHoldsP1");
 		end;
@@ -723,7 +729,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (P1 Mines)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+407,SCREEN_LEFT+15,SCREEN_TOP+411;diffuse,color("1,0.25,0,1"));
+		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+407,SCREEN_LEFT+15,SCREEN_TOP+411;diffuse,color("1,0.25,0,1");tween);
 		OnCommand=function(self)
 			self:queuecommand("RadarMinesP1");
 		end;
@@ -760,7 +766,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (P1 Hands)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+414,SCREEN_LEFT+15,SCREEN_TOP+418;diffuse,color("1,0.25,0,1"));
+		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+414,SCREEN_LEFT+15,SCREEN_TOP+418;diffuse,color("1,0.25,0,1");tween);
 		OnCommand=function(self)
 			self:queuecommand("RadarHandsP1");
 		end;
@@ -797,7 +803,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (P1 Rolls)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+421,SCREEN_LEFT+15,SCREEN_TOP+425;diffuse,color("1,0.25,0,1"));
+		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+421,SCREEN_LEFT+15,SCREEN_TOP+425;diffuse,color("1,0.25,0,1");tween);
 		OnCommand=function(self)
 			self:queuecommand("RadarRollsP1");
 		end;
@@ -834,7 +840,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (P1 Lifts)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+428,SCREEN_LEFT+15,SCREEN_TOP+432;diffuse,color("1,0.25,0,1"));
+		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+428,SCREEN_LEFT+15,SCREEN_TOP+432;diffuse,color("1,0.25,0,1");tween);
 		OnCommand=function(self)
 			self:queuecommand("RadarLiftsP1");
 		end;
@@ -871,7 +877,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (P1 Fakes)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+434,SCREEN_LEFT+15,SCREEN_TOP+438;diffuse,color("1,0.25,0,1"));
+		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+434,SCREEN_LEFT+15,SCREEN_TOP+438;diffuse,color("1,0.25,0,1");tween);
 		OnCommand=function(self)
 			self:queuecommand("RadarFakesP1");
 		end;
@@ -908,7 +914,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (P2 Taps)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+386,SCREEN_LEFT+143,SCREEN_TOP+390;diffuse,color("0,0.5,1,1"));
+		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+386,SCREEN_LEFT+143,SCREEN_TOP+390;diffuse,color("0,0.5,1,1");tween);
 		OnCommand=function(self)
 			self:queuecommand("RadarTapsP2");
 		end;
@@ -945,7 +951,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (P2 Jumps)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+393,SCREEN_LEFT+143,SCREEN_TOP+397;diffuse,color("0,0.5,1,1"));
+		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+393,SCREEN_LEFT+143,SCREEN_TOP+397;diffuse,color("0,0.5,1,1");tween);
 		OnCommand=function(self)
 			self:queuecommand("RadarJumpsP2");
 		end;
@@ -982,7 +988,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (P2 Holds)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+400,SCREEN_LEFT+143,SCREEN_TOP+404;diffuse,color("0,0.5,1,1"));
+		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+400,SCREEN_LEFT+143,SCREEN_TOP+404;diffuse,color("0,0.5,1,1");tween);
 		OnCommand=function(self)
 			self:queuecommand("RadarHoldsP2");
 		end;
@@ -1019,7 +1025,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (P2 Mines)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+407,SCREEN_LEFT+143,SCREEN_TOP+411;diffuse,color("0,0.5,1,1"));
+		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+407,SCREEN_LEFT+143,SCREEN_TOP+411;diffuse,color("0,0.5,1,1");tween);
 		OnCommand=function(self)
 			self:queuecommand("RadarMinesP2");
 		end;
@@ -1056,7 +1062,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (P2 Hands)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+414,SCREEN_LEFT+143,SCREEN_TOP+418;diffuse,color("0,0.5,1,1"));
+		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+414,SCREEN_LEFT+143,SCREEN_TOP+418;diffuse,color("0,0.5,1,1");tween);
 		OnCommand=function(self)
 			self:queuecommand("RadarHandsP2");
 		end;
@@ -1093,7 +1099,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (P2 Rolls)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+421,SCREEN_LEFT+143,SCREEN_TOP+425;diffuse,color("0,0.5,1,1"));
+		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+421,SCREEN_LEFT+143,SCREEN_TOP+425;diffuse,color("0,0.5,1,1");tween);
 		OnCommand=function(self)
 			self:queuecommand("RadarRollsP2");
 		end;
@@ -1130,7 +1136,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (P2 Lifts)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+428,SCREEN_LEFT+143,SCREEN_TOP+432;diffuse,color("0,0.5,1,1"));
+		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+428,SCREEN_LEFT+143,SCREEN_TOP+432;diffuse,color("0,0.5,1,1");tween);
 		OnCommand=function(self)
 			self:queuecommand("RadarLiftsP2");
 		end;
@@ -1167,7 +1173,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (P2 Fakes)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+434,SCREEN_LEFT+143,SCREEN_TOP+438;diffuse,color("0,0.5,1,1"));
+		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+434,SCREEN_LEFT+143,SCREEN_TOP+438;diffuse,color("0,0.5,1,1");tween);
 		OnCommand=function(self)
 			self:queuecommand("RadarFakesP2");
 		end;
@@ -1201,6 +1207,72 @@ local t = Def.ActorFrame{
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarFakesP2");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarFakesP2");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarFakesP2");
+	},
+	-- Actor (Step Table Quad)
+	Def.Quad{
+		InitCommand=cmd(stretchto,SCREEN_LEFT+260,SCREEN_TOP+30,SCREEN_LEFT+400,SCREEN_BOTTOM-30;diffuse,color("0,0,0,0.8"));
+	},
+	-- Actor (P1 Step Table)
+	LoadFont("Common","normal")..{
+		Text="Step Table P1";
+		InitCommand=cmd(x,SCREEN_CENTER_X-160;y,SCREEN_CENTER_Y-128;diffuse,color(theme_color);align,0,0.5;shadowlength,1;zoom,0.5;tween);
+		OnCommand=function(self)
+			self:queuecommand("StepTableP1");
+		end;
+		StepTableP1Command=function(self)
+			self:finishtweening();
+			self:settext("TAPS: " .. tostring(steps_p1_table[1]) .. "\n" .. "JUMPS: " .. tostring(steps_p1_table[2]) .. "\n" .. "HOLDS: " .. tostring(steps_p1_table[3]) .. "\n" .. "MINES: " .. tostring(steps_p1_table[4]) .. "\n" .. "HANDS: " .. tostring(steps_p1_table[5]) .. "\n" .. "ROLLS: " .. tostring(steps_p1_table[6]) .. "\n" .. "LIFTS: " .. tostring(steps_p1_table[7]) .. "\n" .. "FAKES: " .. tostring(steps_p1_table[8]) .. "\n" .. "TOTAL: " .. tostring(steps_p1_table[9]));
+			self:diffuse(color("#FFFFFF00"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF11"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF33"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF55"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF77"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF99"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFFBB"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFFDD"));
+			self:sleep(0.025);
+			self:diffuse(color("1,0.25,0,1"));
+		end;
+		CurrentSongChangedMessageCommand=cmd(playcommand,"StepTableP1");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"StepTableP1");
+	},
+	-- Actor (P2 Step Table)
+	LoadFont("Common","normal")..{
+		Text="Step Table P2";
+		InitCommand=cmd(x,SCREEN_CENTER_X-160;y,SCREEN_CENTER_Y+128;diffuse,color(theme_color);align,0,0.5;shadowlength,1;zoom,0.5;tween);
+		OnCommand=function(self)
+			self:queuecommand("StepTableP2");
+		end;
+		StepTableP2Command=function(self)
+			self:finishtweening();
+			self:settext("TAPS: " .. tostring(steps_p2_table[1]) .. "\n" .. "JUMPS: " .. tostring(steps_p2_table[2]) .. "\n" .. "HOLDS: " .. tostring(steps_p2_table[3]) .. "\n" .. "MINES: " .. tostring(steps_p2_table[4]) .. "\n" .. "HANDS: " .. tostring(steps_p2_table[5]) .. "\n" .. "ROLLS: " .. tostring(steps_p2_table[6]) .. "\n" .. "LIFTS: " .. tostring(steps_p2_table[7]) .. "\n" .. "FAKES: " .. tostring(steps_p2_table[8]) .. "\n" .. "TOTAL: " .. tostring(steps_p2_table[9]));
+			self:diffuse(color("#FFFFFF00"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF11"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF33"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF55"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF77"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFF99"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFFBB"));
+			self:sleep(0.025);
+			self:diffuse(color("#FFFFFFDD"));
+			self:sleep(0.025);
+			self:diffuse(color("0,0.5,1,1"));
+		end;
+		CurrentSongChangedMessageCommand=cmd(playcommand,"StepTableP2");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"StepTableP2");
 	},
 	-- Function (scripts)
 	theme_skin("theme_skin"),
