@@ -12,8 +12,6 @@ local t = Def.ActorFrame{
 	grid_b,
 	-- Actor (scripts)
 	grid_c,
-	-- Function (scripts)
-	common_text("Reload Songs"),
 	-- Actor (scripts)
 	grid_t,
 	-- Function (scripts)

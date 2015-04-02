@@ -4,16 +4,17 @@
 -- now i understand the problem...
 
 -- let's set some variables to organize/re-use later...
-local wheel = false; -- SCREENMAN:GetTopScreen():GetMusicWheel();
-local p1_steps = false; -- GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
-local p2_steps = false; -- GAMESTATE:GetCurrentSteps('PlayerNumber_P2');
+local wheel = {}; -- SCREENMAN:GetTopScreen():GetMusicWheel();
+local type = {}; -- wheel:GetSelectedType();
+local p1_steps = {}; -- GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
+local p2_steps = {}; -- GAMESTATE:GetCurrentSteps('PlayerNumber_P2');
 local p1_values = 0; -- p1_steps:GetRadarValues('PlayerNumber_P1');
 local p2_values = 0; -- p2_steps:GetRadarValues('PlayerNumber_P2');
-local difficulty_p1_steps = 0; -- p1_steps:GetDifficulty();
-local difficulty_p2_steps = 0; -- p2_steps:GetDifficulty();
-local sort = false; -- GAMESTATE:GetSortOrder();
-local song = false; -- GAMESTATE:GetCurrentSong();
-local group = false; -- GAMESTATE:GetExpandedSectionName();
+local difficulty_p1_steps = 'Difficulty_Edit'; -- p1_steps:GetDifficulty();
+local difficulty_p2_steps = 'Difficulty_Edit'; -- p2_steps:GetDifficulty();
+local sort = 'SortOrder_Group'; -- GAMESTATE:GetSortOrder();
+local song = {}; -- GAMESTATE:GetCurrentSong();
+local group = "N/A"; -- GAMESTATE:GetExpandedSectionName();
 
 steps_p1_table = {};
 steps_p2_table = {};
@@ -45,14 +46,19 @@ local t = Def.ActorFrame{
 	Name="ScreenSelectMusicUnderlayActorFrame";
 	-- Actor (Last Known Difficulty/Radar Variables P1/P2 hidden)
 	Def.Actor{
-		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;tween);
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
 		OnCommand=function(self)
 			-- this MUST be after the screen is done or it will not work correctly.
 			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			self:queuecommand("Variables");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("Variables");
+			end;
 		end;
 		VariablesCommand=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 			p2_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P2');
 			if p1_steps ~= nil and wheel:GetSelectedType() == "WheelItemDataType_Song" then
@@ -121,49 +127,46 @@ local t = Def.ActorFrame{
 	common_text("Select Music"),
 	-- Actor (Sort Icon)
 	Def.Sprite{
-		InitCommand=cmd(x,SCREEN_RIGHT-26;y,SCREEN_TOP+15;scaletoclipped,50,28;Load,THEME:GetPathG("", "sort_icon_unknown");tween);
+		InitCommand=cmd(x,SCREEN_RIGHT-26;y,SCREEN_TOP+15;scaletoclipped,50,28;Load,THEME:GetPathG("", "sort_icon_unknown"));
 		OnCommand=function(self)
 			self:queuecommand("WheelSort");
 		end;
 		WheelSortCommand=function(self)
 			-- Thanks Jousway
-			self:finishtweening();
 			sort = GAMESTATE:GetSortOrder();
 			if sort ~= nil then
 				self:Load(THEME:GetPathG("icon", sort));
 			else
 				self:Load(THEME:GetPathG("", "sort_icon_unknown"));
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:scaletoclipped(50,28);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFFF"));
 		end;
 		SortOrderChangedMessageCommand=cmd(playcommand,"WheelSort");
 	},
 	-- Actor (Song Banner)
 	Def.Banner{
-		InitCommand=cmd(x,SCREEN_LEFT+130;y,SCREEN_TOP+70;scaletoclipped,256,80;Load,THEME:GetPathG("", "no_banner");tween);
+		InitCommand=cmd(x,SCREEN_LEFT+130;y,SCREEN_TOP+70;scaletoclipped,256,80;Load,THEME:GetPathG("", "no_banner"));
 		OnCommand=function(self)
-			self:queuecommand("SongBanner");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("SongBanner");
+			end;
 		end;
 		SongBannerCommand=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			song = GAMESTATE:GetCurrentSong();
 			group = GAMESTATE:GetExpandedSectionName();
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Roulette' then
@@ -179,36 +182,34 @@ local t = Def.ActorFrame{
 					self:LoadFromSongGroup(group);
 				end;
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:scaletoclipped(256,80);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFFF"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"SongBanner");
 	},
 	-- Actor (Song Background)
 	Def.Sprite{
-		InitCommand=cmd(x,SCREEN_LEFT+556;y,SCREEN_TOP+240;scaletoclipped,592,420;Load,THEME:GetPathG("", "no_background");tween);
+		InitCommand=cmd(x,SCREEN_LEFT+556;y,SCREEN_TOP+240;scaletoclipped,592,420;Load,THEME:GetPathG("", "no_background"));
 		OnCommand=function(self)
-			self:queuecommand("SongBackground");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("SongBackground");
+			end;
 		end;
 		SongBackgroundCommand=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			song = GAMESTATE:GetCurrentSong();
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				if song:HasBackground() == true then
@@ -219,36 +220,34 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "no_background"));
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:scaletoclipped(592,420);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFFF"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"SongBackground");
 	},
 	-- Actor (Song CD)
 	Def.Sprite{
-		InitCommand=cmd(x,SCREEN_RIGHT-44;y,SCREEN_TOP+72;scaletoclipped,80,80;Load,THEME:GetPathG("", "no_cd");tween);
+		InitCommand=cmd(x,SCREEN_RIGHT-44;y,SCREEN_TOP+72;scaletoclipped,80,80;Load,THEME:GetPathG("", "no_cd"));
 		OnCommand=function(self)
-			self:queuecommand("SongCD");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("SongCD");
+			end;
 		end;
 		SongCDCommand=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			song = GAMESTATE:GetCurrentSong();
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				if song:HasCDTitle() == true then
@@ -259,37 +258,35 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "no_cd"));
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:scaletoclipped(80,80);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFFF"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"SongCD");
 	},
 	-- Actor (Song Difficulty P1)
 	Def.Sprite{
-		InitCommand=cmd(x,SCREEN_LEFT+34;y,SCREEN_TOP+286;scaletoclipped,64,64;Load,THEME:GetPathG("", "difficulty_unknown");tween);
+		InitCommand=cmd(x,SCREEN_LEFT+34;y,SCREEN_TOP+286;scaletoclipped,64,64;Load,THEME:GetPathG("", "difficulty_unknown"));
 		OnCommand=function(self)
-			self:queuecommand("DifficultyP1");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("DifficultyP1");
+			end;
 		end;
 		DifficultyP1Command=function(self)
 			-- good lord, thank you for helping me out with this Kyzentun...
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' and p1_steps ~= nil then
 				local difficulty = p1_steps:GetDifficulty();
@@ -301,24 +298,17 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "difficulty_unknown"));
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:scaletoclipped(64,64);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFFF"));
 		end;
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"DifficultyP1");
@@ -326,12 +316,17 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (Song Difficulty P2)
 	Def.Sprite{
-		InitCommand=cmd(x,SCREEN_LEFT+34;y,SCREEN_TOP+350;scaletoclipped,64,64;Load,THEME:GetPathG("", "difficulty_unknown");tween);
+		InitCommand=cmd(x,SCREEN_LEFT+34;y,SCREEN_TOP+350;scaletoclipped,64,64;Load,THEME:GetPathG("", "difficulty_unknown"));
 		OnCommand=function(self)
-			self:queuecommand("DifficultyP2");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("DifficultyP2");
+			end;
 		end;
 		DifficultyP2Command=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			p2_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P2');
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' and p2_steps ~= nil then
 				local difficulty = p2_steps:GetDifficulty();
@@ -343,24 +338,17 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "difficulty_unknown"));
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:scaletoclipped(64,64);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFFF"));
 		end;
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"DifficultyP2");
@@ -368,12 +356,17 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (Song Meter P1)
 	Def.Sprite{
-		InitCommand=cmd(x,SCREEN_LEFT+162;y,SCREEN_TOP+286;scaletoclipped,192,64;Load,THEME:GetPathG("", "meter_0");tween);
+		InitCommand=cmd(x,SCREEN_LEFT+162;y,SCREEN_TOP+286;scaletoclipped,192,64;Load,THEME:GetPathG("", "meter_0"));
 		OnCommand=function(self)
-			self:queuecommand("MeterP1");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("MeterP1");
+			end;
 		end;
 		MeterP1Command=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' and p1_steps ~= nil then
 				-- Thanks Kyzentun.
@@ -382,22 +375,16 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "meter_0"));
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFFF"));
 		end;
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"MeterP1");
@@ -405,12 +392,17 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (Song Meter P2)
 	Def.Sprite{
-		InitCommand=cmd(x,SCREEN_LEFT+162;y,SCREEN_TOP+350;scaletoclipped,192,64;Load,THEME:GetPathG("", "meter_0");tween);
+		InitCommand=cmd(x,SCREEN_LEFT+162;y,SCREEN_TOP+350;scaletoclipped,192,64;Load,THEME:GetPathG("", "meter_0"));
 		OnCommand=function(self)
-			self:queuecommand("MeterP2");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("MeterP2");
+			end;
 		end;
 		MeterP2Command=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			p2_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P2');
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' and p2_steps ~= nil then
 				-- Thanks Kyzentun.
@@ -419,22 +411,16 @@ local t = Def.ActorFrame{
 			else
 				self:Load(THEME:GetPathG("", "meter_0"));
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFFF"));
 		end;
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"MeterP2");
@@ -443,12 +429,17 @@ local t = Def.ActorFrame{
 	-- Actor (Song/Group/Sort/etc. Information)
 	LoadFont("Common","normal")..{
 		Text="N/A";
-		InitCommand=cmd(scaletofit,SCREEN_LEFT+2,SCREEN_TOP+118,SCREEN_LEFT+256,SCREEN_TOP+242;diffuse,color(theme_color);align,0,0.5;shadowlength,1;tween);
+		InitCommand=cmd(scaletofit,SCREEN_LEFT+2,SCREEN_TOP+118,SCREEN_LEFT+256,SCREEN_TOP+242;diffuse,color(theme_color);align,0,0.5;shadowlength,1);
 		OnCommand=function(self)
-			self:queuecommand("Information");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("Information");
+			end;
 		end;
 		InformationCommand=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			song = GAMESTATE:GetCurrentSong();
 			local length_result = "Normal";
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' and song ~= nil then
@@ -476,24 +467,17 @@ local t = Def.ActorFrame{
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Section' then
 				self:settext(wheel:GetSelectedSection());
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:scaletofit(SCREEN_LEFT+2,SCREEN_TOP+118,SCREEN_LEFT+256,SCREEN_TOP+242);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color(theme_color));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"Information");
@@ -501,12 +485,17 @@ local t = Def.ActorFrame{
 	-- Actor (Song Difficulty P1 Text)
 	LoadFont("Common","normal")..{
 		Text="N/A";
-		InitCommand=cmd(x,SCREEN_LEFT+72;y,SCREEN_TOP+300;diffuse,color(theme_color);align,0,0.5;shadowlength,1;tween);
+		InitCommand=cmd(x,SCREEN_LEFT+72;y,SCREEN_TOP+300;diffuse,color(theme_color);align,0,0.5;shadowlength,1);
 		OnCommand=function(self)
-			self:queuecommand("StringP1");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("StringP1");
+			end;
 		end;
 		StringP1Command=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 				local stdifficulty = "Unknown";
@@ -532,24 +521,17 @@ local t = Def.ActorFrame{
 			else
 				self:settext("");
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:zoom(0.5);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color(theme_color));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"StringP1");
@@ -558,12 +540,17 @@ local t = Def.ActorFrame{
 	-- Actor (Song Difficulty P2 Text)
 	LoadFont("Common","normal")..{
 		Text="N/A";
-		InitCommand=cmd(x,SCREEN_LEFT+72;y,SCREEN_TOP+365;diffuse,color(theme_color);align,0,0.5;shadowlength,1;tween);
+		InitCommand=cmd(x,SCREEN_LEFT+72;y,SCREEN_TOP+365;diffuse,color(theme_color);align,0,0.5;shadowlength,1);
 		OnCommand=function(self)
-			self:queuecommand("StringP2");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("StringP2");
+			end;
 		end;
 		StringP2Command=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p2_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P2');
 				local stdifficulty = "Unknown";
@@ -589,24 +576,17 @@ local t = Def.ActorFrame{
 			else
 				self:settext("");
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:zoom(0.5);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color(theme_color));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"StringP2");
@@ -618,594 +598,546 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (P1 Taps)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+386,SCREEN_LEFT+15,SCREEN_TOP+390;diffuse,color("1,0.25,0,1");tween);
+		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+386,SCREEN_LEFT+15,SCREEN_TOP+390;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
-			self:queuecommand("RadarTapsP1");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("RadarTapsP1");
+			end;
 		end;
 		RadarTapsP1Command=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_table[1] / steps_p1_table[9])*100;
 			else
 				p1_percentage = 1;
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+386,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+390);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarTapsP1");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarTapsP1");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarTapsP1");
 	},
 	-- Actor (P1 Jumps)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+393,SCREEN_LEFT+15,SCREEN_TOP+397;diffuse,color("1,0.25,0,1");tween);
+		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+393,SCREEN_LEFT+15,SCREEN_TOP+397;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
-			self:queuecommand("RadarJumpsP1");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("RadarJumpsP1");
+			end;
 		end;
 		RadarJumpsP1Command=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_table[2] / steps_p1_table[9])*100;
 			else
 				p1_percentage = 1;
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+393,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+397);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarJumpsP1");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarJumpsP1");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarJumpsP1");
 	},
 	-- Actor (P1 Holds)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+400,SCREEN_LEFT+15,SCREEN_TOP+404;diffuse,color("1,0.25,0,1");tween);
+		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+400,SCREEN_LEFT+15,SCREEN_TOP+404;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
-			self:queuecommand("RadarHoldsP1");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("RadarHoldsP1");
+			end;
 		end;
 		RadarHoldsP1Command=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_table[3] / steps_p1_table[9])*100;
 			else
 				p1_percentage = 1;
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+400,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+404);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHoldsP1");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarHoldsP1");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarHoldsP1");
 	},
 	-- Actor (P1 Mines)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+407,SCREEN_LEFT+15,SCREEN_TOP+411;diffuse,color("1,0.25,0,1");tween);
+		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+407,SCREEN_LEFT+15,SCREEN_TOP+411;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
-			self:queuecommand("RadarMinesP1");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("RadarMinesP1");
+			end;
 		end;
 		RadarMinesP1Command=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_table[4] / steps_p1_table[9])*100;
 			else
 				p1_percentage = 1;
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+407,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+411);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarMinesP1");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarMinesP1");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarMinesP1");
 	},
 	-- Actor (P1 Hands)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+414,SCREEN_LEFT+15,SCREEN_TOP+418;diffuse,color("1,0.25,0,1");tween);
+		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+414,SCREEN_LEFT+15,SCREEN_TOP+418;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
-			self:queuecommand("RadarHandsP1");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("RadarHandsP1");
+			end;
 		end;
 		RadarHandsP1Command=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_table[5] / steps_p1_table[9])*100;
 			else
 				p1_percentage = 1;
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+414,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+418);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHandsP1");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarHandsP1");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarHandsP1");
 	},
 	-- Actor (P1 Rolls)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+421,SCREEN_LEFT+15,SCREEN_TOP+425;diffuse,color("1,0.25,0,1");tween);
+		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+421,SCREEN_LEFT+15,SCREEN_TOP+425;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
-			self:queuecommand("RadarRollsP1");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("RadarRollsP1");
+			end;
 		end;
 		RadarRollsP1Command=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_table[6] / steps_p1_table[9])*100;
 			else
 				p1_percentage = 1;
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+421,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+425);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarRollsP1");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarRollsP1");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarRollsP1");
 	},
 	-- Actor (P1 Lifts)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+428,SCREEN_LEFT+15,SCREEN_TOP+432;diffuse,color("1,0.25,0,1");tween);
+		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+428,SCREEN_LEFT+15,SCREEN_TOP+432;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
-			self:queuecommand("RadarLiftsP1");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("RadarLiftsP1");
+			end;
 		end;
 		RadarLiftsP1Command=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_table[7] / steps_p1_table[9])*100;
 			else
 				p1_percentage = 1;
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+428,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+432);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarLiftsP1");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarLiftsP1");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarLiftsP1");
 	},
 	-- Actor (P1 Fakes)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+434,SCREEN_LEFT+15,SCREEN_TOP+438;diffuse,color("1,0.25,0,1");tween);
+		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+434,SCREEN_LEFT+15,SCREEN_TOP+438;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
-			self:queuecommand("RadarFakesP1");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("RadarFakesP1");
+			end;
 		end;
 		RadarFakesP1Command=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_table[8] / steps_p1_table[9])*100;
 			else
 				p1_percentage = 1;
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+434,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+438);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarFakesP1");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarFakesP1");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarFakesP1");
 	},
 	-- Actor (P2 Taps)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+386,SCREEN_LEFT+143,SCREEN_TOP+390;diffuse,color("0,0.5,1,1");tween);
+		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+386,SCREEN_LEFT+143,SCREEN_TOP+390;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
-			self:queuecommand("RadarTapsP2");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("RadarTapsP2");
+			end;
 		end;
 		RadarTapsP2Command=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_table[1] / steps_p2_table[9])*100;
 			else
 				p2_percentage = 1;
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+386,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+390);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarTapsP2");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarTapsP2");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarTapsP2");
 	},
 	-- Actor (P2 Jumps)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+393,SCREEN_LEFT+143,SCREEN_TOP+397;diffuse,color("0,0.5,1,1");tween);
+		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+393,SCREEN_LEFT+143,SCREEN_TOP+397;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
-			self:queuecommand("RadarJumpsP2");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("RadarJumpsP2");
+			end;
 		end;
 		RadarJumpsP2Command=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_table[2] / steps_p2_table[9])*100;
 			else
 				p2_percentage = 1;
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+393,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+397);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarJumpsP2");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarJumpsP2");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarJumpsP2");
 	},
 	-- Actor (P2 Holds)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+400,SCREEN_LEFT+143,SCREEN_TOP+404;diffuse,color("0,0.5,1,1");tween);
+		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+400,SCREEN_LEFT+143,SCREEN_TOP+404;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
-			self:queuecommand("RadarHoldsP2");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("RadarHoldsP2");
+			end;
 		end;
 		RadarHoldsP2Command=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_table[3] / steps_p2_table[9])*100;
 			else
 				p2_percentage = 1;
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+400,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+404);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHoldsP2");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarHoldsP2");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarHoldsP2");
 	},
 	-- Actor (P2 Mines)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+407,SCREEN_LEFT+143,SCREEN_TOP+411;diffuse,color("0,0.5,1,1");tween);
+		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+407,SCREEN_LEFT+143,SCREEN_TOP+411;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
-			self:queuecommand("RadarMinesP2");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("RadarMinesP2");
+			end;
 		end;
 		RadarMinesP2Command=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_table[4] / steps_p2_table[9])*100;
 			else
 				p2_percentage = 1;
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+407,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+411);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarMinesP2");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarMinesP2");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarMinesP2");
 	},
 	-- Actor (P2 Hands)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+414,SCREEN_LEFT+143,SCREEN_TOP+418;diffuse,color("0,0.5,1,1");tween);
+		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+414,SCREEN_LEFT+143,SCREEN_TOP+418;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
-			self:queuecommand("RadarHandsP2");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("RadarHandsP2");
+			end;
 		end;
 		RadarHandsP2Command=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_table[5] / steps_p2_table[9])*100;
 			else
 				p2_percentage = 1;
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+414,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+418);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHandsP2");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarHandsP2");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarHandsP2");
 	},
 	-- Actor (P2 Rolls)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+421,SCREEN_LEFT+143,SCREEN_TOP+425;diffuse,color("0,0.5,1,1");tween);
+		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+421,SCREEN_LEFT+143,SCREEN_TOP+425;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
-			self:queuecommand("RadarRollsP2");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("RadarRollsP2");
+			end;
 		end;
 		RadarRollsP2Command=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_table[6] / steps_p2_table[9])*100;
 			else
 				p2_percentage = 1;
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+421,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+425);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarRollsP2");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarRollsP2");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarRollsP2");
 	},
 	-- Actor (P2 Lifts)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+428,SCREEN_LEFT+143,SCREEN_TOP+432;diffuse,color("0,0.5,1,1");tween);
+		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+428,SCREEN_LEFT+143,SCREEN_TOP+432;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
-			self:queuecommand("RadarLiftsP2");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("RadarLiftsP2");
+			end;
 		end;
 		RadarLiftsP2Command=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_table[7] / steps_p2_table[9])*100;
 			else
 				p2_percentage = 1;
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+428,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+432);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarLiftsP2");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarLiftsP2");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarLiftsP2");
 	},
 	-- Actor (P2 Fakes)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+434,SCREEN_LEFT+143,SCREEN_TOP+438;diffuse,color("0,0.5,1,1");tween);
+		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+434,SCREEN_LEFT+143,SCREEN_TOP+438;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
-			self:queuecommand("RadarFakesP2");
+			if wheel then
+				type = wheel:GetSelectedType();
+				self:queuecommand("RadarFakesP2");
+			end;
 		end;
 		RadarFakesP2Command=function(self)
-			self:finishtweening();
+			if type == nil then
+				do return end;
+			end;
 			if wheel and wheel:GetSelectedType() == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_table[8] / steps_p2_table[9])*100;
 			else
 				p2_percentage = 1;
 			end;
+			self:finishtweening();
+			self:linear(0.025);
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+434,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+438);
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarFakesP2");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"RadarFakesP2");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"RadarFakesP2");
 	},
 	-- Actor (Step Table Quad)
@@ -1215,29 +1147,22 @@ local t = Def.ActorFrame{
 	-- Actor (P1 Step Table)
 	LoadFont("Common","normal")..{
 		Text="Step Table P1";
-		InitCommand=cmd(x,SCREEN_CENTER_X-160;y,SCREEN_CENTER_Y-128;diffuse,color(theme_color);align,0,0.5;shadowlength,1;zoom,0.5;tween);
+		InitCommand=cmd(x,SCREEN_CENTER_X-160;y,SCREEN_CENTER_Y-128;diffuse,color(theme_color);align,0,0.5;shadowlength,1;zoom,0.5);
 		OnCommand=function(self)
 			self:queuecommand("StepTableP1");
 		end;
 		StepTableP1Command=function(self)
 			self:finishtweening();
+			self:linear(0.025);
 			self:settext("TAPS: " .. tostring(steps_p1_table[1]) .. "\n" .. "JUMPS: " .. tostring(steps_p1_table[2]) .. "\n" .. "HOLDS: " .. tostring(steps_p1_table[3]) .. "\n" .. "MINES: " .. tostring(steps_p1_table[4]) .. "\n" .. "HANDS: " .. tostring(steps_p1_table[5]) .. "\n" .. "ROLLS: " .. tostring(steps_p1_table[6]) .. "\n" .. "LIFTS: " .. tostring(steps_p1_table[7]) .. "\n" .. "FAKES: " .. tostring(steps_p1_table[8]) .. "\n" .. "TOTAL: " .. tostring(steps_p1_table[9]));
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"StepTableP1");
@@ -1246,29 +1171,22 @@ local t = Def.ActorFrame{
 	-- Actor (P2 Step Table)
 	LoadFont("Common","normal")..{
 		Text="Step Table P2";
-		InitCommand=cmd(x,SCREEN_CENTER_X-160;y,SCREEN_CENTER_Y+128;diffuse,color(theme_color);align,0,0.5;shadowlength,1;zoom,0.5;tween);
+		InitCommand=cmd(x,SCREEN_CENTER_X-160;y,SCREEN_CENTER_Y+128;diffuse,color(theme_color);align,0,0.5;shadowlength,1;zoom,0.5);
 		OnCommand=function(self)
 			self:queuecommand("StepTableP2");
 		end;
 		StepTableP2Command=function(self)
 			self:finishtweening();
+			self:linear(0.025);
 			self:settext("TAPS: " .. tostring(steps_p2_table[1]) .. "\n" .. "JUMPS: " .. tostring(steps_p2_table[2]) .. "\n" .. "HOLDS: " .. tostring(steps_p2_table[3]) .. "\n" .. "MINES: " .. tostring(steps_p2_table[4]) .. "\n" .. "HANDS: " .. tostring(steps_p2_table[5]) .. "\n" .. "ROLLS: " .. tostring(steps_p2_table[6]) .. "\n" .. "LIFTS: " .. tostring(steps_p2_table[7]) .. "\n" .. "FAKES: " .. tostring(steps_p2_table[8]) .. "\n" .. "TOTAL: " .. tostring(steps_p2_table[9]));
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
 			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"StepTableP2");
