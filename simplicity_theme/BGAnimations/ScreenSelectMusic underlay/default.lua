@@ -124,7 +124,7 @@ local t = Def.ActorFrame{
 		end;
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"Variables");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"Variables");
-		CurrentSongChangedMessageCommand=cmd(playcommand,"Variables";playcommand,"WheelAndType");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"WheelAndType",playcommand,"Variables");
 	},
 	-- Function (scripts)
 	common_text("Select Music"),
@@ -198,6 +198,7 @@ local t = Def.ActorFrame{
 			self:diffuse(color("#FFFFFFFF"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"SongBanner");
+		SectionChangedMessageCommand=cmd(playcommand,"SongBanner");
 	},
 	-- Actor (Song Background)
 	Def.Sprite{
