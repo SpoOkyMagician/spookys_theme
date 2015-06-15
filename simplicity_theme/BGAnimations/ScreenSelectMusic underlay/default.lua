@@ -4,6 +4,7 @@
 -- now i understand the problem...
 
 -- note: I figured out even more... I feel like a dumbass not using trace more... wheel/type was not updating because I was not redeclaring the variables... finally fixed it.
+-- note: Crap! That crashed the game... Thankfully, I found a fix that seems to prevent the crash. I still need to do some further testing though...
 
 -- let's set some variables to organize/re-use later...
 local wheel = {}; -- SCREENMAN:GetTopScreen():GetMusicWheel();
@@ -50,16 +51,15 @@ local t = Def.ActorFrame{
 	Def.Actor{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
 		OnCommand=function(self)
-			-- this MUST be after the screen is done or it will not work correctly.
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			if wheel then
-				type = wheel:GetSelectedType();
-				self:queuecommand("Variables");
-			end;
-		end;
-		VariablesCommand=function(self)
 			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
 			type = wheel:GetSelectedType();
+			self:queuecommand("Variables");
+		end;
+		WheelAndTypeCommand=function(self)
+			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
+			type = wheel:GetSelectedType();
+		end;
+		VariablesCommand=function(self)
 			p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 			p2_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P2');
 			if p1_steps ~= nil and type == "WheelItemDataType_Song" then
@@ -124,7 +124,7 @@ local t = Def.ActorFrame{
 		end;
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"Variables");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"Variables");
-		CurrentSongChangedMessageCommand=cmd(playcommand,"Variables");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"Variables";playcommand,"WheelAndType");
 	},
 	-- Function (scripts)
 	common_text("Select Music"),
@@ -161,16 +161,9 @@ local t = Def.ActorFrame{
 	Def.Banner{
 		InitCommand=cmd(x,SCREEN_LEFT+130;y,SCREEN_TOP+70;scaletoclipped,256,80;Load,THEME:GetPathG("", "no_banner"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("SongBanner");
 		end;
 		SongBannerCommand=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			song = GAMESTATE:GetCurrentSong();
 			group = GAMESTATE:GetExpandedSectionName();
 			if wheel and type == 'WheelItemDataType_Roulette' then
@@ -210,16 +203,9 @@ local t = Def.ActorFrame{
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_LEFT+556;y,SCREEN_TOP+240;scaletoclipped,592,420;Load,THEME:GetPathG("", "no_background"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("SongBackground");
 		end;
 		SongBackgroundCommand=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			song = GAMESTATE:GetCurrentSong();
 			if wheel and type == 'WheelItemDataType_Song' and song ~= nil then
 				if song:HasBackground() == true then
@@ -249,16 +235,9 @@ local t = Def.ActorFrame{
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_RIGHT-44;y,SCREEN_TOP+72;scaletoclipped,80,80;Load,THEME:GetPathG("", "no_cd"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("SongCD");
 		end;
 		SongCDCommand=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			song = GAMESTATE:GetCurrentSong();
 			if wheel and type == 'WheelItemDataType_Song' and song ~= nil then
 				if song:HasCDTitle() == true then
@@ -288,17 +267,10 @@ local t = Def.ActorFrame{
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_LEFT+34;y,SCREEN_TOP+286;scaletoclipped,64,64;Load,THEME:GetPathG("", "difficulty_unknown"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("DifficultyP1");
 		end;
 		DifficultyP1Command=function(self)
 			-- good lord, thank you for helping me out with this Kyzentun...
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 			if wheel and type == 'WheelItemDataType_Song' and p1_steps ~= nil then
 				local difficulty = p1_steps:GetDifficulty();
@@ -330,16 +302,9 @@ local t = Def.ActorFrame{
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_LEFT+34;y,SCREEN_TOP+350;scaletoclipped,64,64;Load,THEME:GetPathG("", "difficulty_unknown"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("DifficultyP2");
 		end;
 		DifficultyP2Command=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			p2_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P2');
 			if wheel and type == 'WheelItemDataType_Song' and p2_steps ~= nil then
 				local difficulty = p2_steps:GetDifficulty();
@@ -371,16 +336,9 @@ local t = Def.ActorFrame{
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_LEFT+162;y,SCREEN_TOP+286;scaletoclipped,192,64;Load,THEME:GetPathG("", "meter_0"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("MeterP1");
 		end;
 		MeterP1Command=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 			if wheel and type == 'WheelItemDataType_Song' and p1_steps ~= nil then
 				-- Thanks Kyzentun.
@@ -408,16 +366,9 @@ local t = Def.ActorFrame{
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_LEFT+162;y,SCREEN_TOP+350;scaletoclipped,192,64;Load,THEME:GetPathG("", "meter_0"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("MeterP2");
 		end;
 		MeterP2Command=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			p2_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P2');
 			if wheel and type == 'WheelItemDataType_Song' and p2_steps ~= nil then
 				-- Thanks Kyzentun.
@@ -446,16 +397,9 @@ local t = Def.ActorFrame{
 		Text="N/A";
 		InitCommand=cmd(scaletofit,SCREEN_LEFT+2,SCREEN_TOP+118,SCREEN_LEFT+256,SCREEN_TOP+242;diffuse,color(theme_color);align,0,0.5;shadowlength,1);
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("Information");
 		end;
 		InformationCommand=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			song = GAMESTATE:GetCurrentSong();
 			local length_result = "Normal";
 			if wheel and type == 'WheelItemDataType_Song' and song ~= nil then
@@ -503,16 +447,9 @@ local t = Def.ActorFrame{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_LEFT+72;y,SCREEN_TOP+300;diffuse,color(theme_color);align,0,0.5;shadowlength,1);
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("StringP1");
 		end;
 		StringP1Command=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			if wheel and type == 'WheelItemDataType_Song' then
 				p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 				local stdifficulty = "Unknown";
@@ -559,16 +496,9 @@ local t = Def.ActorFrame{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_LEFT+72;y,SCREEN_TOP+365;diffuse,color(theme_color);align,0,0.5;shadowlength,1);
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("StringP2");
 		end;
 		StringP2Command=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			if wheel and type == 'WheelItemDataType_Song' then
 				p2_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P2');
 				local stdifficulty = "Unknown";
@@ -618,16 +548,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+386,SCREEN_LEFT+15,SCREEN_TOP+390;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("RadarTapsP1");
 		end;
 		RadarTapsP1Command=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			if wheel and type == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_table[1] / steps_p1_table[9])*100;
 			else
@@ -653,16 +576,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+393,SCREEN_LEFT+15,SCREEN_TOP+397;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("RadarJumpsP1");
 		end;
 		RadarJumpsP1Command=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			if wheel and type == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_table[2] / steps_p1_table[9])*100;
 			else
@@ -688,16 +604,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+400,SCREEN_LEFT+15,SCREEN_TOP+404;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("RadarHoldsP1");
 		end;
 		RadarHoldsP1Command=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			if wheel and type == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_table[3] / steps_p1_table[9])*100;
 			else
@@ -723,16 +632,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+407,SCREEN_LEFT+15,SCREEN_TOP+411;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("RadarMinesP1");
 		end;
 		RadarMinesP1Command=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			if wheel and type == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_table[4] / steps_p1_table[9])*100;
 			else
@@ -758,16 +660,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+414,SCREEN_LEFT+15,SCREEN_TOP+418;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("RadarHandsP1");
 		end;
 		RadarHandsP1Command=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			if wheel and type == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_table[5] / steps_p1_table[9])*100;
 			else
@@ -793,16 +688,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+421,SCREEN_LEFT+15,SCREEN_TOP+425;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("RadarRollsP1");
 		end;
 		RadarRollsP1Command=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			if wheel and type == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_table[6] / steps_p1_table[9])*100;
 			else
@@ -828,16 +716,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+428,SCREEN_LEFT+15,SCREEN_TOP+432;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("RadarLiftsP1");
 		end;
 		RadarLiftsP1Command=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			if wheel and type == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_table[7] / steps_p1_table[9])*100;
 			else
@@ -863,16 +744,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+15,SCREEN_TOP+434,SCREEN_LEFT+15,SCREEN_TOP+438;diffuse,color("1,0.25,0,1"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("RadarFakesP1");
 		end;
 		RadarFakesP1Command=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			if wheel and type == 'WheelItemDataType_Song' then
 				p1_percentage = (steps_p1_table[8] / steps_p1_table[9])*100;
 			else
@@ -898,16 +772,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+386,SCREEN_LEFT+143,SCREEN_TOP+390;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("RadarTapsP2");
 		end;
 		RadarTapsP2Command=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			if wheel and type == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_table[1] / steps_p2_table[9])*100;
 			else
@@ -933,16 +800,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+393,SCREEN_LEFT+143,SCREEN_TOP+397;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("RadarJumpsP2");
 		end;
 		RadarJumpsP2Command=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			if wheel and type == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_table[2] / steps_p2_table[9])*100;
 			else
@@ -968,16 +828,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+400,SCREEN_LEFT+143,SCREEN_TOP+404;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("RadarHoldsP2");
 		end;
 		RadarHoldsP2Command=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			if wheel and type == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_table[3] / steps_p2_table[9])*100;
 			else
@@ -1003,16 +856,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+407,SCREEN_LEFT+143,SCREEN_TOP+411;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("RadarMinesP2");
 		end;
 		RadarMinesP2Command=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			if wheel and type == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_table[4] / steps_p2_table[9])*100;
 			else
@@ -1038,16 +884,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+414,SCREEN_LEFT+143,SCREEN_TOP+418;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("RadarHandsP2");
 		end;
 		RadarHandsP2Command=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			if wheel and type == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_table[5] / steps_p2_table[9])*100;
 			else
@@ -1073,16 +912,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+421,SCREEN_LEFT+143,SCREEN_TOP+425;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("RadarRollsP2");
 		end;
 		RadarRollsP2Command=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			if wheel and type == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_table[6] / steps_p2_table[9])*100;
 			else
@@ -1108,16 +940,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+428,SCREEN_LEFT+143,SCREEN_TOP+432;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("RadarLiftsP2");
 		end;
 		RadarLiftsP2Command=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			if wheel and type == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_table[7] / steps_p2_table[9])*100;
 			else
@@ -1143,16 +968,9 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+143,SCREEN_TOP+434,SCREEN_LEFT+143,SCREEN_TOP+438;diffuse,color("0,0.5,1,1"));
 		OnCommand=function(self)
-			Trace("+--------+");
-			Trace("| DEBUG  |");
-			Trace("+--------+");
-			Trace("| type: " .. tostring(type));
-			Trace("+--------+");
 			self:queuecommand("RadarFakesP2");
 		end;
 		RadarFakesP2Command=function(self)
-			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
-			type = wheel:GetSelectedType();
 			if wheel and type == 'WheelItemDataType_Song' then
 				p2_percentage = (steps_p2_table[8] / steps_p2_table[9])*100;
 			else
