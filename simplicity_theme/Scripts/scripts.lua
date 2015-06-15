@@ -4,6 +4,7 @@
 last_known_stage='Stage_1st';
 last_known_difficulty_p1='Difficulty_Edit';
 last_known_difficulty_p2='Difficulty_Edit';
+last_known_background="no_background";
 -- 1 = taps, 2 = jumps, 3 = holds, 4 = mines, 5 = hands, 6 = rolls, 7 = lifts, 8 = fakes, 9 = total
 steps_p1_table = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 steps_p2_table = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };

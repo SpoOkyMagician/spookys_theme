@@ -355,6 +355,25 @@ local t = Def.ActorFrame{
 		end;
 		CurrentComboChangedP1MessageCommand=cmd(playcommand,"PACombo");
 	},
+	-- Actor (Grade P1)
+	LoadActor(THEME:GetPathG("", "grade_unknown"))..{
+		InitCommand=cmd(x,SCREEN_LEFT+16;y,SCREEN_TOP+96);
+		OnCommand=function(self)
+			self:queuecommand('GradePA');
+		end;
+		GradePACommand=function(self)
+			local stats = STATSMAN:GetCurStageStats();
+			local player_stats = stats:GetPlayerStageStats('PlayerNumber_P1');
+			local grade = player_stats:GetGrade();
+			if grade ~= nil then
+				self:Load(THEME:GetPathG("grade", grade))
+			else
+				self:Load(THEME:GetPathG("", "grade_unknown"))
+			end;
+			self:finishtweening();
+		end;
+		CurrentComboChangedP1MessageCommand=cmd(playcommand,"GradePA");
+	},
 	-- Actor (Combo Text P2)
 	LoadFont("Common","normal")..{
 		Text="0";
@@ -377,6 +396,25 @@ local t = Def.ActorFrame{
 			end;
 		end;
 		CurrentComboChangedP2MessageCommand=cmd(playcommand,"PBCombo");
+	},
+	-- Actor (Grade P1)
+	LoadActor(THEME:GetPathG("", "grade_unknown"))..{
+		InitCommand=cmd(x,SCREEN_RIGHT-16;y,SCREEN_TOP+96);
+		OnCommand=function(self)
+			self:queuecommand('GradePA');
+		end;
+		GradePBCommand=function(self)
+			local stats = STATSMAN:GetCurStageStats();
+			local player_stats = stats:GetPlayerStageStats('PlayerNumber_P2');
+			local grade = player_stats:GetGrade();
+			if grade ~= nil then
+				self:Load(THEME:GetPathG("grade", grade))
+			else
+				self:Load(THEME:GetPathG("", "grade_unknown"))
+			end;
+			self:finishtweening();
+		end;
+		CurrentComboChangedP1MessageCommand=cmd(playcommand,"GradePB");
 	},
 	-- Actor (Score Text P1)
 	LoadFont("Common","normal")..{

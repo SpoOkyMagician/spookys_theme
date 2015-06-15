@@ -198,7 +198,7 @@ local t = Def.ActorFrame{
 			self:diffuse(color("#FFFFFFFF"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"SongBanner");
-		SectionChangedMessageCommand=cmd(playcommand,"SongBanner");
+		WheelChangedMessageCommand=cmd(playcommand,"SongBanner");
 	},
 	-- Actor (Song Background)
 	Def.Sprite{
@@ -210,11 +210,16 @@ local t = Def.ActorFrame{
 			song = GAMESTATE:GetCurrentSong();
 			if wheel and type == 'WheelItemDataType_Song' and song ~= nil then
 				if song:HasBackground() == true then
+					last_known_background = song:GetBackgroundPath();
 					self:Load(GetSongBackground());
 				else
+					local path = THEME:GetPathG("", "no_background");
+					last_known_background=path;
 					self:Load(THEME:GetPathG("", "no_background"));
 				end;
 			else
+				local path = THEME:GetPathG("", "no_background");
+				last_known_background=path;
 				self:Load(THEME:GetPathG("", "no_background"));
 			end;
 			self:finishtweening();
