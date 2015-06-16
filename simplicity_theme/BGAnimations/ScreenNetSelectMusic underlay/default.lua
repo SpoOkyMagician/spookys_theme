@@ -504,11 +504,16 @@ local t = Def.ActorFrame{
 			local song = GAMESTATE:GetCurrentSong();
 			if song ~= nil then
 				if song:HasBackground() == true then
+					last_known_background = song:GetBackgroundPath();
 					self:Load(GetSongBackground());
 				else
+					local path = THEME:GetPathG("", "no_background");
+					last_known_background=path;
 					self:Load(THEME:GetPathG("", "no_background"));
 				end;
 			else
+				local path = THEME:GetPathG("", "no_background");
+				last_known_background=path;
 				self:Load(THEME:GetPathG("", "no_background"));
 			end;
 			self:finishtweening();
