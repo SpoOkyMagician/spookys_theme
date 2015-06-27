@@ -180,13 +180,16 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (P1 NPS)
 	LoadFont("Common","normal")..{
-		Text="NPS: 0 (Peak: 0)";
+		Text="NPS: 0 (Peak: 0) (Average: 0)";
 		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+64;align,0,0.5;diffuse,color(theme_color);shadowlength,1;zoom,0.5);
 		OnCommand=function(self)
 			total_p1 = 0;
 			peak_nps_p1 = 0;
 			last_second_p1 = -1;
 			current_second_p1 = Second();
+			a_total_p1 = 0;
+			b_count_p1 = 0;
+			c_average_p1 = 0;
 		end;
 		TotalACommand=function(self)
 			last_second_p1 = current_second_p1;
@@ -197,9 +200,16 @@ local t = Def.ActorFrame{
 					peak_nps_p1 = nps_p1;
 				end;
 				total_p1 = 0;
-				self:settext("NPS: " .. tostring(nps_p1) .. " (Peak: " .. tostring(peak_nps_p1) .. ")");
+				b_count_p1 = (b_count_p1 + 1);
+				if b_count_p1 == 0 then
+					c_average_p1 = 0;
+				else
+					c_average_p1 = round((a_total_p1 / b_count_p1), 2);
+				end;
+				self:settext("NPS: " .. tostring(nps_p1) .. " (Peak: " .. tostring(peak_nps_p1) .. ")" .. " (Average: " .. tostring(c_average_p1) .. ")");
 			else
 				total_p1 = (total_p1 + 1);
+				a_total_p1 = (a_total_p1 + 1);
 			end;
 		end;
 		BeatACommand=function(self)
@@ -211,7 +221,13 @@ local t = Def.ActorFrame{
 					peak_nps_p1 = nps_p1;
 				end;
 				total_p1 = 0;
-				self:settext("NPS: " .. tostring(nps_p1) .. " (Peak: " .. tostring(peak_nps_p1) .. ")");
+				b_count_p1 = (b_count_p1 + 1);
+				if b_count_p1 == 0 then
+					c_average_p1 = 0;
+				else
+					c_average_p1 = round((a_total_p1 / b_count_p1), 2);
+				end;
+				self:settext("NPS: " .. tostring(nps_p1) .. " (Peak: " .. tostring(peak_nps_p1) .. ")"  .. " (Average: " .. tostring(c_average_p1) .. ")");
 			end;
 		end;
 		CurrentComboChangedP1MessageCommand=cmd(playcommand,"TotalA");
@@ -219,13 +235,16 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (P2 NPS)
 	LoadFont("Common","normal")..{
-		Text="NPS: 0 (Peak: 0)";
+		Text="NPS: 0 (Peak: 0) (Average: 0)";
 		InitCommand=cmd(x,SCREEN_RIGHT-8;y,SCREEN_TOP+64;align,1,0.5;diffuse,color(theme_color);shadowlength,1;zoom,0.5);
 		OnCommand=function(self)
 			total_p2 = 0;
 			peak_nps_p2 = 0;
 			last_second_p2 = -1;
 			current_second_p2 = Second();
+			a_total_p2 = 0;
+			b_count_p2 = 0;
+			c_average_p2 = 0;
 		end;
 		TotalBCommand=function(self)
 			last_second_p2 = current_second_p2;
@@ -236,9 +255,16 @@ local t = Def.ActorFrame{
 					peak_nps_p2 = nps_p2;
 				end;
 				total_p2 = 0;
-				self:settext("NPS: " .. tostring(nps_p2) .. " (Peak: " .. tostring(peak_nps_p2) .. ")");
+				b_count_p2 = (b_count_p2 + 1);
+				if b_count_p2 == 0 then
+					c_average_p2 = 0;
+				else
+					c_average_p2 = round((a_total_p2 / b_count_p2), 2);
+				end;
+				self:settext("NPS: " .. tostring(nps_p2) .. " (Peak: " .. tostring(peak_nps_p2) .. ")" .. " (Average: " .. tostring(c_average_p2) .. ")");
 			else
 				total_p2 = (total_p2 + 1);
+				a_total_p2 = (a_total_p2 + 1);
 			end;
 		end;
 		BeatBCommand=function(self)
@@ -250,7 +276,13 @@ local t = Def.ActorFrame{
 					peak_nps_p2 = nps_p2;
 				end;
 				total_p2 = 0;
-				self:settext("NPS: " .. tostring(nps_p2) .. " (Peak: " .. tostring(peak_nps_p2) .. ")");
+				b_count_p2 = (b_count_p2 + 1);
+				if b_count_p2 == 0 then
+					c_average_p2 = 0;
+				else
+					c_average_p2 = round((a_total_p2 / b_count_p2), 2);
+				end;
+				self:settext("NPS: " .. tostring(nps_p2) .. " (Peak: " .. tostring(peak_nps_p2) .. ")"  .. " (Average: " .. tostring(c_average_p2) .. ")");
 			end;
 		end;
 		CurrentComboChangedP2MessageCommand=cmd(playcommand,"TotalB");
