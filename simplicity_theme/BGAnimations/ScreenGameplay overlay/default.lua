@@ -180,113 +180,49 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (P1 NPS)
 	LoadFont("Common","normal")..{
-		Text="NPS: 0 (Peak: 0) (Average: 0)";
+		Text=" ";
 		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+64;align,0,0.5;diffuse,color(theme_color);shadowlength,1;zoom,0.5);
 		OnCommand=function(self)
+			last_second_p1 = nil;
+			current_second_p1 = round(GAMESTATE:GetSongPosition():GetMusicSeconds(), 0);
 			total_p1 = 0;
-			peak_nps_p1 = 0;
-			last_second_p1 = -1;
-			current_second_p1 = Second();
-			a_total_p1 = 0;
-			b_count_p1 = 0;
-			c_average_p1 = 0;
-		end;
-		TotalACommand=function(self)
-			last_second_p1 = current_second_p1;
-			current_second_p1 = Second();
-			if current_second_p1 ~= last_second_p1 then
-				local nps_p1 = total_p1;
-				if nps_p1 >= peak_nps_p1 then
-					peak_nps_p1 = nps_p1;
-				end;
-				total_p1 = 0;
-				b_count_p1 = (b_count_p1 + 1);
-				if b_count_p1 == 0 then
-					c_average_p1 = 0;
-				else
-					c_average_p1 = round((a_total_p1 / b_count_p1), 2);
-				end;
-				self:settext("NPS: " .. tostring(nps_p1) .. " (Peak: " .. tostring(peak_nps_p1) .. ")" .. " (Average: " .. tostring(c_average_p1) .. ")");
-			else
-				total_p1 = (total_p1 + 1);
-				a_total_p1 = (a_total_p1 + 1);
-			end;
+			count_p1 = 0;
+			nps_p1 = 0;
+			average_p1 = 0;
+			peak_p1 = 0;
+			chord_p1 = 0;
 		end;
 		BeatACommand=function(self)
+			current_second_p1 = round(GAMESTATE:GetSongPosition():GetMusicSeconds(), 0);
+			if last_second_p1 ~= current_second_p1 then
+				-- let's run a different command to let the code recalc stats.
+				self:queuecommand('Recalculate');
+			end;
+		end;
+		RecalculateCommand=function(self)
 			last_second_p1 = current_second_p1;
-			current_second_p1 = Second();
-			if current_second_p1 ~= last_second_p1 then
-				local nps_p1 = total_p1;
-				if nps_p1 >= peak_nps_p1 then
-					peak_nps_p1 = nps_p1;
-				end;
-				total_p1 = 0;
-				b_count_p1 = (b_count_p1 + 1);
-				if b_count_p1 == 0 then
-					c_average_p1 = 0;
-				else
-					c_average_p1 = round((a_total_p1 / b_count_p1), 2);
-				end;
-				self:settext("NPS: " .. tostring(nps_p1) .. " (Peak: " .. tostring(peak_nps_p1) .. ")"  .. " (Average: " .. tostring(c_average_p1) .. ")");
+			count_p1 = (count_p1 + 1);
+			average_p1 = round(total_p1 / count_p1, 2);
+			if peak_p1 < nps_p1 then
+				peak_p1 = nps_p1;
 			end;
+			self:settext("NPS: " .. tostring(nps_p1) .. " Peak NPS: " ..tostring(peak_p1) .. " Note Total: " .. tostring(total_p1) .. " Seconds Total: " .. tostring(count_p1) .. " Average NPS: " .. tostring(average_p1) .. " Last Second: " .. tostring(last_second_p1) .. " Current Second: " .. tostring(current_second_p1) .. " Chord Total: " .. tostring(chord_p1));
+			nps_p1 = 0;
 		end;
-		CurrentComboChangedP1MessageCommand=cmd(playcommand,"TotalA");
+		JudgmentMessageCommand=function(self, param)
+			chord_p1 = 0;
+			if param.Player == 'PlayerNumber_P1' then
+				for i=1,GAMESTATE:GetCurrentStyle():ColumnsPerPlayer() do
+					if param.Notes ~= nil and param.Notes[i] ~= nil then
+						chord_p1 = (chord_p1 + 1)
+					end;
+				end;
+				nps_p1 = (nps_p1 + chord_p1);
+				total_p1 = (total_p1 + chord_p1);
+			end;
+			self:settext("NPS: " .. tostring(nps_p1) .. " Note Total: " .. tostring(total_p1) .. " Chord Total: " .. tostring(chord_p1));
+		end;
 		BeatCrossedMessageCommand=cmd(playcommand,'BeatA');
-	},
-	-- Actor (P2 NPS)
-	LoadFont("Common","normal")..{
-		Text="NPS: 0 (Peak: 0) (Average: 0)";
-		InitCommand=cmd(x,SCREEN_RIGHT-8;y,SCREEN_TOP+64;align,1,0.5;diffuse,color(theme_color);shadowlength,1;zoom,0.5);
-		OnCommand=function(self)
-			total_p2 = 0;
-			peak_nps_p2 = 0;
-			last_second_p2 = -1;
-			current_second_p2 = Second();
-			a_total_p2 = 0;
-			b_count_p2 = 0;
-			c_average_p2 = 0;
-		end;
-		TotalBCommand=function(self)
-			last_second_p2 = current_second_p2;
-			current_second_p2 = Second();
-			if current_second_p2 ~= last_second_p2 then
-				local nps_p2 = total_p2;
-				if nps_p2 >= peak_nps_p2 then
-					peak_nps_p2 = nps_p2;
-				end;
-				total_p2 = 0;
-				b_count_p2 = (b_count_p2 + 1);
-				if b_count_p2 == 0 then
-					c_average_p2 = 0;
-				else
-					c_average_p2 = round((a_total_p2 / b_count_p2), 2);
-				end;
-				self:settext("NPS: " .. tostring(nps_p2) .. " (Peak: " .. tostring(peak_nps_p2) .. ")" .. " (Average: " .. tostring(c_average_p2) .. ")");
-			else
-				total_p2 = (total_p2 + 1);
-				a_total_p2 = (a_total_p2 + 1);
-			end;
-		end;
-		BeatBCommand=function(self)
-			last_second_p2 = current_second_p2;
-			current_second_p2 = Second();
-			if current_second_p2 ~= last_second_p2 then
-				local nps_p2 = total_p2;
-				if nps_p2 >= peak_nps_p2 then
-					peak_nps_p2 = nps_p2;
-				end;
-				total_p2 = 0;
-				b_count_p2 = (b_count_p2 + 1);
-				if b_count_p2 == 0 then
-					c_average_p2 = 0;
-				else
-					c_average_p2 = round((a_total_p2 / b_count_p2), 2);
-				end;
-				self:settext("NPS: " .. tostring(nps_p2) .. " (Peak: " .. tostring(peak_nps_p2) .. ")"  .. " (Average: " .. tostring(c_average_p2) .. ")");
-			end;
-		end;
-		CurrentComboChangedP2MessageCommand=cmd(playcommand,"TotalB");
-		BeatCrossedMessageCommand=cmd(playcommand,'BeatB');
 	},
 	-- Actor (Real Time Timing Graphic P1)
 	LoadActor(THEME:GetPathG("icon", "rtt"))..{

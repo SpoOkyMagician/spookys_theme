@@ -11,6 +11,16 @@ steps_p2_table = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 p1_percentage = 0;
 p2_percentage = 0;
 
+-- testing something.
+last_second_p1 = nil;
+current_second_p1 = nil;
+total_p1 = 0;
+count_p1 = 0;
+nps_p1 = 0;
+average_p1 = 0;
+peak_p1 = 0;
+chord_p1 = 0;
+
 -- Original Gold - Primary Theme Color
 
 theme_color="1,0.9,0,1";
