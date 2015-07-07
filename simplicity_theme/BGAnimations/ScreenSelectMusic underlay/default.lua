@@ -1050,10 +1050,14 @@ local t = Def.ActorFrame{
 		CurrentSongChangedMessageCommand=cmd(playcommand,"StepTableP2");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"StepTableP2");
 	},
+	-- Actor (Step Table Quad)
+	Def.Quad{
+		InitCommand=cmd(stretchto,SCREEN_RIGHT-196,SCREEN_BOTTOM-96,SCREEN_RIGHT-3,SCREEN_BOTTOM-30;diffuse,color("0,0,0,0.8"));
+	},
 	-- Actor (P1 NPS Results Test)
 	LoadFont("Common","normal")..{
 		Text=" ";
-		InitCommand=cmd(x,SCREEN_RIGHT-8;y,SCREEN_TOP+64;align,1,0.5;diffuse,color(theme_color);shadowlength,1;zoom,0.5);
+		InitCommand=cmd(x,SCREEN_RIGHT-8;y,SCREEN_BOTTOM-64;align,1,0.5;diffuse,color(theme_color);shadowlength,1;zoom,0.5);
 		OnCommand=function(self)
 			if last_second_p1 == nil or current_second_p1 == nil then
 				self:settext("Last Song NPS Stats:\nYou need to play a song first.");
