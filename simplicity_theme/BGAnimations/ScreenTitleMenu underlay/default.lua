@@ -6,9 +6,9 @@ local t = Def.ActorFrame{
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;Load,THEME:GetPathG("","tod_unknown"));
 		OnCommand=function(self)
-			self:queuecommand('CheckTime');
+			self:queuecommand('RecheckTime');
 		end;
-		CheckTimeCommand=function(self)
+		RecheckTimeCommand=function(self)
 			-- 0 to 23 11 = 12PM; 0 = 12AM
 			local todh = Hour();
 			if todh >= 5 and todh <= 8 then
@@ -28,7 +28,7 @@ local t = Def.ActorFrame{
 				self:Load(THEME:GetPathG("","tod_unknown"));
 			end;
 			self:sleep(60);
-			self:queuecommand('CheckTime');
+			self:queuecommand('RecheckTime');
 		end;
 	},
 	-- Actor (Time of Day Clouds)
