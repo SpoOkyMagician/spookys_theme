@@ -183,31 +183,38 @@ local t = Def.ActorFrame{
 		Text=" ";
 		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+64;align,0,0.5;diffuse,color(theme_color);shadowlength,1;zoom,0.5);
 		OnCommand=function(self)
-			last_second_p1 = nil;
-			current_second_p1 = round(GAMESTATE:GetSongPosition():GetMusicSeconds(), 0);
 			total_p1 = 0;
 			count_p1 = 0;
 			nps_p1 = 0;
 			average_p1 = 0;
 			peak_p1 = 0;
 			chord_p1 = 0;
+			ms_var = 0;
+			self:queuecommand('CustomTime');
 		end;
-		BeatACommand=function(self)
-			current_second_p1 = round(GAMESTATE:GetSongPosition():GetMusicSeconds(), 0);
-			if last_second_p1 ~= current_second_p1 then
-				-- let's run a different command to let the code recalc stats.
+		CustomTimeCommand=function(self)
+			-- I need real time...
+			ms_var = ms_var + 1;
+			if ms_var == 999 then
+				ms_var = 0;
 				self:queuecommand('Recalculate');
+			else
+				ms_var = ms_var + 1;
 			end;
+			self:sleep(0.001);
+			self:queuecommand('CustomTime');
 		end;
 		RecalculateCommand=function(self)
-			last_second_p1 = current_second_p1;
-			count_p1 = (count_p1 + 1);
-			average_p1 = round(total_p1 / count_p1, 2);
-			if peak_p1 < nps_p1 then
-				peak_p1 = nps_p1;
+			-- don't start until there are arrows.
+			if total_p1 ~= 0 then
+				count_p1 = (count_p1 + 1);
+				average_p1 = round(total_p1 / count_p1, 2);
+				if peak_p1 < nps_p1 then
+					peak_p1 = nps_p1;
+				end;
+				self:settext("NPS: " .. tostring(nps_p1) .. " Peak NPS: " .. tostring(peak_p1) .. " Note Total: " .. tostring(total_p1) .. " Seconds Total: " .. tostring(count_p1) .. " Average NPS: " .. tostring(average_p1) .. " Milisecond: " .. tostring(ms_var) .. " Chord Total: " .. tostring(chord_p1));
+				nps_p1 = 0;
 			end;
-			self:settext("NPS: " .. tostring(nps_p1) .. " Peak NPS: " ..tostring(peak_p1) .. " Note Total: " .. tostring(total_p1) .. " Seconds Total: " .. tostring(count_p1) .. " Average NPS: " .. tostring(average_p1) .. " Last Second: " .. tostring(last_second_p1) .. " Current Second: " .. tostring(current_second_p1) .. " Chord Total: " .. tostring(chord_p1));
-			nps_p1 = 0;
 		end;
 		JudgmentMessageCommand=function(self, param)
 			chord_p1 = 0;
@@ -220,9 +227,8 @@ local t = Def.ActorFrame{
 				nps_p1 = (nps_p1 + chord_p1);
 				total_p1 = (total_p1 + chord_p1);
 			end;
-			self:settext("NPS: " .. tostring(nps_p1) .. " Note Total: " .. tostring(total_p1) .. " Chord Total: " .. tostring(chord_p1));
+			self:settext("NPS: " .. tostring(nps_p1) .. " Peak NPS: - " .. " Note Total: " .. tostring(total_p1) .. " Seconds Total: - " .. " Average NPS: - " .. " Milisecond: " .. tostring(ms_var) .. " Chord Total: " .. tostring(chord_p1));
 		end;
-		BeatCrossedMessageCommand=cmd(playcommand,'BeatA');
 	},
 	-- Actor (Real Time Timing Graphic P1)
 	LoadActor(THEME:GetPathG("icon", "rtt"))..{
