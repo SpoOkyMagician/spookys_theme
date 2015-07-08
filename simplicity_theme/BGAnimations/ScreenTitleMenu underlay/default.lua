@@ -2,12 +2,142 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenTitleMenuUnderlayActorFrame";
-	-- Actor (scripts)
-	LoadActor(THEME:GetPathG("","bg_generic"))..{
+	-- Actor (Time of Day)
+	Def.Sprite{
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;Load,THEME:GetPathG("","tod_unknown"));
+		OnCommand=function(self)
+			self:queuecommand('CheckTime');
+		end;
+		CheckTimeCommand=function(self)
+			-- 0 to 23 11 = 12PM; 0 = 12AM
+			local todh = Hour();
+			if todh >= 5 and todh <= 8 then
+				-- it's dawn - 4 hours 6AM - 9AM
+				self:Load(THEME:GetPathG("","tod_dawn"));
+			elseif todh >= 9 and todh <= 16 then
+				-- it's afternoon - 8 hours 10AM - 5PM
+				self:Load(THEME:GetPathG("","tod_afternoon"));
+			elseif todh >= 17 and todh <= 20 then
+				-- it's dusk - 4 hours 6PM - 9PM
+				self:Load(THEME:GetPathG("","tod_dusk"));
+			elseif todh >= 21 or todh <= 4 then
+				-- it's night - 8 hours 10PM - 5AM
+				self:Load(THEME:GetPathG("","tod_night"));
+			else
+				-- this should never be reached...
+				self:Load(THEME:GetPathG("","tod_unknown"));
+			end;
+			self:sleep(60);
+			self:queuecommand('CheckTime');
+		end;
+	},
+	-- Actor (Time of Day Clouds)
+	LoadActor(THEME:GetPathG("","tod_clouds"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
 	},
-	-- Actor (scripts)
-	grid_u,
+	-- Actor (Sun)
+	Def.Sprite{
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_BOTTOM;align,0.5,0.5;Load,THEME:GetPathG("","tod_sun"));
+		OnCommand=function(self)
+			self:basealpha(0);
+			self:queuecommand('MoveSun');
+		end;
+		MoveSunCommand=function(self)
+			-- 0 to 23 11 = 12PM; 0 = 12AM
+			local todh = Hour();
+			local todm = Minute();
+			if todm == 0 then
+				-- don't multiply by 0.
+				todm = 1;
+			end;
+			local move_y = 0;
+			local hour_total = 1;
+			-- screen height is 480.
+			-- 240 minutes in 4 hours.
+			-- multiply by 2 to get 480.
+			-- sprite is 128x128.
+			if todh >= 5 and todh <= 8 then
+				-- it's dawn - 4 hours 6AM - 9AM
+				self:basealpha(1);
+				if todh == 5 then
+					hour_total = 1;
+					move_y = SCREEN_BOTTOM - ((hour_total * todm) * 2);
+					self:y(move_y);
+				elseif todh == 6 then
+					hour_total = 2;
+					move_y = SCREEN_BOTTOM - ((60 + hour_total * todm) * 2)
+					self:y(move_y);
+				elseif todh == 7 then
+					hour_total = 3;
+					move_y = SCREEN_BOTTOM - ((120 + hour_total * todm) * 2)
+					self:y(move_y);
+				elseif todh == 8 then
+					hour_total = 4;
+					move_y = SCREEN_BOTTOM - ((180 + hour_total * todm) * 2)
+					self:y(move_y);
+				else
+					-- we should never reach here.
+				end;
+			else
+				self:basealpha(0);
+				self:y(SCREEN_BOTTOM);
+			end;
+			self:align(0.5,0.5);
+			self:sleep(60);
+			self:queuecommand('MoveSun');
+		end;
+	},
+	-- Actor (Moon)
+	Def.Sprite{
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_BOTTOM;align,0.5,0.5;Load,THEME:GetPathG("","tod_moon"));
+		OnCommand=function(self)
+			self:basealpha(0);
+			self:queuecommand('MoveMoon');
+		end;
+		MoveMoonCommand=function(self)
+			-- 0 to 23 11 = 12PM; 0 = 12AM
+			local todh = Hour();
+			local todm = Minute();
+			if todm == 0 then
+				-- don't multiply by 0.
+				todm = 1;
+			end;
+			local move_y = 0;
+			local hour_total = 0;
+			-- screen height is 480.
+			-- 240 minutes in 4 hours.
+			-- multiply by 2 to get 480.
+			-- sprite is 128x128.
+			if todh >= 17 and todh <= 20 then
+				-- it's dusk - 4 hours 6PM - 9PM
+				self:basealpha(1);
+				if todh == 17 then
+					hour_total = 1;
+					move_y = SCREEN_BOTTOM - ((hour_total * todm) * 2);
+					self:y(move_y);
+				elseif todh == 18 then
+					hour_total = 2;
+					move_y = SCREEN_BOTTOM - ((60 + hour_total * todm) * 2)
+					self:y(move_y);
+				elseif todh == 19 then
+					hour_total = 3;
+					move_y = SCREEN_BOTTOM - ((120 + hour_total * todm) * 2)
+					self:y(move_y);
+				elseif todh == 20 then
+					hour_total = 4;
+					move_y = SCREEN_BOTTOM - ((180 + hour_total * todm) * 2)
+					self:y(move_y);
+				else
+					-- we should never reach here.
+				end;
+			else
+				self:basealpha(0);
+				self:y(SCREEN_BOTTOM);
+			end;
+			self:sleep(60);
+			self:queuecommand('MoveMoon');
+		end;
+	},
 	-- Actor (scripts)
 	grid_b,
 	-- Actor (scripts)
@@ -207,7 +337,7 @@ local t = Def.ActorFrame{
 	-- Function (scripts)
 	theme_skin("title_theme_skin"),
 	-- Actor (scripts)
-	main_song
+	determine_music();
 };
 
 return t;

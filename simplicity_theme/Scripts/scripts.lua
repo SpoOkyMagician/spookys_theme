@@ -28,6 +28,41 @@ theme_background="0,0,0,1";
 
 -- Common Music
 
+function determine_music(self)
+	return LoadActor(THEME:GetPathS("","rave_party"))..{
+		InitCommand=cmd(stop);
+		OnCommand=function(self)
+			self:queuecommand('CheckTime');
+		end;
+		CheckTimeCommand=function(self)
+			-- 0 to 23 11 = 12PM; 0 = 12AM
+			local todh = Hour();
+			if todh >= 5 and todh <= 8 then
+				-- it's dawn - 4 hours 6AM - 9AM
+				self:load(THEME:GetPathS("","hurry_up"));
+			elseif todh >= 9 and todh <= 16 then
+				-- it's afternoon - 8 hours 10AM - 5PM
+				self:load(THEME:GetPathS("","rave_party"));
+			elseif todh >= 17 and todh <= 20 then
+				-- it's dusk - 4 hours 6PM - 9PM
+				self:load(THEME:GetPathS("","hurry_up"));
+			elseif todh >= 21 or todh <= 4 then
+				-- it's night - 8 hours 10PM - 5AM
+				self:load(THEME:GetPathS("","chill_n_bass"));
+			else
+				-- this should never be reached...
+				self:Load(THEME:GetPathG("","tod_unknown"));
+			end;
+			self:stop();
+			self:play();
+			self:sleep(60);
+			self:queuecommand('CheckTime');
+		end;
+		OffCommand=function(self)
+			self:stop();
+		end;
+	}
+end;
 main_song = LoadActor(THEME:GetPathS("", "rave_party"))..{ InitCommand=cmd(stop); OnCommand=cmd(play); OffCommand=cmd(stop); };
 fast_song = LoadActor(THEME:GetPathS("", "hurry_up"))..{ InitCommand=cmd(stop); OnCommand=cmd(play); OffCommand=cmd(stop); };
 slow_song = LoadActor(THEME:GetPathS("", "chill_n_bass"))..{ InitCommand=cmd(stop); OnCommand=cmd(play); OffCommand=cmd(stop); };
@@ -78,7 +113,7 @@ function neat_arrow_left()
 		MenuUp2MessageCommand=cmd(playcommand,"UpLeft");
 		MenuSelectionChangedMessageCommand=cmd(playcommand,"UpLeft");
 	}
-end
+end;
 
 function neat_arrow_right()
 	return LoadActor(THEME:GetPathG("","arrow"))..{
@@ -112,4 +147,4 @@ function common_text(string_text)
 			self:diffuse(color(theme_color));
 		end;
 	};
-end
+end;
