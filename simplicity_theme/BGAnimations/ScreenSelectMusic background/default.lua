@@ -2,10 +2,10 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenSelectMusicBackgroundActorFrame";
-	-- Actor (scripts)
-	grid_b,
-	-- Actor (scripts)
-	grid_c
+	-- Actor/Function (scripts)
+	grid_a(),
+	-- Actor/Function (scripts)
+	grid_b()
 };
 
 return t;

@@ -2,10 +2,10 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenGameplayOverlayActorFrame";
-	-- Actor (scripts)
-	grid_b,
-	-- Actor (scripts)
-	grid_c,
+	-- Actor/Function (scripts)
+	grid_a(),
+	-- Actor/Function (scripts)
+	grid_b(),
 	-- Actor (Score Quad)
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_BOTTOM-30,SCREEN_RIGHT-2,SCREEN_BOTTOM-52;diffuse,color("0,0,0,0.75"));
@@ -239,9 +239,9 @@ local t = Def.ActorFrame{
 		Text=" ";
 		InitCommand=cmd(x,SCREEN_LEFT+12;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);align,0,0.5;shadowlength,1;zoom,0.75);
 		OnCommand=function(self)
-			self:queuecommand('ResultsP1');
+			self:queuecommand('ResultsP1C');
 		end;
-		ResultsP1Command=function(self)
+		ResultsP1CCommand=function(self)
 			local results = STATSMAN:GetCurStageStats();
 			local tableresults = results:GetPlayerStageStats('PlayerNumber_P1');
 			local combo = tableresults:MaxCombo();
@@ -260,7 +260,7 @@ local t = Def.ActorFrame{
 			self:y(SCREEN_BOTTOM/2);
 			self:settext("\n" .. tostring(flawless) .. "\n" .. tostring(perfects) .. "\n" .. tostring(greats) .. "\n" .. tostring(goods) .. "\n" .. tostring(bads) .. "\n" .. tostring(misses) .. "\n" .. tostring(held) .. "\n" .. tostring(released) .. "\n" .. tostring(combo));
 		end;
-		CurrentComboChangedP1MessageCommand=cmd(playcommand,'ResultsP1');
+		CurrentComboChangedP1MessageCommand=cmd(playcommand,'ResultsP1C');
 	},
 	-- Actor (Real Time Timing Graphic P2)
 	LoadActor(THEME:GetPathG("icon", "rtt"))..{
@@ -271,9 +271,9 @@ local t = Def.ActorFrame{
 		Text=" ";
 		InitCommand=cmd(x,SCREEN_RIGHT-12;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);align,1,0.5;shadowlength,1;zoom,0.75);
 		OnCommand=function(self)
-			self:queuecommand('ResultsP2');
+			self:queuecommand('ResultsP2C');
 		end;
-		ResultsP2Command=function(self)
+		ResultsP2CCommand=function(self)
 			local results = STATSMAN:GetCurStageStats();
 			local tableresults = results:GetPlayerStageStats('PlayerNumber_P2');
 			local combo = tableresults:MaxCombo();
@@ -292,9 +292,9 @@ local t = Def.ActorFrame{
 			self:y(SCREEN_BOTTOM/2);
 			self:settext("\n" .. tostring(flawless) .. "\n" .. tostring(perfects) .. "\n" .. tostring(greats) .. "\n" .. tostring(goods) .. "\n" .. tostring(bads) .. "\n" .. tostring(misses) .. "\n" .. tostring(held) .. "\n" .. tostring(released) .. "\n" .. tostring(combo));
 		end;
-		CurrentComboChangedP2MessageCommand=cmd(playcommand,'ResultsP2');
+		CurrentComboChangedP2MessageCommand=cmd(playcommand,'ResultsP2C');
 	},
-	-- Actor (Test)
+	-- Actor (Combo Noise)
 	LoadActor(THEME:GetPathS("","combo_tick"))..{
 		SoundComboCommand=function(self)
 			local stats = STATSMAN:GetCurStageStats();
@@ -598,9 +598,9 @@ local t = Def.ActorFrame{
 		LifeMeterChangedP1MessageCommand=cmd(playcommand,"P1P2Performance");
 		LifeMeterChangedP2MessageCommand=cmd(playcommand,"P1P2Performance");
 	},
-	-- Function (scripts)
+	-- Actor/Function (scripts)
 	theme_skin("theme_skin"),
-	-- Function (scripts)
+	-- Actor/Function (scripts)
 	theme_skin("gameplay_theme_skin")
 };
 

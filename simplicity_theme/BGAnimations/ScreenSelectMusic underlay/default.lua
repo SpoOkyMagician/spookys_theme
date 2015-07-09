@@ -19,6 +19,8 @@ local sort = 'SortOrder_Group'; -- GAMESTATE:GetSortOrder();
 local song = {}; -- GAMESTATE:GetCurrentSong();
 local group = "N/A"; -- GAMESTATE:GetExpandedSectionName();
 
+-- These global variables needs to be reset.
+
 steps_p1_table = {};
 steps_p2_table = {};
 
@@ -53,13 +55,13 @@ local t = Def.ActorFrame{
 		OnCommand=function(self)
 			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
 			type = wheel:GetSelectedType();
-			self:queuecommand("Variables");
+			self:queuecommand("VariablesB");
 		end;
 		WheelAndTypeCommand=function(self)
 			wheel = SCREENMAN:GetTopScreen():GetMusicWheel();
 			type = wheel:GetSelectedType();
 		end;
-		VariablesCommand=function(self)
+		VariablesBCommand=function(self)
 			p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 			p2_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P2');
 			if p1_steps ~= nil and type == "WheelItemDataType_Song" then
@@ -122,9 +124,9 @@ local t = Def.ActorFrame{
 			Trace("| type: " .. tostring(type));
 			Trace("+--------+");
 		end;
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"Variables");
-		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"Variables");
-		CurrentSongChangedMessageCommand=cmd(playcommand,"WheelAndType",playcommand,"Variables");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"VariablesB");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"VariablesB");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"WheelAndType",playcommand,"VariablesB");
 	},
 	-- Function (scripts)
 	common_text("Select Music"),
@@ -132,9 +134,9 @@ local t = Def.ActorFrame{
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_RIGHT-26;y,SCREEN_TOP+15;scaletoclipped,50,28;Load,THEME:GetPathG("", "sort_icon_unknown"));
 		OnCommand=function(self)
-			self:queuecommand("WheelSort");
+			self:queuecommand("WheelSortB");
 		end;
-		WheelSortCommand=function(self)
+		WheelSortBCommand=function(self)
 			-- Thanks Jousway
 			sort = GAMESTATE:GetSortOrder();
 			if sort ~= nil then
@@ -155,7 +157,7 @@ local t = Def.ActorFrame{
 			self:diffuse(color("#FFFFFFDD"));
 			self:diffuse(color("#FFFFFFFF"));
 		end;
-		SortOrderChangedMessageCommand=cmd(playcommand,"WheelSort");
+		SortOrderChangedMessageCommand=cmd(playcommand,"WheelSortB");
 	},
 	-- Actor (Song Banner)
 	Def.Banner{
@@ -405,7 +407,7 @@ local t = Def.ActorFrame{
 		OnCommand=function(self)
 			self:queuecommand("Information");
 		end;
-		InformationCommand=function(self)
+		InformationBCommand=function(self)
 			song = GAMESTATE:GetCurrentSong();
 			local length_result = "Normal";
 			if wheel and type == 'WheelItemDataType_Song' and song ~= nil then
@@ -446,7 +448,7 @@ local t = Def.ActorFrame{
 			self:diffuse(color("#FFFFFFDD"));
 			self:diffuse(color(theme_color));
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"Information");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"InformationB");
 	},
 	-- Actor (Song Difficulty P1 Text)
 	LoadFont("Common","normal")..{
@@ -1059,16 +1061,12 @@ local t = Def.ActorFrame{
 		Text=" ";
 		InitCommand=cmd(x,SCREEN_RIGHT-8;y,SCREEN_BOTTOM-64;align,1,0.5;diffuse,color(theme_color);shadowlength,1;zoom,0.5);
 		OnCommand=function(self)
-			if last_second_p1 == nil or current_second_p1 == nil then
-				self:settext("Last Song NPS Stats:\nYou need to play a song first.");
-			else
-				self:settext("Last Song NPS Stats:\nAverage NPS: " .. tostring(average_p1) .. "\nPeak NPS: " .. tostring(peak_p1) );
-			end;
+			self:settext("Last Song NPS Stats:\nAverage NPS: " .. tostring(average_p1) .. "\nPeak NPS: " .. tostring(peak_p1) );
 		end;
 	},
-	-- Function (scripts)
+	-- Actor/Function (scripts)
 	theme_skin("theme_skin"),
-	-- Function (scripts)
+	-- Actor/Function (scripts)
 	theme_skin("music_theme_skin")
 };
 

@@ -2,7 +2,7 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenNetRoomUnderlayActorFrame";
-	-- Function (scripts)
+	-- Actor/Function (scripts)
 	common_text("StepMania Online Lobby"),
 	-- Actor (Last Round Info Quad)
 	Def.Quad{
@@ -20,10 +20,10 @@ local t = Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+284,SCREEN_TOP+208,SCREEN_RIGHT-8,SCREEN_TOP+446;diffuse,color(theme_background);basealpha,0.75);
 	},
-	-- Function (scripts)
+	-- Actor/Function (scripts)
 	theme_skin("lobby_theme_skin"),
-	-- Actor (scripts)
-	slow_song
+	-- Actor/Function (scripts)
+	slow_song()
 };
 
 return t;

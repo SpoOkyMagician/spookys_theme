@@ -10,9 +10,9 @@ local t = Def.ActorFrame{
 			self:stretchto(SCREEN_LEFT,SCREEN_TOP+32,SCREEN_RIGHT,SCREEN_BOTTOM-32);
 		end;
 	},
-	-- Actor (scripts)
-	grid_t,
-	-- Function (scripts)
+	-- Actor/Function (scripts)
+	grid_c(),
+	-- Actor/Function (scripts)
 	common_text("Summary"),
 	-- Actor (Results P1 Translation Text)
 	LoadFont("Common", "normal")..{
@@ -24,9 +24,9 @@ local t = Def.ActorFrame{
 		Text="";
 		InitCommand=cmd(x,SCREEN_RIGHT/2-8;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);zoom,0.75;align,1,0.5;shadowlength,1);
 		OnCommand=function(self)
-			self:queuecommand('ResultsP1');
+			self:queuecommand('ResultsP1B');
 		end;
-		ResultsP1Command=function(self)
+		ResultsP1BCommand=function(self)
 			local results = STATSMAN:GetAccumPlayedStageStats();
 			local tableresults = results:GetPlayerStageStats('PlayerNumber_P1');
 			local points = tableresults:GetScore();
@@ -81,9 +81,9 @@ local t = Def.ActorFrame{
 		Text="";
 		InitCommand=cmd(x,SCREEN_RIGHT-8;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);zoom,0.75;align,1,0.5;shadowlength,1);
 		OnCommand=function(self)
-			self:queuecommand('ResultsP2');
+			self:queuecommand('ResultsP2B');
 		end;
-		ResultsP2Command=function(self)
+		ResultsP2BCommand=function(self)
 			local results = STATSMAN:GetAccumPlayedStageStats();
 			local tableresults = results:GetPlayerStageStats('PlayerNumber_P2');
 			local points = tableresults:GetScore();
@@ -129,10 +129,10 @@ local t = Def.ActorFrame{
 			self:settext("\n" .. "\n" .. stringgrade .. "\n" .. tostring(round(percent,1)) .. "%\n\n" .. tostring(flawless) .. "\n" .. tostring(perfects) .. "\n" .. tostring(greats) .. "\n" .. tostring(goods) .. "\n" .. tostring(bads) .. "\n" .. tostring(misses) .. "\n" .. tostring(held) .. "\n" .. tostring(released) .. "\n" .. tostring(combo) .. "\n\n" .. tostring(points) .. "/" .. tostring(maxpoints))
 		end;
 	},
-	-- Function (scripts)
+	-- Actor/Function (scripts)
 	theme_skin("evaluation_theme_skin"),
-	-- Actor (scripts)
-	main_song
+	-- Actor/Function (scripts)
+	main_song()
 };
 
 return t;

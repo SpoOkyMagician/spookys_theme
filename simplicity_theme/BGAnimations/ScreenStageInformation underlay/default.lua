@@ -1,20 +1,18 @@
 -- ScreenStageInformation underlay
+
 -- Kyzentun: THEME:GetString('ScreenStageInformation', 'foo')"
 
 local t = Def.ActorFrame{
 	Name="ScreenStageInformationUnderlayActorFrame";
-	-- Function (scripts)
+	-- Actor/Function (scripts)
 	common_text("Stage Information"),
-	-- Actor (scripts)
-	grid_t,
+	-- Actor/Function (scripts)
+	grid_c(),
 	-- Actor (Stage Text)
 	LoadFont("Common","normal")..{
 		Text="Stage";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,0.5,0.5;zoom,2.0;shadowlength,1);
 		OnCommand=function(self)
-			self:queuecommand('FindStage');
-		end;
-		FindStageCommand=function(self)
 			local stage = GAMESTATE:GetCurrentStage();
 			if stage == 'Stage_1st' then
 				self:settext(THEME:GetString('ScreenStageInformation', "First Stage"));

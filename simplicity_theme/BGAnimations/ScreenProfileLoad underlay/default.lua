@@ -2,12 +2,12 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenProfileLoadUnderlayActorFrame";
-	-- Function (scripts)
+	-- Actor/Function (scripts)
 	common_text("Load Profile"),
-	-- Actor (scripts)
-	grid_t,
-	-- Actor (scripts)
-	fast_song
+	-- Actor/Function (scripts)
+	grid_c(),
+	-- Actor/Function (scripts)
+	fast_song()
 };
 
 return t;

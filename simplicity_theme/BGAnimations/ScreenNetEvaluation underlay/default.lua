@@ -10,10 +10,10 @@ local t = Def.ActorFrame{
 			self:stretchto(SCREEN_LEFT,SCREEN_TOP+32,SCREEN_RIGHT,SCREEN_BOTTOM-32);
 		end;
 	},
-	-- Function (scripts)
+	-- Actor/Function (scripts)
 	common_text("StepMania Online Evaluation"),
-	-- Actor (scripts)
-	grid_t,
+	-- Actor/Function (scripts)
+	grid_c(),
 	-- Actor (Results P1 Translation Text)
 	LoadFont("Common", "normal")..{
 		Text=ScreenString("Here are your results Player 1") .. "!" .. "\n\n" .. ScreenString("Grade") .. ":" .. "\n" .. ScreenString("Percent") .. ":" .. "\n\n" .. ScreenString("Flawless") .. ":" .. "\n" .. ScreenString("Perfects") .. ":" .. "\n" .. ScreenString("Greats") .. ":" .. "\n" .. ScreenString("Goods") .. ":" .. "\n" .. ScreenString("Bad") .. ":" .. "\n" .. ScreenString("Missed") .. ":" .. "\n" .. ScreenString("Held") .. ":" .. "\n" .. ScreenString("Released") .. ":" .. "\n" .. ScreenString("Combo") .. ":" .. "\n\n" .. ScreenString("Score") .. ":";
@@ -24,9 +24,9 @@ local t = Def.ActorFrame{
 		Text="Results P1";
 		InitCommand=cmd(x,SCREEN_RIGHT-8;y,SCREEN_BOTTOM/2;diffuse,color(theme_color);zoom,0.75;align,1,0.5;shadowlength,1);
 		OnCommand=function(self)
-			self:queuecommand('Results');
+			self:queuecommand('ResultsNet');
 		end;
-		ResultsCommand=function(self)
+		ResultsNetCommand=function(self)
 			local results = STATSMAN:GetCurStageStats();
 			local tableresults =  results:GetPlayerStageStats('PlayerNumber_P1');
 			local points = tableresults:GetScore();
@@ -72,7 +72,7 @@ local t = Def.ActorFrame{
 		end;
 	},
 	-- Actor (scripts)
-	fast_song
+	fast_song()
 };
 
 return t;

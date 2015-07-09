@@ -6,8 +6,8 @@ local t = Def.ActorFrame{
 	LoadActor(THEME:GetPathG("","bg_generic"))..{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
 	},
-	-- Actor (scripts)
-	grid_u
+	-- Actor/Function (scripts)
+	grid_d()
 };
 
 return t;

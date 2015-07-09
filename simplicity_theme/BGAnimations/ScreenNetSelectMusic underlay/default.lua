@@ -1,5 +1,7 @@
 -- ScreenNetSelectMusic underlay
 
+-- these global variables needs to be reset here.
+
 steps_p1_table = {};
 steps_p2_table = {};
 
@@ -71,7 +73,7 @@ local t = Def.ActorFrame{
 	-- SMO Edit: Technically, it only uses P1. P2 does not work online.
 	Def.Actor{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
-		VariablesCommand=function(self)
+		VariablesACommand=function(self)
 			p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
 			if p1_steps ~= nil then
 				last_known_difficulty_P1 = p1_steps:GetDifficulty();
@@ -99,13 +101,13 @@ local t = Def.ActorFrame{
 			end;
 			self:finishtweening();
 		end;
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"Variables");
-		CurrentSongChangedMessageCommand=cmd(playcommand,"Variables");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"VariablesA");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"VariablesA");
 	},
 	-- Actor (Sort Icon)
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_RIGHT-26;y,SCREEN_TOP+15;scaletoclipped,50,28;Load,THEME:GetPathG("", "sort_icon_unknown"));
-		WheelSortCommand=function(self)
+		WheelSortACommand=function(self)
 			-- Thanks Jousway.
 			sort = GAMESTATE:GetSortOrder();
 			if sort ~= nil then
@@ -126,7 +128,7 @@ local t = Def.ActorFrame{
 			self:diffuse(color("#FFFFFFDD"));
 			self:diffuse(color("#FFFFFFFF"));
 		end;
-		SortOrderChangedMessageCommand=cmd(playcommand,"WheelSort");
+		SortOrderChangedMessageCommand=cmd(playcommand,"WheelSortA");
 	},
 	-- Actor (Info Quad Part 1)
 	Def.Quad{
@@ -152,7 +154,7 @@ local t = Def.ActorFrame{
 	-- SMO Edit: I cant get music wheel online? -_-' I'll use this one for now then...
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_LEFT+138;y,SCREEN_TOP+82;scaletoclipped,256,80;Load,THEME:GetPathG("", "no_banner"));
-		BannerCommand=function(self)
+		NetBannerCommand=function(self)
 			local song = GAMESTATE:GetCurrentSong();
 			if song ~= nil then
 				local group = song:GetGroupName();
@@ -180,7 +182,7 @@ local t = Def.ActorFrame{
 			self:diffuse(color("#FFFFFFDD"));
 			self:diffuse(color("#FFFFFFFF"));
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"Banner");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"NetBanner");
 	},
 	-- Actor (Song Difficulty P1)
 	LoadActor(THEME:GetPathG("", "difficulty_unknown"))..{
@@ -458,7 +460,7 @@ local t = Def.ActorFrame{
 	LoadFont("Common","normal")..{
 		Text="N/A";
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,0,0.5;shadowlength,1);
-		InformationCommand=function(self)
+		InformationACommand=function(self)
 			local song = GAMESTATE:GetCurrentSong();
 			local length_result = "Normal";
 			if song ~= nil then
@@ -495,12 +497,12 @@ local t = Def.ActorFrame{
 			self:diffuse(color("#FFFFFFDD"));
 			self:diffuse(color(theme_color));
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"Information");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"InformationA");
 	},
 	-- Actor (Song Background)
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_LEFT+565;y,SCREEN_TOP+327;scaletoclipped,559,234;Load,THEME:GetPathG("", "no_background"));
-		SongBackgroundCommand=function(self)
+		NetBackgroundCommand=function(self)
 			local song = GAMESTATE:GetCurrentSong();
 			if song ~= nil then
 				if song:HasBackground() == true then
@@ -529,12 +531,12 @@ local t = Def.ActorFrame{
 			self:diffuse(color("#FFFFFFDD"));
 			self:diffuse(color("#FFFFFFFF"));
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"SongBackground");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"NetBackground");
 	},
 	-- Actor (Song CD)
 	LoadActor(THEME:GetPathG("", "no_cd"))..{
 		InitCommand=cmd(x,SCREEN_RIGHT-52;y,SCREEN_TOP+252;scaletoclipped,80,80);
-		CDCommand=function(self)
+		CDNetCommand=function(self)
 			local song = GAMESTATE:GetCurrentSong();
 			if song ~= nil then
 				if song:HasCDTitle() == true then
@@ -558,7 +560,7 @@ local t = Def.ActorFrame{
 			self:diffuse(color("#FFFFFFDD"));
 			self:diffuse(color("#FFFFFFFF"));
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"CD");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"CDNet");
 	},
 	-- Actor (Experiment)
 	--LoadFont("Common","normal")..{
@@ -599,9 +601,9 @@ local t = Def.ActorFrame{
 		Text="Step Table P1";
 		InitCommand=cmd(x,SCREEN_CENTER_X+282;y,SCREEN_CENTER_Y+130;diffuse,color(theme_color);align,0,0.5;shadowlength,1;zoom,0.5);
 		OnCommand=function(self)
-			self:queuecommand("StepTableP1");
+			self:queuecommand("StepTableP1Net");
 		end;
-		StepTableP1Command=function(self)
+		StepTableP1NetCommand=function(self)
 			self:finishtweening();
 			self:linear(0.025);
 			self:settext("TAPS: " .. tostring(steps_p1_table[1]) .. "\n" .. "JUMPS: " .. tostring(steps_p1_table[2]) .. "\n" .. "HOLDS: " .. tostring(steps_p1_table[3]) .. "\n" .. "MINES: " .. tostring(steps_p1_table[4]) .. "\n" .. "HANDS: " .. tostring(steps_p1_table[5]) .. "\n" .. "ROLLS: " .. tostring(steps_p1_table[6]) .. "\n" .. "LIFTS: " .. tostring(steps_p1_table[7]) .. "\n" .. "FAKES: " .. tostring(steps_p1_table[8]) .. "\n" .. "TOTAL: " .. tostring(steps_p1_table[9]));
@@ -615,8 +617,8 @@ local t = Def.ActorFrame{
 			self:diffuse(color("#FFFFFFDD"));
 			self:diffuse(color("1,0.25,0,1"));
 		end;
-		CurrentSongChangedMessageCommand=cmd(playcommand,"StepTableP1");
-		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"StepTableP1");
+		CurrentSongChangedMessageCommand=cmd(playcommand,"StepTableP1Net");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"StepTableP1Net");
 	},
 	-- Actor (Player List) ...some day...
 	LoadFont("Common","normal")..{
@@ -626,9 +628,9 @@ local t = Def.ActorFrame{
 			self:settext("- Player List -" .. "\n" .. "Player 1" .. " " .. "Player 2" .. "\n" .. "Player 3" .. " " .. "Player 4" .. "\n" .. "Player 5" .. " " .. "Player 6" .. "\n" .. "Player 7" .. " " .. "Player 8" .. "\n" .. "Player 9" .. " " .. "Player 10" .. "\n" .. "Player 11" .. " " .. "Player 12" .. "\n" .. "Player 13" .. " " .. "Player 14" .. "\n" .. "Player 15" .. " " .. "Player 16" .. "\n" .. "Player 17" .. " " .. "Player 18" .. "\n" .. "Player 19" .. " " .. "Player 20" .. "\n" .. "Player 21" .. " " .. "Player 22" .. "\n" .. "Player 23" .. " " .. "Player 24" .. "\n" .. "Player 25" .. " " .. "Player 26" .. "\n" .. "Player 27" .. " " .. "Player 28" .. "\n" .. "Player 29" .. " " .. "Player 30" .. "\n" .. "Player 31" .. " " .. "Player 32");
 		end;
 	},
-	-- Function (scripts/BugFix: Sort Icon)
+	-- Actor/Function (scripts/BugFix: Sort Icon)
 	theme_skin("theme_skin"),
-	-- Function (scripts)
+	-- Actor/Function (scripts)
 	theme_skin("online_theme_skin")
 };
 

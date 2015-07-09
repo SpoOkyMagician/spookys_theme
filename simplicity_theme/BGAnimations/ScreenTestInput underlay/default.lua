@@ -2,8 +2,8 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenTestInputUnderlayActorFrame";
-	-- Actor (scripts)
-	grid_t,
+	-- Actor/Function (scripts)
+	grid_c(),
 	-- Actor (had to borrow this code to not overwrite fallback... i need to change the color anyway...)
 	Def.DeviceList{
 		Font="Common Normal",

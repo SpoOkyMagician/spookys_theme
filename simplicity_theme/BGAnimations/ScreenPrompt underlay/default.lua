@@ -2,8 +2,8 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenPromptUnderlayActorFrame";
-	-- Actor (scripts)
-	grid_t
+	-- Actor/Function (scripts)
+	grid_c()
 };
 
 return t;

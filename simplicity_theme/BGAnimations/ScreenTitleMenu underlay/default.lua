@@ -138,19 +138,19 @@ local t = Def.ActorFrame{
 			self:queuecommand('MoveMoon');
 		end;
 	},
-	-- Actor (scripts)
-	grid_b,
-	-- Actor (scripts)
-	grid_c,
-	-- Function (scripts)
-	grid_m(),
+	-- Actor/Function (scripts)
+	grid_a(),
+	-- Actor/Function (scripts)
+	grid_b(),
+	-- Actor/Function (scripts)
+	grid_e(),
 	-- Actor (Menu Info Quad)
 	Def.Quad{
 		InitCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_BOTTOM-115,SCREEN_RIGHT-2,SCREEN_BOTTOM-30;diffuse,color("0,0,0,0.5"));
 	},
 	neat_arrow_left(),
 	neat_arrow_right(),
-	-- Function (scripts)
+	-- Actor/Function (scripts)
 	common_text("Title Screen"),
 	-- Actor (Logo Text)
 	LoadFont("Common","normal")..{
@@ -332,12 +332,44 @@ local t = Def.ActorFrame{
 			self:settext(ScreenString("Locked/Unlocked Songs") .. ": " .. tostring(value) .. "/" .. tostring(other_value));
 		end;
 	},
-	-- Function (scripts)
+	-- Actor/Function (scripts)
 	theme_skin("theme_skin"),
-	-- Function (scripts)
+	-- Actor/Function (scripts)
 	theme_skin("title_theme_skin"),
-	-- Actor (scripts)
-	determine_music();
+	-- Actor/Function (scripts)
+	LoadActor(THEME:GetPathS("","rave_party"))..{
+		InitCommand=cmd(stop);
+		OnCommand=function(self)
+			self:queuecommand('CheckTime');
+		end;
+		CheckTimeCommand=function(self)
+			-- 0 to 23 11 = 12PM; 0 = 12AM
+			local todh = Hour();
+			if todh >= 5 and todh <= 8 then
+				-- it's dawn - 4 hours 6AM - 9AM
+				self:load(THEME:GetPathS("","hurry_up"));
+			elseif todh >= 9 and todh <= 16 then
+				-- it's afternoon - 8 hours 10AM - 5PM
+				self:load(THEME:GetPathS("","rave_party"));
+			elseif todh >= 17 and todh <= 20 then
+				-- it's dusk - 4 hours 6PM - 9PM
+				self:load(THEME:GetPathS("","hurry_up"));
+			elseif todh >= 21 or todh <= 4 then
+				-- it's night - 8 hours 10PM - 5AM
+				self:load(THEME:GetPathS("","chill_n_bass"));
+			else
+				-- this should never be reached...
+				self:Load(THEME:GetPathG("","tod_unknown"));
+			end;
+			self:stop();
+			self:play();
+			self:sleep(60);
+			self:queuecommand('CheckTime');
+		end;
+		OffCommand=function(self)
+			self:stop();
+		end;
+	}
 };
 
 return t;

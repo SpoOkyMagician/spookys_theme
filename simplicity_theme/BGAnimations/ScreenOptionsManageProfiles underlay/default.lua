@@ -2,14 +2,14 @@
 
 local t = Def.ActorFrame{
 	Name="ScreenOptionsManageProfilesUnderlayActorFrame";
-	-- Function (scripts)
+	-- Actor/Function (scripts)
 	common_text("Manage Profiles"),
-	-- Actor (scripts)
-	grid_t,
-	-- Function (scripts)
+	-- Actor/Function (scripts)
+	grid_c(),
+	-- Actor/Function (scripts)
 	theme_skin("options_theme_skin"),
-	-- Actor (scripts)
-	slow_song
+	-- Actor/Function (scripts)
+	slow_song()
 };
 
 return t;
