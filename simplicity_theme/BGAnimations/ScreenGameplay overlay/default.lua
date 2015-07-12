@@ -179,6 +179,7 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(x,SCREEN_RIGHT-252;y,SCREEN_TOP+15);
 	},
 	-- Actor (P1 NPS)
+	-- Note: fps is another problem as well. I cannot say how accurate this is anymore...
 	LoadFont("Common","normal")..{
 		Text=" ";
 		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+64;align,0,0.5;diffuse,color(theme_color);shadowlength,1;zoom,0.5);
@@ -189,19 +190,11 @@ local t = Def.ActorFrame{
 			average_p1 = 0;
 			peak_p1 = 0;
 			chord_p1 = 0;
-			ms_var = 0;
 			self:queuecommand('CustomTime');
 		end;
 		CustomTimeCommand=function(self)
-			-- I need real time...
-			ms_var = ms_var + 1;
-			if ms_var == 999 then
-				ms_var = 0;
-				self:queuecommand('Recalculate');
-			else
-				ms_var = ms_var + 1;
-			end;
-			self:sleep(0.001);
+			self:sleep(1);
+			self:queuecommand('Recalculate');
 			self:queuecommand('CustomTime');
 		end;
 		RecalculateCommand=function(self)
@@ -212,7 +205,7 @@ local t = Def.ActorFrame{
 				if peak_p1 < nps_p1 then
 					peak_p1 = nps_p1;
 				end;
-				self:settext("NPS: " .. tostring(nps_p1) .. " Peak NPS: " .. tostring(peak_p1) .. " Note Total: " .. tostring(total_p1) .. " Seconds Total: " .. tostring(count_p1) .. " Average NPS: " .. tostring(average_p1) .. " Milisecond: " .. tostring(ms_var) .. " Chord Total: " .. tostring(chord_p1));
+				self:settext("NPS: " .. tostring(nps_p1) .. " Peak NPS: " .. tostring(peak_p1) .. " Note Total: " .. tostring(total_p1) .. " Seconds Total: " .. tostring(count_p1) .. " Average NPS: " .. tostring(average_p1) .. " Chord Total: " .. tostring(chord_p1));
 				nps_p1 = 0;
 			end;
 		end;
@@ -227,7 +220,7 @@ local t = Def.ActorFrame{
 				nps_p1 = (nps_p1 + chord_p1);
 				total_p1 = (total_p1 + chord_p1);
 			end;
-			self:settext("NPS: " .. tostring(nps_p1) .. " Peak NPS: - " .. " Note Total: " .. tostring(total_p1) .. " Seconds Total: - " .. " Average NPS: - " .. " Milisecond: " .. tostring(ms_var) .. " Chord Total: " .. tostring(chord_p1));
+			self:settext("NPS: " .. tostring(nps_p1) .. " Peak NPS: - " .. " Note Total: " .. tostring(total_p1) .. " Seconds Total: - " .. " Average NPS: - " .. " Chord Total: " .. tostring(chord_p1));
 		end;
 	},
 	-- Actor (Real Time Timing Graphic P1)

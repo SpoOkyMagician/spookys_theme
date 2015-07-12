@@ -125,7 +125,6 @@ nps_p1 = 0;
 average_p1 = 0;
 peak_p1 = 0;
 chord_p1 = 0;
-ms_var = 0;
 
 -- Original Gold - Primary Theme Color
 
