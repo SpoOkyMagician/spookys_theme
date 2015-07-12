@@ -84,7 +84,9 @@
 -- RadarLiftsP2 (ScreenSelectMusic underlay)
 -- RadarFakesP2 (ScreenSelectMusic underlay)
 -- StepTableP1 (ScreenSelectMusic underlay)
+-- HighscoreP1 (ScreenSelectMusic underlay)
 -- StepTableP2 (ScreenSelectMusic underlay)
+-- HighscoreP2 (ScreenSelectMusic underlay)
 
 -- CheckTime (ScreenTitleMenu underlay)
 -- RecheckTime (ScreenTitleMenu underlay)

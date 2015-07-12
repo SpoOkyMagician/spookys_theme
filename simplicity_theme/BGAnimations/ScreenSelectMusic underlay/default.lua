@@ -1002,7 +1002,7 @@ local t = Def.ActorFrame{
 	},
 	-- Actor (Step Table Quad)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+260,SCREEN_TOP+30,SCREEN_LEFT+400,SCREEN_BOTTOM-30;diffuse,color("0,0,0,0.8"));
+		InitCommand=cmd(stretchto,SCREEN_LEFT+260,SCREEN_TOP+30,SCREEN_LEFT+650,SCREEN_BOTTOM-30;diffuse,color("0,0,0,0.5"));
 	},
 	-- Actor (P1 Step Table)
 	LoadFont("Common","normal")..{
@@ -1028,6 +1028,69 @@ local t = Def.ActorFrame{
 		CurrentSongChangedMessageCommand=cmd(playcommand,"StepTableP1");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"StepTableP1");
 	},
+	-- Actor (P1 Highscore)
+	LoadFont("Common","normal")..{
+		Text="P1 Highscore";
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-128;diffuse,color(theme_color);align,0,0.5;shadowlength,1;zoom,0.5);
+		HighscoreP1Command=function(self)
+			if wheel and type == 'WheelItemDataType_Song' then
+				p1_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P1');
+				if p1_steps ~= nil then
+					song = GAMESTATE:GetCurrentSong();
+					local profile = GetPlayerOrMachineProfile('PlayerNumber_P1');
+					local highscore_list = profile:GetHighScoreListIfExists(song, p1_steps);
+					local highscore = highscore_list:GetHighScores();
+					if highscore ~= nil and highscore[1] ~= nil then
+						local highest_grade = highscore[1]:GetGrade();
+						local string_grade = "AAAA";
+						if highest_grade == 'Grade_Tier01' then
+							string_grade = "AAAA";
+						elseif highest_grade == 'Grade_Tier02' then
+							string_grade = "AAA";
+						elseif highest_grade == 'Grade_Tier03' then
+							string_grade = "AA";
+						elseif highest_grade == 'Grade_Tier04' then
+							string_grade = "A";
+						elseif highest_grade == 'Grade_Tier05' then
+							string_grade = "B";
+						elseif highest_grade == 'Grade_Tier06' then
+							string_grade = "C";
+						elseif highest_grade == 'Grade_Tier07' then
+							string_grade = "D";
+						elseif highest_grade == 'Grade_Failed' then
+							string_grade = "F";
+						else
+							string_grade = "ERROR";
+						end;
+						local highest_score = highscore[1]:GetScore();
+						local highest_percent = round(highscore[1]:GetPercentDP() * 100, 2);
+						local highest_maxcombo = highscore[1]:GetMaxCombo();
+						local highest_datetime = highscore[1]:GetDate();
+						self:settext("Grade: " .. tostring(string_grade) .. "\nPercent: " .. tostring(highest_percent) .. "%\nScore: " .. tostring(highest_score) .. "\nMax Combo: " .. tostring(highest_maxcombo) .. "\nDate/Time: " .. tostring(highest_datetime) );
+					else
+						self:settext("Grade: - " ..  "\nPercent: - " .. "\nScore: - " .. "\nMax Combo: - " .. "\nDate/Time: - ");
+					end;
+				else
+					self:settext("Grade: - " ..  "\nPercent: - " .. "\nScore: - " .. "\nMax Combo: - " .. "\nDate/Time: - ");
+				end;
+			else
+				self:settext("Grade: - " ..  "\nPercent: - " .. "\nScore: - " .. "\nMax Combo: - " .. "\nDate/Time: - ");
+			end;
+			self:finishtweening();
+			self:linear(0.025);
+			self:diffuse(color("#FFFFFF00"));
+			self:diffuse(color("#FFFFFF11"));
+			self:diffuse(color("#FFFFFF33"));
+			self:diffuse(color("#FFFFFF55"));
+			self:diffuse(color("#FFFFFF77"));
+			self:diffuse(color("#FFFFFF99"));
+			self:diffuse(color("#FFFFFFBB"));
+			self:diffuse(color("#FFFFFFDD"));
+			self:diffuse(color(theme_color));
+		end;
+		CurrentSongChangedMessageCommand=cmd(playcommand,"HighscoreP1");
+		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"HighscoreP1");
+	},
 	-- Actor (P2 Step Table)
 	LoadFont("Common","normal")..{
 		Text="Step Table P2";
@@ -1052,9 +1115,72 @@ local t = Def.ActorFrame{
 		CurrentSongChangedMessageCommand=cmd(playcommand,"StepTableP2");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"StepTableP2");
 	},
+	-- Actor (P2 Highscore)
+	LoadFont("Common","normal")..{
+		Text="P2 Highscore";
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+128;diffuse,color(theme_color);align,0,0.5;shadowlength,1;zoom,0.5);
+		HighscoreP2Command=function(self)
+			if wheel and type == 'WheelItemDataType_Song' then
+				p2_steps = GAMESTATE:GetCurrentSteps('PlayerNumber_P2');
+				if p2_steps ~= nil then
+					song = GAMESTATE:GetCurrentSong();
+					local profile = GetPlayerOrMachineProfile('PlayerNumber_P2');
+					local highscore_list = profile:GetHighScoreListIfExists(song, p2_steps);
+					local highscore = highscore_list:GetHighScores();
+					if highscore ~= nil and highscore[1] ~= nil then
+						local highest_grade = highscore[1]:GetGrade();
+						local string_grade = "AAAA";
+						if highest_grade == 'Grade_Tier01' then
+							string_grade = "AAAA";
+						elseif highest_grade == 'Grade_Tier02' then
+							string_grade = "AAA";
+						elseif highest_grade == 'Grade_Tier03' then
+							string_grade = "AA";
+						elseif highest_grade == 'Grade_Tier04' then
+							string_grade = "A";
+						elseif highest_grade == 'Grade_Tier05' then
+							string_grade = "B";
+						elseif highest_grade == 'Grade_Tier06' then
+							string_grade = "C";
+						elseif highest_grade == 'Grade_Tier07' then
+							string_grade = "D";
+						elseif highest_grade == 'Grade_Failed' then
+							string_grade = "F";
+						else
+							string_grade = "ERROR";
+						end;
+						local highest_score = highscore[1]:GetScore();
+						local highest_percent = round(highscore[1]:GetPercentDP() * 100, 2);
+						local highest_maxcombo = highscore[1]:GetMaxCombo();
+						local highest_datetime = highscore[1]:GetDate();
+						self:settext("Grade: " .. tostring(string_grade) .. "\nPercent: " .. tostring(highest_percent) .. "%\nScore: " .. tostring(highest_score) .. "\nMax Combo: " .. tostring(highest_maxcombo) .. "\nDate/Time: " .. tostring(highest_datetime) );
+					else
+						self:settext("Grade: - " ..  "\nPercent: - " .. "\nScore: - " .. "\nMax Combo: - " .. "\nDate/Time: - ");
+					end;
+				else
+					self:settext("Grade: - " ..  "\nPercent: - " .. "\nScore: - " .. "\nMax Combo: - " .. "\nDate/Time: - ");
+				end;
+			else
+				self:settext("Grade: - " ..  "\nPercent: - " .. "\nScore: - " .. "\nMax Combo: - " .. "\nDate/Time: - ");
+			end;
+			self:finishtweening();
+			self:linear(0.025);
+			self:diffuse(color("#FFFFFF00"));
+			self:diffuse(color("#FFFFFF11"));
+			self:diffuse(color("#FFFFFF33"));
+			self:diffuse(color("#FFFFFF55"));
+			self:diffuse(color("#FFFFFF77"));
+			self:diffuse(color("#FFFFFF99"));
+			self:diffuse(color("#FFFFFFBB"));
+			self:diffuse(color("#FFFFFFDD"));
+			self:diffuse(color(theme_color));
+		end;
+		CurrentSongChangedMessageCommand=cmd(playcommand,"HighscoreP2");
+		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"HighscoreP2");
+	},
 	-- Actor (Step Table Quad)
 	Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_RIGHT-196,SCREEN_BOTTOM-96,SCREEN_RIGHT-3,SCREEN_BOTTOM-30;diffuse,color("0,0,0,0.8"));
+		InitCommand=cmd(stretchto,SCREEN_RIGHT-196,SCREEN_BOTTOM-96,SCREEN_RIGHT-3,SCREEN_BOTTOM-30;diffuse,color("0,0,0,0.5"));
 	},
 	-- Actor (P1 NPS Results Test)
 	LoadFont("Common","normal")..{
