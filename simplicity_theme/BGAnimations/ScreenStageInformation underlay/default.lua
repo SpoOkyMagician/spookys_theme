@@ -14,6 +14,7 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,color(theme_color);align,0.5,0.5;zoom,2.0;shadowlength,1);
 		OnCommand=function(self)
 			local stage = GAMESTATE:GetCurrentStage();
+			self:finishtweening();
 			if stage == 'Stage_1st' then
 				self:settext(THEME:GetString('ScreenStageInformation', "First Stage"));
 				last_known_stage = 'Stage_1st';
@@ -51,7 +52,6 @@ local t = Def.ActorFrame{
 				self:settext(ScreenString("ERROR"));
 				last_known_stage = 'Stage_Event'
 			end;
-			self:finishtweening();
 		end;
 	}
 };

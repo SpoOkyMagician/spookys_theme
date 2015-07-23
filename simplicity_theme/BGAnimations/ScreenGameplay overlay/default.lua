@@ -28,23 +28,8 @@ local t = Def.ActorFrame{
 			end;
 			self:finishtweening();
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
-			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
-			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
-			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
-			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
-			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
-			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
-			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
+			self:linear(0.4);
 			self:diffuse(color("#FFFFFFFF"));
-			self:sleep(0.025);
 		end;
 	},
 	-- Actor (Song Difficulty P1)
@@ -62,23 +47,8 @@ local t = Def.ActorFrame{
 			end;
 			self:finishtweening();
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
-			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
-			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
-			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
-			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
-			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
-			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
-			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
+			self:linear(0.4);
 			self:diffuse(color("#FFFFFFFF"));
-			self:sleep(0.025);
 		end;
 	},
 	-- Actor (Song Difficulty P2)
@@ -95,23 +65,8 @@ local t = Def.ActorFrame{
 			end;
 			self:finishtweening();
 			self:diffuse(color("#FFFFFF00"));
-			self:sleep(0.025);
-			self:diffuse(color("#FFFFFF11"));
-			self:sleep(0.025);
-			self:diffuse(color("#FFFFFF33"));
-			self:sleep(0.025);
-			self:diffuse(color("#FFFFFF55"));
-			self:sleep(0.025);
-			self:diffuse(color("#FFFFFF77"));
-			self:sleep(0.025);
-			self:diffuse(color("#FFFFFF99"));
-			self:sleep(0.025);
-			self:diffuse(color("#FFFFFFBB"));
-			self:sleep(0.025);
-			self:diffuse(color("#FFFFFFDD"));
-			self:sleep(0.025);
+			self:linear(0.4);
 			self:diffuse(color("#FFFFFFFF"));
-			self:sleep(0.025);
 		end;
 	},
 	-- Actor (Back Life Meter P1)
@@ -134,10 +89,9 @@ local t = Def.ActorFrame{
 				self:finishtweening();
 				self:diffuse(color("1,0.5,0,1"));
 				self:stretchto(SCREEN_LEFT+102,SCREEN_TOP+2,SCREEN_LEFT+102+(300*life_pa),SCREEN_TOP+28);
-				self:sleep(0.05);
+				self:linear(0.05);
 				self:diffuse(color("1,0.25,0,1"));
 				self:stretchto(SCREEN_LEFT+102,SCREEN_TOP+2,SCREEN_LEFT+102+(300*life_pa),SCREEN_TOP+28);
-				self:diffuse(color("1,0.25,0,1"));
 			end;
 		end;
 		LifeMeterChangedP1MessageCommand=cmd(playcommand,"PALife");
@@ -166,10 +120,9 @@ local t = Def.ActorFrame{
 				self:finishtweening();
 				self:diffuse(color("0,0.75,1,1"));
 				self:stretchto(SCREEN_RIGHT-402,SCREEN_TOP+2,SCREEN_RIGHT-402+(300*life_pb),SCREEN_TOP+28);
-				self:sleep(0.05);
+				self:linear(0.05);
 				self:diffuse(color("0,0.5,1,1"));
 				self:stretchto(SCREEN_RIGHT-402,SCREEN_TOP+2,SCREEN_RIGHT-402+(300*life_pb),SCREEN_TOP+28);
-				self:diffuse(color("0,0.5,1,1"));
 			end;
 		end;
 		LifeMeterChangedP2MessageCommand=cmd(playcommand,"PBLife");
@@ -313,10 +266,11 @@ local t = Def.ActorFrame{
 				self:settext(tostring(combo));
 				self:zoom(1.25);
 				self:diffuse(color("1,0.5,0.5,1"));
-				self:sleep(0.05);
+				self:linear(0.05);
 				self:zoom(1.0);
 				self:diffuse(color("1,0.25,0,1"));
 			else
+				self:finishtweening();
 				self:visible(false);
 			end;
 		end;
@@ -355,10 +309,11 @@ local t = Def.ActorFrame{
 				self:settext(tostring(combo));
 				self:zoom(1.25);
 				self:diffuse(color("0.5,0.75,1,1"));
-				self:sleep(0.05);
+				self:linear(0.05);
 				self:zoom(1.0);
 				self:diffuse(color("0,0.5,1,1"));
 			else
+				self:finishtweening();
 				self:visible(false);
 			end;
 		end;
@@ -396,14 +351,14 @@ local t = Def.ActorFrame{
 			local score = player_stats:GetScore();
 			local percentage = round(player_stats:GetPercentDancePoints()*100, 2);
 			local pref = PREFSMAN:GetPreference("PercentageScoring");
-			self:finishtweening();
 			if pref == true then
 				self:settext(tostring(percentage).."%");
 			else
 				self:settext(tostring(score));
 			end;
+			self:finishtweening();
 			self:diffuse(color("1,0.5,0.5,1"));
-			self:sleep(0.05);
+			self:linear(0.05);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentComboChangedP1MessageCommand=cmd(playcommand,"PAScore");
@@ -421,14 +376,14 @@ local t = Def.ActorFrame{
 			local score = player_stats:GetScore();
 			local percentage = round(player_stats:GetPercentDancePoints()*100, 2);
 			local pref = PREFSMAN:GetPreference("PercentageScoring");
-			self:finishtweening();
 			if pref == true then
 				self:settext(tostring(percentage).."%");
 			else
 				self:settext(tostring(score));
 			end;
+			self:finishtweening();
 			self:diffuse(color("0.5,0.75,1,1"));
-			self:sleep(0.05);
+			self:linear(0.05);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentComboChangedP2MessageCommand=cmd(playcommand,"PBScore");
@@ -489,6 +444,7 @@ local t = Def.ActorFrame{
 			p2_joined = false;
 			p1_joined = GAMESTATE:IsPlayerEnabled('PlayerNumber_P1');
 			p2_joined = GAMESTATE:IsPlayerEnabled('PlayerNumber_P2');
+			self:finishtweening();
 			if p1_lifebar ~= nil and p2_lifebar ~= nil and p1_joined == true and p2_joined == true then
 				p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
 				if p1_lifebar:IsInDanger() == true then
@@ -523,6 +479,7 @@ local t = Def.ActorFrame{
 			p2_joined = false;
 			p1_joined = GAMESTATE:IsPlayerEnabled('PlayerNumber_P1');
 			p2_joined = GAMESTATE:IsPlayerEnabled('PlayerNumber_P2');
+			self:finishtweening();
 			if p1_lifebar ~= nil and p2_lifebar ~= nil and p1_joined == true and p2_joined == true then
 				p2_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P2');
 				if p2_lifebar:IsInDanger() == true then
@@ -557,6 +514,7 @@ local t = Def.ActorFrame{
 			p2_joined = false;
 			p1_joined = GAMESTATE:IsPlayerEnabled('PlayerNumber_P1');
 			p2_joined = GAMESTATE:IsPlayerEnabled('PlayerNumber_P2');
+			self:finishtweening();
 			if p1_lifebar ~= nil and p1_joined == true and p2_joined == false then
 				p1_lifebar = SCREENMAN:GetTopScreen():GetLifeMeter('PlayerNumber_P1');
 				if p1_lifebar:IsInDanger() == true then

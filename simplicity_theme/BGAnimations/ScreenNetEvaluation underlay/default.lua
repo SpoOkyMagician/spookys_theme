@@ -6,6 +6,7 @@ local t = Def.ActorFrame{
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
 		OnCommand=function(self)
+			self:finishtweening();
 			self:LoadBackground(last_known_background);
 			self:stretchto(SCREEN_LEFT,SCREEN_TOP+32,SCREEN_RIGHT,SCREEN_BOTTOM-32);
 		end;

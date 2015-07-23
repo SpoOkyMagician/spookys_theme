@@ -196,25 +196,25 @@ end;
 
 function grid_fast_fade_out()
 	return Def.Quad{
-		OnCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;finishtweening;diffuse,color("0,0,0,0");sleep,0.025;diffuse,color("0,0,0,0.1");sleep,0.025;diffuse,color("0,0,0,0.2");sleep,0.025;diffuse,color("0,0,0,0.3");sleep,0.025;diffuse,color("0,0,0,0.4");sleep,0.025;diffuse,color("0,0,0,0.5");sleep,0.025;diffuse,color("0,0,0,0.6");sleep,0.025;diffuse,color("0,0,0,0.7");sleep,0.025;diffuse,color("0,0,0,0.8");sleep,0.025;diffuse,color("0,0,0,0.9");sleep,0.025;diffuse,color("0,0,0,1"));
+		OnCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;finishtweening;diffuse,color("0,0,0,0");linear,0.275;diffuse,color("0,0,0,1"));
 	}
 end;
 
 function grid_fast_fade_in()
 	return Def.Quad{
-		OnCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;finishtweening;diffuse,color("0,0,0,1");sleep,0.025;diffuse,color("0,0,0,0.9");sleep,0.025;diffuse,color("0,0,0,0.8");sleep,0.025;diffuse,color("0,0,0,0.7");sleep,0.025;diffuse,color("0,0,0,0.6");sleep,0.025;diffuse,color("0,0,0,0.5");sleep,0.025;diffuse,color("0,0,0,0.4");sleep,0.025;diffuse,color("0,0,0,0.3");sleep,0.025;diffuse,color("0,0,0,0.2");sleep,0.025;diffuse,color("0,0,0,0.1");sleep,0.025;diffuse,color("0,0,0,0"));
+		OnCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;finishtweening;diffuse,color("0,0,0,1");linear,0.275;diffuse,color("0,0,0,0"));
 	}
 end;
 
 function grid_slow_fade_out()
 	return Def.Quad{
-		OnCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;finishtweening;diffuse,color("0,0,0,0");sleep,0.25;diffuse,color("0,0,0,0.1");sleep,0.25;diffuse,color("0,0,0,0.2");sleep,0.25;diffuse,color("0,0,0,0.3");sleep,0.25;diffuse,color("0,0,0,0.4");sleep,0.25;diffuse,color("0,0,0,0.5");sleep,0.25;diffuse,color("0,0,0,0.6");sleep,0.25;diffuse,color("0,0,0,0.7");sleep,0.25;diffuse,color("0,0,0,0.8");sleep,0.25;diffuse,color("0,0,0,0.9");sleep,0.25;diffuse,color("0,0,0,1"));
+		OnCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;finishtweening;diffuse,color("0,0,0,0");linear,2.75;diffuse,color("0,0,0,1"));
 	}
 end;
 
 function grid_slow_fade_in()
 	return Def.Quad{
-		OnCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;finishtweening;diffuse,color("0,0,0,1");sleep,0.25;diffuse,color("0,0,0,0.9");sleep,0.25;diffuse,color("0,0,0,0.8");sleep,0.25;diffuse,color("0,0,0,0.7");sleep,0.25;diffuse,color("0,0,0,0.6");sleep,0.25;diffuse,color("0,0,0,0.5");sleep,0.25;diffuse,color("0,0,0,0.4");sleep,0.25;diffuse,color("0,0,0,0.3");sleep,0.25;diffuse,color("0,0,0,0.2");sleep,0.25;diffuse,color("0,0,0,0.1");sleep,0.25;diffuse,color("0,0,0,0"));
+		OnCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;finishtweening;diffuse,color("0,0,0,1");linear,2.75;diffuse,color("0,0,0,0"));
 	}
 end;
 
@@ -279,50 +279,11 @@ function transition_door_left_open()
 	return LoadActor(THEME:GetPathG("", "screen_transition_left"))..{
 		InitCommand=cmd(x,SCREEN_LEFT+213;y,SCREEN_CENTER_Y);
 		OnCommand=function(self)
-			self:x(SCREEN_LEFT+200);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT+180);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT+160);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT+140);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT+120);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT+100);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT+80);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT+60);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT+40);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT+20);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT-20);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT-40);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT-60);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT-80);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT-100);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT-120);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT-140);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT-160);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT-180);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT-200);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT-213);
-			self:sleep(0.01);
+			self:align(0.5,0.5);
+			self:finishtweening();
+			self:x(SCREEN_LEFT+214);
+			self:linear(0.22);
+			self:x(SCREEN_LEFT-214);
 		end;
 	}
 end;
@@ -331,50 +292,11 @@ function transition_door_right_open()
 	return LoadActor(THEME:GetPathG("", "screen_transition_right"))..{
 		InitCommand=cmd(x,SCREEN_RIGHT-213;y,SCREEN_CENTER_Y);
 		OnCommand=function(self)
-			self:x(SCREEN_RIGHT-200);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT-180);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT-160);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT-140);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT-120);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT-100);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT-80);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT-60);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT-40);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT-20);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT+20);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT+40);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT+60);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT+80);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT+100);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT+120);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT+140);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT+160);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT+180);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT+200);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT+213);
-			self:sleep(0.01);
+			self:align(0.5,0.5);
+			self:finishtweening();
+			self:x(SCREEN_RIGHT-214);
+			self:linear(0.22);
+			self:x(SCREEN_RIGHT+214);
 		end;
 	}
 end;
@@ -383,50 +305,11 @@ function transition_door_left_close()
 	return LoadActor(THEME:GetPathG("", "screen_transition_left"))..{
 		InitCommand=cmd(x,SCREEN_LEFT+213;y,SCREEN_CENTER_Y);
 		OnCommand=function(self)
-			self:x(SCREEN_LEFT-213);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT-200);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT-180);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT-160);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT-140);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT-120);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT-100);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT-80);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT-60);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT-40);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT-20);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT+20);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT+40);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT+60);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT+80);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT+100);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT+120);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT+140);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT+160);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT+180);
-			self:sleep(0.01);
-			self:x(SCREEN_LEFT+200);
-			self:sleep(0.01);
+			self:align(0.5,0.5);
+			self:finishtweening();
+			self:x(SCREEN_LEFT-214);
+			self:linear(0.22);
+			self:x(SCREEN_LEFT+214);
 		end;
 	}
 end;
@@ -435,50 +318,11 @@ function transition_door_right_close()
 	return LoadActor(THEME:GetPathG("", "screen_transition_right"))..{
 		InitCommand=cmd(x,SCREEN_RIGHT-213;y,SCREEN_CENTER_Y);
 		OnCommand=function(self)
-			self:x(SCREEN_RIGHT+213);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT+200);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT+180);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT+160);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT+140);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT+120);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT+100);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT+80);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT+60);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT+40);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT+20);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT-20);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT-40);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT-60);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT-80);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT-100);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT-120);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT-140);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT-160);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT-180);
-			self:sleep(0.01);
-			self:x(SCREEN_RIGHT-200);
-			self:sleep(0.01);
+			self:align(0.5,0.5);
+			self:finishtweening();
+			self:x(SCREEN_RIGHT+214);
+			self:linear(0.22);
+			self:x(SCREEN_RIGHT-214);
 		end;
 	}
 end;
