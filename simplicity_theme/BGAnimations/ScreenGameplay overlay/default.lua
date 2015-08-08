@@ -1,5 +1,24 @@
 -- ScreenGameplay overlay
 
+input_table = {};
+input_table[0] = 0; -- input
+input_table[1] = 0; -- count
+input_table[2] = 0; -- total
+input_table[3] = 0; -- average
+
+function Update(self)
+	return self:GetChild("InputActor"):settext("KPS: " .. tostring(input_table[0]) .. " (Average: " .. tostring(input_table[3]) .. ")");
+end
+
+-- function (Input Related)
+function input(event)
+	if event.type == "InputEventType_FirstPress" and event.PlayerNumber == "PlayerNumber_P1" then
+		input_table[0] = (input_table[0] + 1);
+	end;
+	SCREENMAN:SystemMessage(event.button)
+	return true;
+end
+	
 local t = Def.ActorFrame{
 	Name="ScreenGameplayOverlayActorFrame";
 	-- Actor/Function (scripts)
@@ -143,6 +162,10 @@ local t = Def.ActorFrame{
 			average_p1 = 0;
 			peak_p1 = 0;
 			chord_p1 = 0;
+			input_table[0] = 0; -- input
+			input_table[1] = 0; -- count
+			input_table[2] = 0; -- total
+			input_table[3] = 0; -- average
 			self:queuecommand('CustomTime');
 		end;
 		CustomTimeCommand=function(self)
@@ -151,6 +174,11 @@ local t = Def.ActorFrame{
 			self:queuecommand('CustomTime');
 		end;
 		RecalculateCommand=function(self)
+			-- just reset input every 1 second.
+			input_table[2] = (input_table[2] + input_table[0]);
+			input_table[0] = 0;
+			input_table[1] = (input_table[1] + 1);
+			input_table[3] = round(input_table[2] / input_table[1], 2);
 			-- don't start until there are arrows.
 			if total_p1 ~= 0 then
 				count_p1 = (count_p1 + 1);
@@ -555,4 +583,20 @@ local t = Def.ActorFrame{
 	theme_skin("gameplay_theme_skin")
 };
 
+--ActorFrame (Input Related)
+t[#t+1] = Def.ActorFrame{
+	Name="InputActorFrame";
+	OnCommand=function(self) SCREENMAN:GetTopScreen():AddInputCallback(input) end;
+	InitCommand=function(self)
+		self:SetUpdateFunction(Update);
+		self:SetUpdateRate(0.001);
+	end;
+	-- Actor (Experimental KPS)
+	LoadFont("Common","normal")..{
+		Name="InputActor";
+		Text="KPS: 0, (Average: 0 )";
+		InitCommand=cmd(x,SCREEN_LEFT+8;y,SCREEN_TOP+64+12;align,0,0.5;diffuse,color(theme_color);shadowlength,1;zoom,0.5);
+	}
+};
+	
 return t;
