@@ -1,3 +1,12 @@
+-- Might need this template/code later...
+
+-- XXX Actor (ActorFrame X)
+
+-- t[#t+1] = Def.ActorFrame{
+-- 	Name="ScreenGameplayOverlayActorFrameXXX";
+-- };
+
+
 -- This file uses global functions, variables, actors, etc. Whenever i need to call something often, it should be listed in here.
 
 -- CUSTOM MESSAGE COMMANDS (IN USE)
@@ -11,22 +20,6 @@
 -- ResultsP1B (ScreenEvaluationSummary underlay)
 -- ResultsP2B (ScreenEvaluationSummary underlay)
 
--- StageIcon (ScreenGameplay overlay)
--- IconPA (ScreenGameplay overlay)
--- IconPB (ScreenGameplay overlay)
--- PALife (ScreenGameplay overlay)
--- PBLife (ScreenGameplay overlay)
--- CustomTime (ScreenGameplay overlay)
--- Recalculate (ScreenGameplay overlay)
--- ResultsP1C (ScreenGameplay overlay)
--- ResultsP2C (ScreenGameplay overlay)
--- SoundCombo (ScreenGameplay overlay)
--- PACombo (ScreenGameplay overlay)
--- GradePA (ScreenGameplay overlay)
--- PBCombo (ScreenGameplay overlay)
--- GradePB (ScreenGameplay overlay)
--- PAScore (ScreenGameplay overlay)
--- PBScore (ScreenGameplay overlay)
 -- Progress (ScreenGameplay overlay)
 -- Reset (ScreenGameplay overlay)
 -- P1Performance (ScreenGameplay overlay)

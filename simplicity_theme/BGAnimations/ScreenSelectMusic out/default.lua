@@ -12,7 +12,7 @@ local t = Def.ActorFrame{
 		OnCommand=function(self)
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+2,SCREEN_TOP+180,SCREEN_RIGHT-2,SCREEN_BOTTOM-180)
-			self:accelerate(5.5);
+			self:accelerate(3);
 			self:stretchto(SCREEN_LEFT+2,SCREEN_TOP,SCREEN_RIGHT-2,SCREEN_BOTTOM)
 		end;
 	},
