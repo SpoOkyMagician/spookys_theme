@@ -20,12 +20,6 @@
 -- ResultsP1B (ScreenEvaluationSummary underlay)
 -- ResultsP2B (ScreenEvaluationSummary underlay)
 
--- Progress (ScreenGameplay overlay)
--- Reset (ScreenGameplay overlay)
--- P1Performance (ScreenGameplay overlay)
--- P2Performance (ScreenGameplay overlay)
--- P1P2Performance (ScreenGameplay overlay)
-
 -- ResultsNet (ScreenNetEvaluation underlay)
 
 -- VariablesA (ScreenNetSelectMusic underlay)
