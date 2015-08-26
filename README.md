@@ -12,8 +12,7 @@ https://github.com/SpoOkyMagician/spooky_default
 
 
 I would like to thank the SM5 Developers Team for putting up with me with my questions/frustrations/etc on the IRC... Especially Kyzentun. Doubt I would of finished this without him... Shoutout to Jousway as well.
-(Shown me a better way to code my sorting icons.)
-
+(Shown me a better way to code my sorting icons.) Also, shout out to Prim and Leo for some assistance as well.
 
 Here are a few screenshots you can view of the theme:
 
