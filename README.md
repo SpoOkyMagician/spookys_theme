@@ -2,7 +2,7 @@ Title: Simplicity Theme
 
 Author: SpoOkyMagician & StepMania Developers Team
 
-Current Version: 2.3
+Current Version: 2.4
 
 
 Description: A Theme for StepMania 5 Nightly Builds. The goal of my theme was to hide as much of the Metrics as I could and use Lua to create all the actors for the theme. The idea was to make it as simple as possible.
