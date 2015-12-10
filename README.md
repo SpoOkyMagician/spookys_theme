@@ -5,6 +5,7 @@ Author: SpoOkyMagician & StepMania Developers Team
 
 
 Current Version: 2.5
+
 Required Version: 5.1 Alpha or Newer
 
 
