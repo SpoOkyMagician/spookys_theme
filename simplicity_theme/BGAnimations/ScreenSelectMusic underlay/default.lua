@@ -147,7 +147,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:scaletoclipped(50,28);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("#FFFFFFFF"));
 		end;
 		SortOrderChangedMessageCommand=cmd(playcommand,"WheelSortB");
@@ -182,7 +182,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:scaletoclipped(256,80);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("#FFFFFFFF"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"SongBanner");
@@ -213,7 +213,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:scaletoclipped(592,420);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("#FFFFFFFF"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"SongBackground");
@@ -238,7 +238,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:scaletoclipped(80,80);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("#FFFFFFFF"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"SongCD");
@@ -265,7 +265,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:scaletoclipped(64,64);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("#FFFFFFFF"));
 		end;
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"DifficultyP1");
@@ -292,7 +292,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:scaletoclipped(64,64);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("#FFFFFFFF"));
 		end;
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"DifficultyP2");
@@ -315,7 +315,7 @@ local t = Def.ActorFrame{
 			end;
 			self:finishtweening();
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("#FFFFFFFF"));
 		end;
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"MeterP1");
@@ -338,7 +338,7 @@ local t = Def.ActorFrame{
 			end;
 			self:finishtweening();
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("#FFFFFFFF"));
 		end;
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"MeterP2");
@@ -382,7 +382,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:scaletofit(SCREEN_LEFT+2,SCREEN_TOP+118,SCREEN_LEFT+256,SCREEN_TOP+242);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color(theme_color));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"InformationB");
@@ -423,8 +423,8 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:zoom(0.5);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
-			self:diffuse(color(theme_color));
+			self:accelerate(0.25);
+			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"StringP1");
 		CurrentStepsP1ChangedMessageCommand=cmd(playcommand,"StringP1");
@@ -465,8 +465,8 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:zoom(0.5);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
-			self:diffuse(color(theme_color));
+			self:accelerate(0.25);
+			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"StringP2");
 		CurrentStepsP2ChangedMessageCommand=cmd(playcommand,"StringP2");
@@ -490,7 +490,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+386,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+390);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarTapsP1");
@@ -511,7 +511,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+393,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+397);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarJumpsP1");
@@ -532,7 +532,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+400,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+404);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHoldsP1");
@@ -553,7 +553,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+407,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+411);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarMinesP1");
@@ -574,7 +574,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+414,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+418);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHandsP1");
@@ -595,7 +595,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+421,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+425);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarRollsP1");
@@ -616,7 +616,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+428,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+432);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarLiftsP1");
@@ -637,7 +637,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+15,SCREEN_TOP+434,SCREEN_LEFT+15+p1_percentage,SCREEN_TOP+438);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarFakesP1");
@@ -658,7 +658,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+386,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+390);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarTapsP2");
@@ -679,7 +679,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+393,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+397);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarJumpsP2");
@@ -700,7 +700,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+400,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+404);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHoldsP2");
@@ -721,7 +721,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+407,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+411);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarMinesP2");
@@ -742,7 +742,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+414,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+418);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarHandsP2");
@@ -763,7 +763,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+421,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+425);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarRollsP2");
@@ -784,7 +784,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+428,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+432);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarLiftsP2");
@@ -805,7 +805,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:stretchto(SCREEN_LEFT+143,SCREEN_TOP+434,SCREEN_LEFT+143+p2_percentage,SCREEN_TOP+438);
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"RadarFakesP2");
@@ -826,7 +826,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:settext("TAPS: " .. tostring(steps_p1_table[1]) .. "\n" .. "JUMPS: " .. tostring(steps_p1_table[2]) .. "\n" .. "HOLDS: " .. tostring(steps_p1_table[3]) .. "\n" .. "MINES: " .. tostring(steps_p1_table[4]) .. "\n" .. "HANDS: " .. tostring(steps_p1_table[5]) .. "\n" .. "ROLLS: " .. tostring(steps_p1_table[6]) .. "\n" .. "LIFTS: " .. tostring(steps_p1_table[7]) .. "\n" .. "FAKES: " .. tostring(steps_p1_table[8]) .. "\n" .. "TOTAL: " .. tostring(steps_p1_table[9]));
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("1,0.25,0,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"StepTableP1");
@@ -882,7 +882,7 @@ local t = Def.ActorFrame{
 			end;
 			self:finishtweening();
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color(theme_color));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"HighscoreP1");
@@ -899,7 +899,7 @@ local t = Def.ActorFrame{
 			self:finishtweening();
 			self:settext("TAPS: " .. tostring(steps_p2_table[1]) .. "\n" .. "JUMPS: " .. tostring(steps_p2_table[2]) .. "\n" .. "HOLDS: " .. tostring(steps_p2_table[3]) .. "\n" .. "MINES: " .. tostring(steps_p2_table[4]) .. "\n" .. "HANDS: " .. tostring(steps_p2_table[5]) .. "\n" .. "ROLLS: " .. tostring(steps_p2_table[6]) .. "\n" .. "LIFTS: " .. tostring(steps_p2_table[7]) .. "\n" .. "FAKES: " .. tostring(steps_p2_table[8]) .. "\n" .. "TOTAL: " .. tostring(steps_p2_table[9]));
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color("0,0.5,1,1"));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"StepTableP2");
@@ -955,7 +955,7 @@ local t = Def.ActorFrame{
 			end;
 			self:finishtweening();
 			self:diffuse(color("#FFFFFF00"));
-			self:linear(0.4);
+			self:accelerate(0.25);
 			self:diffuse(color(theme_color));
 		end;
 		CurrentSongChangedMessageCommand=cmd(playcommand,"HighscoreP2");

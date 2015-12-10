@@ -337,6 +337,10 @@ function OnePlayerCombinedHotDanger(self)
 	end;
 end
 
+-- lets try this... (ActorFrame 0)
+
+t[#t+1]= use_newfield_actor(144);
+
 -- common/simple actors (ActorFrame 1)
 
 t[#t+1] = Def.ActorFrame{
@@ -643,7 +647,7 @@ t[#t+1] = Def.ActorFrame{
 	-- Actor (Grade P1)
 	LoadActor(THEME:GetPathG("", "grade_unknown"))..{
 		Name="GradeP1";
-		InitCommand=cmd(x,SCREEN_LEFT+16;y,SCREEN_TOP+96);
+		InitCommand=cmd(x,SCREEN_LEFT+16;y,SCREEN_TOP+124);
 	}
 };
 
@@ -658,7 +662,7 @@ t[#t+1] = Def.ActorFrame{
 	-- Actor (Grade P2)
 	LoadActor(THEME:GetPathG("", "grade_unknown"))..{
 		Name="GradeP2";
-		InitCommand=cmd(x,SCREEN_RIGHT-16;y,SCREEN_TOP+96);
+		InitCommand=cmd(x,SCREEN_RIGHT-16;y,SCREEN_TOP+124);
 	}
 };
 
@@ -739,7 +743,97 @@ t[#t+1] = Def.ActorFrame{
 	}
 };
 
--- Hot/Danger Actor (ActorFrame 23)
+-- Judgment Bar P1/P2 (ActorFrame 23)
+
+t[#t+1] = Def.ActorFrame{
+	Name="ScreenGameplayOverlayActorFrameComboJudgment";
+	Def.Quad{
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+2,SCREEN_TOP+82,SCREEN_LEFT+30,SCREEN_TOP+110);
+			self:diffuse(color("0,0,0,1"));
+		end;
+		JudgmentMessageCommand=function(self, param)
+			self:finishtweening();
+			if param.Player == 'PlayerNumber_P1' then
+				if param.TapNoteScore == 'TapNoteScore_W1' then
+					self:diffuse(color("0,1,1,1"));
+				elseif param.TapNoteScore == 'TapNoteScore_W2' then
+					self:diffuse(color("1,1,0,1"));
+				elseif param.TapNoteScore == 'TapNoteScore_W3' then
+					self:diffuse(color("0,1,0,1"));
+				elseif param.TapNoteScore == 'TapNoteScore_W4' then
+					self:diffuse(color("0,0,1,1"));
+				elseif param.TapNoteScore == 'TapNoteScore_W5' then
+					self:diffuse(color("1,0,1,1"));
+				elseif param.TapNoteScore == 'TapNoteScore_Miss' then
+					self:diffuse(color("1,0,0,1"));
+				elseif param.TapNoteScore == 'TapNoteScore_CheckpointHit' then
+					self:diffuse(color("1,1,1,1"));
+				elseif param.TapNoteScore == 'TapNoteScore_CheckpointMiss' then
+					self:diffuse(color("0.5,0.5,0.5,1"));
+				elseif param.TapNoteScore == 'TapNoteScore_HitMine' then
+					self:diffuse(color("1,0.8,0,1"));
+				elseif param.TapNoteScore == 'TapNoteScore_AvoidMine' then
+					self:diffuse(color("0.75,0.75,0.75,1"));
+				elseif param.HoldNoteScore == 'HoldNoteScore_Held' then
+					self:diffuse(color("0.5,1,0,1"));
+				elseif param.HoldNoteScore == 'HoldNoteScore_LetGo' then
+					self:diffuse(color("1,0.5,0,1"));
+				elseif param.HoldNoteScore == 'HoldNoteScore_MissedHold' then
+					self:diffuse(color("0.5,0.5,0.5,1"));
+				else
+					self:diffuse(color("0,0,0,1"));
+				end;
+			end;
+			self:accelerate(0.25)
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		OnCommand=function(self)
+			self:stretchto(SCREEN_RIGHT-30,SCREEN_TOP+82,SCREEN_RIGHT-2,SCREEN_TOP+110);
+			self:diffuse(color("0,0,0,1"));
+		end;
+		JudgmentMessageCommand=function(self, param)
+			self:finishtweening();
+			if param.Player == 'PlayerNumber_P2' then
+				if param.TapNoteScore == 'TapNoteScore_W1' then
+					self:diffuse(color("0,1,1,1"));
+				elseif param.TapNoteScore == 'TapNoteScore_W2' then
+					self:diffuse(color("1,1,0,1"));
+				elseif param.TapNoteScore == 'TapNoteScore_W3' then
+					self:diffuse(color("0,1,0,1"));
+				elseif param.TapNoteScore == 'TapNoteScore_W4' then
+					self:diffuse(color("0,0,1,1"));
+				elseif param.TapNoteScore == 'TapNoteScore_W5' then
+					self:diffuse(color("1,0,1,1"));
+				elseif param.TapNoteScore == 'TapNoteScore_Miss' then
+					self:diffuse(color("1,0,0,1"));
+				elseif param.TapNoteScore == 'TapNoteScore_CheckpointHit' then
+					self:diffuse(color("1,1,1,1"));
+				elseif param.TapNoteScore == 'TapNoteScore_CheckpointMiss' then
+					self:diffuse(color("0.5,0.5,0.5,1"));
+				elseif param.TapNoteScore == 'TapNoteScore_HitMine' then
+					self:diffuse(color("1,0.8,0,1"));
+				elseif param.TapNoteScore == 'TapNoteScore_AvoidMine' then
+					self:diffuse(color("0.75,0.75,0.75,1"));
+				elseif param.HoldNoteScore == 'HoldNoteScore_Held' then
+					self:diffuse(color("0.5,1,0,1"));
+				elseif param.HoldNoteScore == 'HoldNoteScore_LetGo' then
+					self:diffuse(color("1,0.5,0,1"));
+				elseif param.HoldNoteScore == 'HoldNoteScore_MissedHold' then
+					self:diffuse(color("0.5,0.5,0.5,1"));
+				else
+					self:diffuse(color("0,0,0,1"));
+				end;
+			end;
+			self:accelerate(0.25)
+			self:diffuse(color("0,0,0,1"));
+		end;
+	}
+};
+
+-- Hot/Danger Actor (ActorFrame 24)
 
 t[#t+1] = Def.ActorFrame{
 	Name="ScreenGameplayOverlayActorFrameHotAndDanger";
@@ -761,7 +855,7 @@ t[#t+1] = Def.ActorFrame{
 	}
 };
 
--- Hot/Danger Actor (ActorFrame 24)
+-- Hot/Danger Actor (ActorFrame 25)
 
 t[#t+1] = Def.ActorFrame{
 	Name="ScreenGameplayOverlayActorFrameHotAndDanger";
@@ -783,7 +877,7 @@ t[#t+1] = Def.ActorFrame{
 	}
 };
 
--- Hot/Danger Actor (ActorFrame 25)
+-- Hot/Danger Actor (ActorFrame 26)
 
 t[#t+1] = Def.ActorFrame{
 	Name="ScreenGameplayOverlayActorFrameHotAndDanger";
@@ -805,7 +899,7 @@ t[#t+1] = Def.ActorFrame{
 	}
 };
 
--- Theme Skin Overlay Actor (ActorFrame 26)
+-- Theme Skin Overlay Actor (ActorFrame 27)
 
 t[#t+1] = Def.ActorFrame{
 	Name="ScreenGameplayOverlayActorFrameThemeSkinOverlay";

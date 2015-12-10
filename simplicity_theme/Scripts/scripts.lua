@@ -154,67 +154,63 @@ end;
 -- was grid_b
 function grid_a()
 	return Def.Quad{
-		OnCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_TOP+30;diffuse,color(theme_dark_color);diffusebottomedge,color(theme_background));
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_TOP+30);
+			self:diffuse(color(theme_dark_color));
+			self:diffusebottomedge(color(theme_background));
+		end;
 	}
 end;
 
 -- was grid_c
 function grid_b()
 	return Def.Quad{
-		OnCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_BOTTOM-30,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,color(theme_dark_color);diffusebottomedge,color(theme_background));
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT,SCREEN_BOTTOM-30,SCREEN_RIGHT,SCREEN_BOTTOM);
+			self:diffuse(color(theme_dark_color));
+			self:diffusebottomedge(color(theme_background));
+		end;
 	}
 end;
 
 -- was grid_t
 function grid_c()
 	return Def.Quad{
-		OnCommand=cmd(stretchto,SCREEN_LEFT+2,SCREEN_BOTTOM-30,SCREEN_RIGHT-2,SCREEN_TOP+30;diffuse,color("0,0,0,0.75"));
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+2,SCREEN_BOTTOM-30,SCREEN_RIGHT-2,SCREEN_TOP+30);
+			self:diffuse(color("0,0,0,0.75"));
+		end;
 	}
 end;
 
 -- was grid_u
 function grid_d()
 	return Def.Quad{
-		OnCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,color(theme_color);basealpha,0.25);
-	}
-end;
-
--- Common Quad Actors (Fading)
-
-function grid_fast_fade_out()
-	return Def.Quad{
-		OnCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;finishtweening;diffuse,color("0,0,0,0");linear,0.275;diffuse,color("0,0,0,1"));
-	}
-end;
-
-function grid_fast_fade_in()
-	return Def.Quad{
-		OnCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;finishtweening;diffuse,color("0,0,0,1");linear,0.275;diffuse,color("0,0,0,0"));
-	}
-end;
-
-function grid_slow_fade_out()
-	return Def.Quad{
-		OnCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;finishtweening;diffuse,color("0,0,0,0");linear,2.75;diffuse,color("0,0,0,1"));
-	}
-end;
-
-function grid_slow_fade_in()
-	return Def.Quad{
-		OnCommand=cmd(stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;finishtweening;diffuse,color("0,0,0,1");linear,2.75;diffuse,color("0,0,0,0"));
-	}
-end;
-
-function theme_skin(skin_name)
-	return Def.Sprite{
-		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;Load,THEME:GetPathG("",skin_name));
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM);
+			self:diffuse(color(theme_color));
+			self:basealpha(0.25);
+		end;
 	}
 end;
 
 -- was grid_m
 function grid_e()
 	return Def.Quad{
-		InitCommand=cmd(stretchto,SCREEN_LEFT+314,SCREEN_BOTTOM/2-18,SCREEN_RIGHT-314,SCREEN_BOTTOM/2+18;diffuse,color("0,0,0,0.5"));
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+314,SCREEN_BOTTOM/2-18,SCREEN_RIGHT-314,SCREEN_BOTTOM/2+18);
+			self:diffuse(color("0,0,0,0.5"));
+		end;
+	}
+end;
+
+function theme_skin(skin_name)
+	return Def.Sprite{
+		OnCommand=function(self)
+			self:x(SCREEN_CENTER_X);
+			self:y(SCREEN_CENTER_Y);
+			self:Load(THEME:GetPathG("",skin_name));
+		end;
 	}
 end;
 
@@ -224,13 +220,10 @@ function neat_arrow_left()
 		UpLeftCommand=function(self)
 			self:finishtweening();
 			self:x(SCREEN_CENTER_X-96-2);
-			self:sleep(0.02);
-			self:x(SCREEN_CENTER_X-96-1);
-			self:sleep(0.02);
+			self:linear(0.05);
 			self:x(SCREEN_CENTER_X-96+2);
-			self:sleep(0.02);
-			self:x(SCREEN_CENTER_X-96+1);
-			self:sleep(0.02);
+			self:linear(0.05);
+			self:x(SCREEN_CENTER_X-96);
 		end;
 		MenuLeft1MessageCommand=cmd(playcommand,"UpLeft");
 		MenuUp1MessageCommand=cmd(playcommand,"UpLeft");
@@ -246,13 +239,10 @@ function neat_arrow_right()
 		DownRightCommand=function(self)
 			self:finishtweening();
 			self:x(SCREEN_CENTER_X+96+2);
-			self:sleep(0.02);
-			self:x(SCREEN_CENTER_X+96+1);
-			self:sleep(0.02);
+			self:linear(0.05);
 			self:x(SCREEN_CENTER_X+96-2);
-			self:sleep(0.02);
-			self:x(SCREEN_CENTER_X+96-1);
-			self:sleep(0.02);
+			self:linear(0.05);
+			self:x(SCREEN_CENTER_X+96);
 		end;
 		MenuRight1MessageCommand=cmd(playcommand,"DownRight");
 		MenuDown1MessageCommand=cmd(playcommand,"DownRight");
@@ -269,7 +259,7 @@ function transition_door_left_open()
 			self:align(0.5,0.5);
 			self:finishtweening();
 			self:x(SCREEN_LEFT+214);
-			self:linear(0.22);
+			self:decelerate(0.22);
 			self:x(SCREEN_LEFT-214);
 		end;
 	}
@@ -282,7 +272,7 @@ function transition_door_right_open()
 			self:align(0.5,0.5);
 			self:finishtweening();
 			self:x(SCREEN_RIGHT-214);
-			self:linear(0.22);
+			self:decelerate(0.22);
 			self:x(SCREEN_RIGHT+214);
 		end;
 	}
@@ -295,7 +285,7 @@ function transition_door_left_close()
 			self:align(0.5,0.5);
 			self:finishtweening();
 			self:x(SCREEN_LEFT-214);
-			self:linear(0.22);
+			self:accelerate(0.22);
 			self:x(SCREEN_LEFT+214);
 		end;
 	}
@@ -308,7 +298,7 @@ function transition_door_right_close()
 			self:align(0.5,0.5);
 			self:finishtweening();
 			self:x(SCREEN_RIGHT+214);
-			self:linear(0.22);
+			self:accelerate(0.22);
 			self:x(SCREEN_RIGHT-214);
 		end;
 	}
