@@ -165,7 +165,7 @@ local t = Def.ActorFrame{
 			self:diffuseupperleft(color("1,0.9,1,1"));
 			self:zoom(1.0);
 			self:diffusealpha(0);
-			self:accelerate(3);
+			self:accelerate(1);
 			self:zoom(3.0);
 			self:diffusealpha(1);
 		end;

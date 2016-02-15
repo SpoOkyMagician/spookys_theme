@@ -25,10 +25,17 @@ chord_p1 = 0;
 -- more test
 
 song = GAMESTATE:GetCurrentSong();
-this_beat = 0;
-last_beat = 0;
+this_beat = -1;
+last_beat = -1;
 end_beat = 0;
 
+-- new graph thingy...
+
+graph_thingy_p1 = {};
+for value=0,15 do
+	-- default to the enum of none.
+	graph_thingy_p1[value] = 'TapNoteScore_None';
+end
 
 -- Update the Input Actor(Frame)
 
@@ -240,7 +247,7 @@ end
 function SongBeatUpdate(self)
 	this_beat = GAMESTATE:GetSongBeat();
 	if song ~= nil then
-		if this_beat > last_beat then
+		if this_beat > last_beat and this_beat >= 0 then
 			last_beat = GAMESTATE:GetSongBeat();
 			local beat_current = (this_beat / end_beat) * 790;
 			if beat_current > 790 then
@@ -334,6 +341,1452 @@ function OnePlayerCombinedHotDanger(self)
 		else
 			self:GetChild("HotDangerAnyPlayer"):visible(false);
 		end;
+	end;
+end
+
+function UpdateGraphTimeP1(self)
+	self:GetChild("GraphThingyOneActorP1"):finishtweening();
+	if graph_thingy_p1[0] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyOneActorP1"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyOneActorP1"):stretchto(SCREEN_LEFT+2,SCREEN_TOP+384,SCREEN_LEFT+4,SCREEN_TOP+416);
+	elseif graph_thingy_p1[0] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyOneActorP1"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyOneActorP1"):stretchto(SCREEN_LEFT+2,SCREEN_TOP+384+5,SCREEN_LEFT+4,SCREEN_TOP+416);
+	elseif graph_thingy_p1[0] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyOneActorP1"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyOneActorP1"):stretchto(SCREEN_LEFT+2,SCREEN_TOP+384+10,SCREEN_LEFT+4,SCREEN_TOP+416);
+	elseif graph_thingy_p1[0] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyOneActorP1"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyOneActorP1"):stretchto(SCREEN_LEFT+2,SCREEN_TOP+384+15,SCREEN_LEFT+4,SCREEN_TOP+416);
+	elseif graph_thingy_p1[0] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyOneActorP1"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyOneActorP1"):stretchto(SCREEN_LEFT+2,SCREEN_TOP+384+20,SCREEN_LEFT+4,SCREEN_TOP+416);
+	elseif graph_thingy_p1[0] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyOneActorP1"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyOneActorP1"):stretchto(SCREEN_LEFT+2,SCREEN_TOP+384+25,SCREEN_LEFT+4,SCREEN_TOP+416);
+	elseif graph_thingy_p1[0] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyOneActorP1"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyOneActorP1"):stretchto(SCREEN_LEFT+2,SCREEN_TOP+384,SCREEN_LEFT+4,SCREEN_TOP+416);
+	elseif graph_thingy_p1[0] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyOneActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyOneActorP1"):stretchto(SCREEN_LEFT+2,SCREEN_TOP+384+25,SCREEN_LEFT+4,SCREEN_TOP+416);
+	elseif graph_thingy_p1[0] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyOneActorP1"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyOneActorP1"):stretchto(SCREEN_LEFT+2,SCREEN_TOP+384+25,SCREEN_LEFT+4,SCREEN_TOP+416);
+	elseif graph_thingy_p1[0] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyOneActorP1"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyOneActorP1"):stretchto(SCREEN_LEFT+2,SCREEN_TOP+384,SCREEN_LEFT+4,SCREEN_TOP+416);
+	elseif graph_thingy_p1[0] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyOneActorP1"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyOneActorP1"):stretchto(SCREEN_LEFT+2,SCREEN_TOP+384,SCREEN_LEFT+4,SCREEN_TOP+416);
+	elseif graph_thingy_p1[0] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyOneActorP1"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyOneActorP1"):stretchto(SCREEN_LEFT+2,SCREEN_TOP+384+25,SCREEN_LEFT+4,SCREEN_TOP+416);
+	elseif graph_thingy_p1[0] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyOneActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyOneActorP1"):stretchto(SCREEN_LEFT+2,SCREEN_TOP+384+25,SCREEN_LEFT+4,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyOneActorP1"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyOneActorP1"):stretchto(SCREEN_LEFT+2,SCREEN_TOP+384+25,SCREEN_LEFT+4,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyTwoActorP1"):finishtweening();
+	if graph_thingy_p1[1] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyTwoActorP1"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyTwoActorP1"):stretchto(SCREEN_LEFT+5,SCREEN_TOP+384,SCREEN_LEFT+7,SCREEN_TOP+416);
+	elseif graph_thingy_p1[1] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyTwoActorP1"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyTwoActorP1"):stretchto(SCREEN_LEFT+5,SCREEN_TOP+384+5,SCREEN_LEFT+7,SCREEN_TOP+416);
+	elseif graph_thingy_p1[1] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyTwoActorP1"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyTwoActorP1"):stretchto(SCREEN_LEFT+5,SCREEN_TOP+384+10,SCREEN_LEFT+7,SCREEN_TOP+416);
+	elseif graph_thingy_p1[1] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyTwoActorP1"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyTwoActorP1"):stretchto(SCREEN_LEFT+5,SCREEN_TOP+384+15,SCREEN_LEFT+7,SCREEN_TOP+416);
+	elseif graph_thingy_p1[1] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyTwoActorP1"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyTwoActorP1"):stretchto(SCREEN_LEFT+5,SCREEN_TOP+384+20,SCREEN_LEFT+7,SCREEN_TOP+416);
+	elseif graph_thingy_p1[1] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyTwoActorP1"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyTwoActorP1"):stretchto(SCREEN_LEFT+5,SCREEN_TOP+384+25,SCREEN_LEFT+7,SCREEN_TOP+416);
+	elseif graph_thingy_p1[1] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyTwoActorP1"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyTwoActorP1"):stretchto(SCREEN_LEFT+5,SCREEN_TOP+384,SCREEN_LEFT+7,SCREEN_TOP+416);
+	elseif graph_thingy_p1[1] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyTwoActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyTwoActorP1"):stretchto(SCREEN_LEFT+5,SCREEN_TOP+384+25,SCREEN_LEFT+7,SCREEN_TOP+416);
+	elseif graph_thingy_p1[1] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyTwoActorP1"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyTwoActorP1"):stretchto(SCREEN_LEFT+5,SCREEN_TOP+384+25,SCREEN_LEFT+7,SCREEN_TOP+416);
+	elseif graph_thingy_p1[1] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyTwoActorP1"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyTwoActorP1"):stretchto(SCREEN_LEFT+5,SCREEN_TOP+384,SCREEN_LEFT+7,SCREEN_TOP+416);
+	elseif graph_thingy_p1[1] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyTwoActorP1"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyTwoActorP1"):stretchto(SCREEN_LEFT+5,SCREEN_TOP+384,SCREEN_LEFT+7,SCREEN_TOP+416);
+	elseif graph_thingy_p1[1] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyTwoActorP1"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyTwoActorP1"):stretchto(SCREEN_LEFT+5,SCREEN_TOP+384+25,SCREEN_LEFT+7,SCREEN_TOP+416);
+	elseif graph_thingy_p1[1] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyTwoActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyTwoActorP1"):stretchto(SCREEN_LEFT+5,SCREEN_TOP+384+25,SCREEN_LEFT+7,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyTwoActorP1"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyTwoActorP1"):stretchto(SCREEN_LEFT+5,SCREEN_TOP+384+25,SCREEN_LEFT+7,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyThreeActorP1"):finishtweening();
+	if graph_thingy_p1[2] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyThreeActorP1"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyThreeActorP1"):stretchto(SCREEN_LEFT+8,SCREEN_TOP+384,SCREEN_LEFT+10,SCREEN_TOP+416);
+	elseif graph_thingy_p1[2] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyThreeActorP1"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyThreeActorP1"):stretchto(SCREEN_LEFT+8,SCREEN_TOP+384+5,SCREEN_LEFT+10,SCREEN_TOP+416);
+	elseif graph_thingy_p1[2] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyThreeActorP1"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyThreeActorP1"):stretchto(SCREEN_LEFT+8,SCREEN_TOP+384+10,SCREEN_LEFT+10,SCREEN_TOP+416);
+	elseif graph_thingy_p1[2] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyThreeActorP1"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyThreeActorP1"):stretchto(SCREEN_LEFT+8,SCREEN_TOP+384+15,SCREEN_LEFT+10,SCREEN_TOP+416);
+	elseif graph_thingy_p1[2] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyThreeActorP1"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyThreeActorP1"):stretchto(SCREEN_LEFT+8,SCREEN_TOP+384+20,SCREEN_LEFT+10,SCREEN_TOP+416);
+	elseif graph_thingy_p1[2] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyThreeActorP1"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyThreeActorP1"):stretchto(SCREEN_LEFT+8,SCREEN_TOP+384+25,SCREEN_LEFT+10,SCREEN_TOP+416);
+	elseif graph_thingy_p1[2] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyThreeActorP1"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyThreeActorP1"):stretchto(SCREEN_LEFT+8,SCREEN_TOP+384,SCREEN_LEFT+10,SCREEN_TOP+416);
+	elseif graph_thingy_p1[2] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyThreeActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyThreeActorP1"):stretchto(SCREEN_LEFT+8,SCREEN_TOP+384+25,SCREEN_LEFT+10,SCREEN_TOP+416);
+	elseif graph_thingy_p1[2] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyThreeActorP1"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyThreeActorP1"):stretchto(SCREEN_LEFT+8,SCREEN_TOP+384+25,SCREEN_LEFT+10,SCREEN_TOP+416);
+	elseif graph_thingy_p1[2] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyThreeActorP1"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyThreeActorP1"):stretchto(SCREEN_LEFT+8,SCREEN_TOP+384,SCREEN_LEFT+10,SCREEN_TOP+416);
+	elseif graph_thingy_p1[2] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyThreeActorP1"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyThreeActorP1"):stretchto(SCREEN_LEFT+8,SCREEN_TOP+384,SCREEN_LEFT+10,SCREEN_TOP+416);
+	elseif graph_thingy_p1[2] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyThreeActorP1"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyThreeActorP1"):stretchto(SCREEN_LEFT+8,SCREEN_TOP+384+25,SCREEN_LEFT+10,SCREEN_TOP+416);
+	elseif graph_thingy_p1[2] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyThreeActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyThreeActorP1"):stretchto(SCREEN_LEFT+8,SCREEN_TOP+384+25,SCREEN_LEFT+10,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyThreeActorP1"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyThreeActorP1"):stretchto(SCREEN_LEFT+8,SCREEN_TOP+384+25,SCREEN_LEFT+10,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyFourActorP1"):finishtweening();
+	if graph_thingy_p1[3] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyFourActorP1"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyFourActorP1"):stretchto(SCREEN_LEFT+11,SCREEN_TOP+384,SCREEN_LEFT+13,SCREEN_TOP+416);
+	elseif graph_thingy_p1[3] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyFourActorP1"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyFourActorP1"):stretchto(SCREEN_LEFT+11,SCREEN_TOP+384+5,SCREEN_LEFT+13,SCREEN_TOP+416);
+	elseif graph_thingy_p1[3] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyFourActorP1"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyFourActorP1"):stretchto(SCREEN_LEFT+11,SCREEN_TOP+384+10,SCREEN_LEFT+13,SCREEN_TOP+416);
+	elseif graph_thingy_p1[3] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyFourActorP1"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyFourActorP1"):stretchto(SCREEN_LEFT+11,SCREEN_TOP+384+15,SCREEN_LEFT+13,SCREEN_TOP+416);
+	elseif graph_thingy_p1[3] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyFourActorP1"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyFourActorP1"):stretchto(SCREEN_LEFT+11,SCREEN_TOP+384+20,SCREEN_LEFT+13,SCREEN_TOP+416);
+	elseif graph_thingy_p1[3] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyFourActorP1"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyFourActorP1"):stretchto(SCREEN_LEFT+11,SCREEN_TOP+384+25,SCREEN_LEFT+13,SCREEN_TOP+416);
+	elseif graph_thingy_p1[3] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyFourActorP1"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyFourActorP1"):stretchto(SCREEN_LEFT+11,SCREEN_TOP+384,SCREEN_LEFT+13,SCREEN_TOP+416);
+	elseif graph_thingy_p1[3] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyFourActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyFourActorP1"):stretchto(SCREEN_LEFT+11,SCREEN_TOP+384+25,SCREEN_LEFT+13,SCREEN_TOP+416);
+	elseif graph_thingy_p1[3] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyFourActorP1"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyFourActorP1"):stretchto(SCREEN_LEFT+11,SCREEN_TOP+384+25,SCREEN_LEFT+13,SCREEN_TOP+416);
+	elseif graph_thingy_p1[3] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyFourActorP1"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyFourActorP1"):stretchto(SCREEN_LEFT+11,SCREEN_TOP+384,SCREEN_LEFT+13,SCREEN_TOP+416);
+	elseif graph_thingy_p1[3] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyFourActorP1"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyFourActorP1"):stretchto(SCREEN_LEFT+11,SCREEN_TOP+384,SCREEN_LEFT+13,SCREEN_TOP+416);
+	elseif graph_thingy_p1[3] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyFourActorP1"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyFourActorP1"):stretchto(SCREEN_LEFT+11,SCREEN_TOP+384+25,SCREEN_LEFT+13,SCREEN_TOP+416);
+	elseif graph_thingy_p1[3] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyFourActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyFourActorP1"):stretchto(SCREEN_LEFT+11,SCREEN_TOP+384+25,SCREEN_LEFT+13,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyFourActorP1"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyFourActorP1"):stretchto(SCREEN_LEFT+11,SCREEN_TOP+384+25,SCREEN_LEFT+13,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyFiveActorP1"):finishtweening();
+	if graph_thingy_p1[4] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyFiveActorP1"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyFiveActorP1"):stretchto(SCREEN_LEFT+14,SCREEN_TOP+384,SCREEN_LEFT+16,SCREEN_TOP+416);
+	elseif graph_thingy_p1[4] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyFiveActorP1"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyFiveActorP1"):stretchto(SCREEN_LEFT+14,SCREEN_TOP+384+5,SCREEN_LEFT+16,SCREEN_TOP+416);
+	elseif graph_thingy_p1[4] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyFiveActorP1"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyFiveActorP1"):stretchto(SCREEN_LEFT+14,SCREEN_TOP+384+10,SCREEN_LEFT+16,SCREEN_TOP+416);
+	elseif graph_thingy_p1[4] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyFiveActorP1"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyFiveActorP1"):stretchto(SCREEN_LEFT+14,SCREEN_TOP+384+15,SCREEN_LEFT+16,SCREEN_TOP+416);
+	elseif graph_thingy_p1[4] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyFiveActorP1"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyFiveActorP1"):stretchto(SCREEN_LEFT+14,SCREEN_TOP+384+20,SCREEN_LEFT+16,SCREEN_TOP+416);
+	elseif graph_thingy_p1[4] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyFiveActorP1"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyFiveActorP1"):stretchto(SCREEN_LEFT+14,SCREEN_TOP+384+25,SCREEN_LEFT+16,SCREEN_TOP+416);
+	elseif graph_thingy_p1[4] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyFiveActorP1"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyFiveActorP1"):stretchto(SCREEN_LEFT+14,SCREEN_TOP+384,SCREEN_LEFT+16,SCREEN_TOP+416);
+	elseif graph_thingy_p1[4] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyFiveActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyFiveActorP1"):stretchto(SCREEN_LEFT+14,SCREEN_TOP+384+25,SCREEN_LEFT+16,SCREEN_TOP+416);
+	elseif graph_thingy_p1[4] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyFiveActorP1"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyFiveActorP1"):stretchto(SCREEN_LEFT+14,SCREEN_TOP+384+25,SCREEN_LEFT+16,SCREEN_TOP+416);
+	elseif graph_thingy_p1[4] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyFiveActorP1"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyFiveActorP1"):stretchto(SCREEN_LEFT+14,SCREEN_TOP+384,SCREEN_LEFT+16,SCREEN_TOP+416);
+	elseif graph_thingy_p1[4] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyFiveActorP1"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyFiveActorP1"):stretchto(SCREEN_LEFT+14,SCREEN_TOP+384,SCREEN_LEFT+16,SCREEN_TOP+416);
+	elseif graph_thingy_p1[4] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyFiveActorP1"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyFiveActorP1"):stretchto(SCREEN_LEFT+14,SCREEN_TOP+384+25,SCREEN_LEFT+16,SCREEN_TOP+416);
+	elseif graph_thingy_p1[4] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyFiveActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyFiveActorP1"):stretchto(SCREEN_LEFT+14,SCREEN_TOP+384+25,SCREEN_LEFT+16,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyFiveActorP1"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyFiveActorP1"):stretchto(SCREEN_LEFT+14,SCREEN_TOP+384+25,SCREEN_LEFT+16,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingySixActorP1"):finishtweening();
+	if graph_thingy_p1[5] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingySixActorP1"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingySixActorP1"):stretchto(SCREEN_LEFT+17,SCREEN_TOP+384,SCREEN_LEFT+19,SCREEN_TOP+416);
+	elseif graph_thingy_p1[5] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingySixActorP1"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingySixActorP1"):stretchto(SCREEN_LEFT+17,SCREEN_TOP+384+5,SCREEN_LEFT+19,SCREEN_TOP+416);
+	elseif graph_thingy_p1[5] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingySixActorP1"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingySixActorP1"):stretchto(SCREEN_LEFT+17,SCREEN_TOP+384+10,SCREEN_LEFT+19,SCREEN_TOP+416);
+	elseif graph_thingy_p1[5] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingySixActorP1"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingySixActorP1"):stretchto(SCREEN_LEFT+17,SCREEN_TOP+384+15,SCREEN_LEFT+19,SCREEN_TOP+416);
+	elseif graph_thingy_p1[5] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingySixActorP1"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingySixActorP1"):stretchto(SCREEN_LEFT+17,SCREEN_TOP+384+20,SCREEN_LEFT+19,SCREEN_TOP+416);
+	elseif graph_thingy_p1[5] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingySixActorP1"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingySixActorP1"):stretchto(SCREEN_LEFT+17,SCREEN_TOP+384+25,SCREEN_LEFT+19,SCREEN_TOP+416);
+	elseif graph_thingy_p1[5] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingySixActorP1"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingySixActorP1"):stretchto(SCREEN_LEFT+17,SCREEN_TOP+384,SCREEN_LEFT+19,SCREEN_TOP+416);
+	elseif graph_thingy_p1[5] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingySixActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingySixActorP1"):stretchto(SCREEN_LEFT+17,SCREEN_TOP+384+25,SCREEN_LEFT+19,SCREEN_TOP+416);
+	elseif graph_thingy_p1[5] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingySixActorP1"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingySixActorP1"):stretchto(SCREEN_LEFT+17,SCREEN_TOP+384+25,SCREEN_LEFT+19,SCREEN_TOP+416);
+	elseif graph_thingy_p1[5] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingySixActorP1"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingySixActorP1"):stretchto(SCREEN_LEFT+17,SCREEN_TOP+384,SCREEN_LEFT+19,SCREEN_TOP+416);
+	elseif graph_thingy_p1[5] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingySixActorP1"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingySixActorP1"):stretchto(SCREEN_LEFT+17,SCREEN_TOP+384,SCREEN_LEFT+19,SCREEN_TOP+416);
+	elseif graph_thingy_p1[5] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingySixActorP1"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingySixActorP1"):stretchto(SCREEN_LEFT+17,SCREEN_TOP+384+25,SCREEN_LEFT+19,SCREEN_TOP+416);
+	elseif graph_thingy_p1[5] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingySixActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingySixActorP1"):stretchto(SCREEN_LEFT+17,SCREEN_TOP+384+25,SCREEN_LEFT+19,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingySixActorP1"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingySixActorP1"):stretchto(SCREEN_LEFT+17,SCREEN_TOP+384+25,SCREEN_LEFT+19,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingySevenActorP1"):finishtweening();
+	if graph_thingy_p1[6] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingySevenActorP1"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingySevenActorP1"):stretchto(SCREEN_LEFT+20,SCREEN_TOP+384,SCREEN_LEFT+22,SCREEN_TOP+416);
+	elseif graph_thingy_p1[6] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingySevenActorP1"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingySevenActorP1"):stretchto(SCREEN_LEFT+20,SCREEN_TOP+384+5,SCREEN_LEFT+22,SCREEN_TOP+416);
+	elseif graph_thingy_p1[6] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingySevenActorP1"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingySevenActorP1"):stretchto(SCREEN_LEFT+20,SCREEN_TOP+384+10,SCREEN_LEFT+22,SCREEN_TOP+416);
+	elseif graph_thingy_p1[6] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingySevenActorP1"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingySevenActorP1"):stretchto(SCREEN_LEFT+20,SCREEN_TOP+384+15,SCREEN_LEFT+22,SCREEN_TOP+416);
+	elseif graph_thingy_p1[6] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingySevenActorP1"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingySevenActorP1"):stretchto(SCREEN_LEFT+20,SCREEN_TOP+384+20,SCREEN_LEFT+22,SCREEN_TOP+416);
+	elseif graph_thingy_p1[6] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingySevenActorP1"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingySevenActorP1"):stretchto(SCREEN_LEFT+20,SCREEN_TOP+384+25,SCREEN_LEFT+22,SCREEN_TOP+416);
+	elseif graph_thingy_p1[6] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingySevenActorP1"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingySevenActorP1"):stretchto(SCREEN_LEFT+20,SCREEN_TOP+384,SCREEN_LEFT+22,SCREEN_TOP+416);
+	elseif graph_thingy_p1[6] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingySevenActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingySevenActorP1"):stretchto(SCREEN_LEFT+20,SCREEN_TOP+384+25,SCREEN_LEFT+22,SCREEN_TOP+416);
+	elseif graph_thingy_p1[6] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingySevenActorP1"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingySevenActorP1"):stretchto(SCREEN_LEFT+20,SCREEN_TOP+384+25,SCREEN_LEFT+22,SCREEN_TOP+416);
+	elseif graph_thingy_p1[6] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingySevenActorP1"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingySevenActorP1"):stretchto(SCREEN_LEFT+20,SCREEN_TOP+384,SCREEN_LEFT+22,SCREEN_TOP+416);
+	elseif graph_thingy_p1[6] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingySevenActorP1"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingySevenActorP1"):stretchto(SCREEN_LEFT+20,SCREEN_TOP+384,SCREEN_LEFT+22,SCREEN_TOP+416);
+	elseif graph_thingy_p1[6] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingySevenActorP1"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingySevenActorP1"):stretchto(SCREEN_LEFT+20,SCREEN_TOP+384+25,SCREEN_LEFT+22,SCREEN_TOP+416);
+	elseif graph_thingy_p1[6] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingySevenActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingySevenActorP1"):stretchto(SCREEN_LEFT+20,SCREEN_TOP+384+25,SCREEN_LEFT+22,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingySevenActorP1"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingySevenActorP1"):stretchto(SCREEN_LEFT+20,SCREEN_TOP+384+25,SCREEN_LEFT+22,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyEightActorP1"):finishtweening();
+	if graph_thingy_p1[7] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyEightActorP1"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyEightActorP1"):stretchto(SCREEN_LEFT+23,SCREEN_TOP+384,SCREEN_LEFT+25,SCREEN_TOP+416);
+	elseif graph_thingy_p1[7] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyEightActorP1"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyEightActorP1"):stretchto(SCREEN_LEFT+23,SCREEN_TOP+384+5,SCREEN_LEFT+25,SCREEN_TOP+416);
+	elseif graph_thingy_p1[7] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyEightActorP1"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyEightActorP1"):stretchto(SCREEN_LEFT+23,SCREEN_TOP+384+10,SCREEN_LEFT+25,SCREEN_TOP+416);
+	elseif graph_thingy_p1[7] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyEightActorP1"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyEightActorP1"):stretchto(SCREEN_LEFT+23,SCREEN_TOP+384+15,SCREEN_LEFT+25,SCREEN_TOP+416);
+	elseif graph_thingy_p1[7] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyEightActorP1"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyEightActorP1"):stretchto(SCREEN_LEFT+23,SCREEN_TOP+384+20,SCREEN_LEFT+25,SCREEN_TOP+416);
+	elseif graph_thingy_p1[7] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyEightActorP1"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyEightActorP1"):stretchto(SCREEN_LEFT+23,SCREEN_TOP+384+25,SCREEN_LEFT+25,SCREEN_TOP+416);
+	elseif graph_thingy_p1[7] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyEightActorP1"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyEightActorP1"):stretchto(SCREEN_LEFT+23,SCREEN_TOP+384,SCREEN_LEFT+25,SCREEN_TOP+416);
+	elseif graph_thingy_p1[7] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyEightActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyEightActorP1"):stretchto(SCREEN_LEFT+23,SCREEN_TOP+384+25,SCREEN_LEFT+25,SCREEN_TOP+416);
+	elseif graph_thingy_p1[7] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyEightActorP1"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyEightActorP1"):stretchto(SCREEN_LEFT+23,SCREEN_TOP+384+25,SCREEN_LEFT+25,SCREEN_TOP+416);
+	elseif graph_thingy_p1[7] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyEightActorP1"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyEightActorP1"):stretchto(SCREEN_LEFT+23,SCREEN_TOP+384,SCREEN_LEFT+25,SCREEN_TOP+416);
+	elseif graph_thingy_p1[7] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyEightActorP1"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyEightActorP1"):stretchto(SCREEN_LEFT+23,SCREEN_TOP+384,SCREEN_LEFT+25,SCREEN_TOP+416);
+	elseif graph_thingy_p1[7] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyEightActorP1"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyEightActorP1"):stretchto(SCREEN_LEFT+23,SCREEN_TOP+384+25,SCREEN_LEFT+25,SCREEN_TOP+416);
+	elseif graph_thingy_p1[7] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyEightActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyEightActorP1"):stretchto(SCREEN_LEFT+23,SCREEN_TOP+384+25,SCREEN_LEFT+25,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyEightActorP1"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyEightActorP1"):stretchto(SCREEN_LEFT+23,SCREEN_TOP+384+25,SCREEN_LEFT+25,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyNineActorP1"):finishtweening();
+	if graph_thingy_p1[8] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyNineActorP1"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyNineActorP1"):stretchto(SCREEN_LEFT+26,SCREEN_TOP+384,SCREEN_LEFT+28,SCREEN_TOP+416);
+	elseif graph_thingy_p1[8] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyNineActorP1"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyNineActorP1"):stretchto(SCREEN_LEFT+26,SCREEN_TOP+384+5,SCREEN_LEFT+28,SCREEN_TOP+416);
+	elseif graph_thingy_p1[8] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyNineActorP1"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyNineActorP1"):stretchto(SCREEN_LEFT+26,SCREEN_TOP+384+10,SCREEN_LEFT+28,SCREEN_TOP+416);
+	elseif graph_thingy_p1[8] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyNineActorP1"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyNineActorP1"):stretchto(SCREEN_LEFT+26,SCREEN_TOP+384+15,SCREEN_LEFT+28,SCREEN_TOP+416);
+	elseif graph_thingy_p1[8] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyNineActorP1"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyNineActorP1"):stretchto(SCREEN_LEFT+26,SCREEN_TOP+384+20,SCREEN_LEFT+28,SCREEN_TOP+416);
+	elseif graph_thingy_p1[8] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyNineActorP1"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyNineActorP1"):stretchto(SCREEN_LEFT+26,SCREEN_TOP+384+25,SCREEN_LEFT+28,SCREEN_TOP+416);
+	elseif graph_thingy_p1[8] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyNineActorP1"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyNineActorP1"):stretchto(SCREEN_LEFT+26,SCREEN_TOP+384,SCREEN_LEFT+28,SCREEN_TOP+416);
+	elseif graph_thingy_p1[8] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyNineActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyNineActorP1"):stretchto(SCREEN_LEFT+26,SCREEN_TOP+384+25,SCREEN_LEFT+28,SCREEN_TOP+416);
+	elseif graph_thingy_p1[8] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyNineActorP1"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyNineActorP1"):stretchto(SCREEN_LEFT+26,SCREEN_TOP+384+25,SCREEN_LEFT+28,SCREEN_TOP+416);
+	elseif graph_thingy_p1[8] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyNineActorP1"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyNineActorP1"):stretchto(SCREEN_LEFT+26,SCREEN_TOP+384,SCREEN_LEFT+28,SCREEN_TOP+416);
+	elseif graph_thingy_p1[8] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyNineActorP1"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyNineActorP1"):stretchto(SCREEN_LEFT+26,SCREEN_TOP+384,SCREEN_LEFT+28,SCREEN_TOP+416);
+	elseif graph_thingy_p1[8] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyNineActorP1"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyNineActorP1"):stretchto(SCREEN_LEFT+26,SCREEN_TOP+384+25,SCREEN_LEFT+28,SCREEN_TOP+416);
+	elseif graph_thingy_p1[8] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyNineActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyNineActorP1"):stretchto(SCREEN_LEFT+26,SCREEN_TOP+384+25,SCREEN_LEFT+28,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyNineActorP1"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyNineActorP1"):stretchto(SCREEN_LEFT+26,SCREEN_TOP+384+25,SCREEN_LEFT+28,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyTenActorP1"):finishtweening();
+	if graph_thingy_p1[9] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyTenActorP1"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyTenActorP1"):stretchto(SCREEN_LEFT+29,SCREEN_TOP+384,SCREEN_LEFT+31,SCREEN_TOP+416);
+	elseif graph_thingy_p1[9] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyTenActorP1"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyTenActorP1"):stretchto(SCREEN_LEFT+29,SCREEN_TOP+384+5,SCREEN_LEFT+31,SCREEN_TOP+416);
+	elseif graph_thingy_p1[9] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyTenActorP1"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyTenActorP1"):stretchto(SCREEN_LEFT+29,SCREEN_TOP+384+10,SCREEN_LEFT+31,SCREEN_TOP+416);
+	elseif graph_thingy_p1[9] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyTenActorP1"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyTenActorP1"):stretchto(SCREEN_LEFT+29,SCREEN_TOP+384+15,SCREEN_LEFT+31,SCREEN_TOP+416);
+	elseif graph_thingy_p1[9] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyTenActorP1"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyTenActorP1"):stretchto(SCREEN_LEFT+29,SCREEN_TOP+384+20,SCREEN_LEFT+31,SCREEN_TOP+416);
+	elseif graph_thingy_p1[9] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyTenActorP1"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyTenActorP1"):stretchto(SCREEN_LEFT+29,SCREEN_TOP+384+25,SCREEN_LEFT+31,SCREEN_TOP+416);
+	elseif graph_thingy_p1[9] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyTenActorP1"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyTenActorP1"):stretchto(SCREEN_LEFT+29,SCREEN_TOP+384,SCREEN_LEFT+31,SCREEN_TOP+416);
+	elseif graph_thingy_p1[9] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyTenActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyTenActorP1"):stretchto(SCREEN_LEFT+29,SCREEN_TOP+384+25,SCREEN_LEFT+31,SCREEN_TOP+416);
+	elseif graph_thingy_p1[9] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyTenActorP1"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyTenActorP1"):stretchto(SCREEN_LEFT+29,SCREEN_TOP+384+25,SCREEN_LEFT+31,SCREEN_TOP+416);
+	elseif graph_thingy_p1[9] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyTenActorP1"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyTenActorP1"):stretchto(SCREEN_LEFT+29,SCREEN_TOP+384,SCREEN_LEFT+31,SCREEN_TOP+416);
+	elseif graph_thingy_p1[9] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyTenActorP1"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyTenActorP1"):stretchto(SCREEN_LEFT+29,SCREEN_TOP+384,SCREEN_LEFT+31,SCREEN_TOP+416);
+	elseif graph_thingy_p1[9] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyTenActorP1"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyTenActorP1"):stretchto(SCREEN_LEFT+29,SCREEN_TOP+384+25,SCREEN_LEFT+31,SCREEN_TOP+416);
+	elseif graph_thingy_p1[9] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyTenActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyTenActorP1"):stretchto(SCREEN_LEFT+29,SCREEN_TOP+384+25,SCREEN_LEFT+31,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyTenActorP1"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyTenActorP1"):stretchto(SCREEN_LEFT+29,SCREEN_TOP+384+25,SCREEN_LEFT+31,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyElevenActorP1"):finishtweening();
+	if graph_thingy_p1[10] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyElevenActorP1"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyElevenActorP1"):stretchto(SCREEN_LEFT+32,SCREEN_TOP+384,SCREEN_LEFT+34,SCREEN_TOP+416);
+	elseif graph_thingy_p1[10] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyElevenActorP1"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyElevenActorP1"):stretchto(SCREEN_LEFT+32,SCREEN_TOP+384+5,SCREEN_LEFT+34,SCREEN_TOP+416);
+	elseif graph_thingy_p1[10] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyElevenActorP1"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyElevenActorP1"):stretchto(SCREEN_LEFT+32,SCREEN_TOP+384+10,SCREEN_LEFT+34,SCREEN_TOP+416);
+	elseif graph_thingy_p1[10] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyElevenActorP1"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyElevenActorP1"):stretchto(SCREEN_LEFT+32,SCREEN_TOP+384+15,SCREEN_LEFT+34,SCREEN_TOP+416);
+	elseif graph_thingy_p1[10] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyElevenActorP1"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyElevenActorP1"):stretchto(SCREEN_LEFT+32,SCREEN_TOP+384+20,SCREEN_LEFT+34,SCREEN_TOP+416);
+	elseif graph_thingy_p1[10] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyElevenActorP1"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyElevenActorP1"):stretchto(SCREEN_LEFT+32,SCREEN_TOP+384+25,SCREEN_LEFT+34,SCREEN_TOP+416);
+	elseif graph_thingy_p1[10] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyElevenActorP1"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyElevenActorP1"):stretchto(SCREEN_LEFT+32,SCREEN_TOP+384,SCREEN_LEFT+34,SCREEN_TOP+416);
+	elseif graph_thingy_p1[10] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyElevenActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyElevenActorP1"):stretchto(SCREEN_LEFT+32,SCREEN_TOP+384+25,SCREEN_LEFT+34,SCREEN_TOP+416);
+	elseif graph_thingy_p1[10] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyElevenActorP1"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyElevenActorP1"):stretchto(SCREEN_LEFT+32,SCREEN_TOP+384+25,SCREEN_LEFT+34,SCREEN_TOP+416);
+	elseif graph_thingy_p1[10] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyElevenActorP1"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyElevenActorP1"):stretchto(SCREEN_LEFT+32,SCREEN_TOP+384,SCREEN_LEFT+34,SCREEN_TOP+416);
+	elseif graph_thingy_p1[10] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyElevenActorP1"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyElevenActorP1"):stretchto(SCREEN_LEFT+32,SCREEN_TOP+384,SCREEN_LEFT+34,SCREEN_TOP+416);
+	elseif graph_thingy_p1[10] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyElevenActorP1"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyElevenActorP1"):stretchto(SCREEN_LEFT+32,SCREEN_TOP+384+25,SCREEN_LEFT+34,SCREEN_TOP+416);
+	elseif graph_thingy_p1[10] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyElevenActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyElevenActorP1"):stretchto(SCREEN_LEFT+32,SCREEN_TOP+384+25,SCREEN_LEFT+34,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyElevenActorP1"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyElevenActorP1"):stretchto(SCREEN_LEFT+32,SCREEN_TOP+384+25,SCREEN_LEFT+34,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyTwelveActorP1"):finishtweening();
+	if graph_thingy_p1[11] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyTwelveActorP1"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyTwelveActorP1"):stretchto(SCREEN_LEFT+35,SCREEN_TOP+384,SCREEN_LEFT+37,SCREEN_TOP+416);
+	elseif graph_thingy_p1[11] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyTwelveActorP1"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyTwelveActorP1"):stretchto(SCREEN_LEFT+35,SCREEN_TOP+384+5,SCREEN_LEFT+37,SCREEN_TOP+416);
+	elseif graph_thingy_p1[11] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyTwelveActorP1"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyTwelveActorP1"):stretchto(SCREEN_LEFT+35,SCREEN_TOP+384+10,SCREEN_LEFT+37,SCREEN_TOP+416);
+	elseif graph_thingy_p1[11] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyTwelveActorP1"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyTwelveActorP1"):stretchto(SCREEN_LEFT+35,SCREEN_TOP+384+15,SCREEN_LEFT+37,SCREEN_TOP+416);
+	elseif graph_thingy_p1[11] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyTwelveActorP1"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyTwelveActorP1"):stretchto(SCREEN_LEFT+35,SCREEN_TOP+384+20,SCREEN_LEFT+37,SCREEN_TOP+416);
+	elseif graph_thingy_p1[11] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyTwelveActorP1"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyTwelveActorP1"):stretchto(SCREEN_LEFT+35,SCREEN_TOP+384+25,SCREEN_LEFT+37,SCREEN_TOP+416);
+	elseif graph_thingy_p1[11] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyTwelveActorP1"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyTwelveActorP1"):stretchto(SCREEN_LEFT+35,SCREEN_TOP+384,SCREEN_LEFT+37,SCREEN_TOP+416);
+	elseif graph_thingy_p1[11] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyTwelveActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyTwelveActorP1"):stretchto(SCREEN_LEFT+35,SCREEN_TOP+384+25,SCREEN_LEFT+37,SCREEN_TOP+416);
+	elseif graph_thingy_p1[11] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyTwelveActorP1"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyTwelveActorP1"):stretchto(SCREEN_LEFT+35,SCREEN_TOP+384+25,SCREEN_LEFT+37,SCREEN_TOP+416);
+	elseif graph_thingy_p1[11] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyTwelveActorP1"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyTwelveActorP1"):stretchto(SCREEN_LEFT+35,SCREEN_TOP+384,SCREEN_LEFT+37,SCREEN_TOP+416);
+	elseif graph_thingy_p1[11] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyTwelveActorP1"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyTwelveActorP1"):stretchto(SCREEN_LEFT+35,SCREEN_TOP+384,SCREEN_LEFT+37,SCREEN_TOP+416);
+	elseif graph_thingy_p1[11] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyTwelveActorP1"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyTwelveActorP1"):stretchto(SCREEN_LEFT+35,SCREEN_TOP+384+25,SCREEN_LEFT+37,SCREEN_TOP+416);
+	elseif graph_thingy_p1[11] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyTwelveActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyTwelveActorP1"):stretchto(SCREEN_LEFT+35,SCREEN_TOP+384+25,SCREEN_LEFT+37,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyTwelveActorP1"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyTwelveActorP1"):stretchto(SCREEN_LEFT+35,SCREEN_TOP+384+25,SCREEN_LEFT+37,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyThirteenActorP1"):finishtweening();
+	if graph_thingy_p1[12] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyThirteenActorP1"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyThirteenActorP1"):stretchto(SCREEN_LEFT+38,SCREEN_TOP+384,SCREEN_LEFT+40,SCREEN_TOP+416);
+	elseif graph_thingy_p1[12] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyThirteenActorP1"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyThirteenActorP1"):stretchto(SCREEN_LEFT+38,SCREEN_TOP+384+5,SCREEN_LEFT+40,SCREEN_TOP+416);
+	elseif graph_thingy_p1[12] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyThirteenActorP1"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyThirteenActorP1"):stretchto(SCREEN_LEFT+38,SCREEN_TOP+384+10,SCREEN_LEFT+40,SCREEN_TOP+416);
+	elseif graph_thingy_p1[12] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyThirteenActorP1"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyThirteenActorP1"):stretchto(SCREEN_LEFT+38,SCREEN_TOP+384+15,SCREEN_LEFT+40,SCREEN_TOP+416);
+	elseif graph_thingy_p1[12] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyThirteenActorP1"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyThirteenActorP1"):stretchto(SCREEN_LEFT+38,SCREEN_TOP+384+20,SCREEN_LEFT+40,SCREEN_TOP+416);
+	elseif graph_thingy_p1[12] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyThirteenActorP1"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyThirteenActorP1"):stretchto(SCREEN_LEFT+38,SCREEN_TOP+384+25,SCREEN_LEFT+40,SCREEN_TOP+416);
+	elseif graph_thingy_p1[12] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyThirteenActorP1"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyThirteenActorP1"):stretchto(SCREEN_LEFT+38,SCREEN_TOP+384,SCREEN_LEFT+40,SCREEN_TOP+416);
+	elseif graph_thingy_p1[12] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyThirteenActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyThirteenActorP1"):stretchto(SCREEN_LEFT+38,SCREEN_TOP+384+25,SCREEN_LEFT+40,SCREEN_TOP+416);
+	elseif graph_thingy_p1[12] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyThirteenActorP1"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyThirteenActorP1"):stretchto(SCREEN_LEFT+38,SCREEN_TOP+384+25,SCREEN_LEFT+40,SCREEN_TOP+416);
+	elseif graph_thingy_p1[12] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyThirteenActorP1"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyThirteenActorP1"):stretchto(SCREEN_LEFT+38,SCREEN_TOP+384,SCREEN_LEFT+40,SCREEN_TOP+416);
+	elseif graph_thingy_p1[12] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyThirteenActorP1"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyThirteenActorP1"):stretchto(SCREEN_LEFT+38,SCREEN_TOP+384,SCREEN_LEFT+40,SCREEN_TOP+416);
+	elseif graph_thingy_p1[12] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyThirteenActorP1"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyThirteenActorP1"):stretchto(SCREEN_LEFT+38,SCREEN_TOP+384+25,SCREEN_LEFT+40,SCREEN_TOP+416);
+	elseif graph_thingy_p1[12] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyThirteenActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyThirteenActorP1"):stretchto(SCREEN_LEFT+38,SCREEN_TOP+384+25,SCREEN_LEFT+40,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyThirteenActorP1"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyThirteenActorP1"):stretchto(SCREEN_LEFT+38,SCREEN_TOP+384+25,SCREEN_LEFT+40,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyFourteenActorP1"):finishtweening();
+	if graph_thingy_p1[13] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyFourteenActorP1"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyFourteenActorP1"):stretchto(SCREEN_LEFT+41,SCREEN_TOP+384,SCREEN_LEFT+43,SCREEN_TOP+416);
+	elseif graph_thingy_p1[13] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyFourteenActorP1"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyFourteenActorP1"):stretchto(SCREEN_LEFT+41,SCREEN_TOP+384+5,SCREEN_LEFT+43,SCREEN_TOP+416);
+	elseif graph_thingy_p1[13] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyFourteenActorP1"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyFourteenActorP1"):stretchto(SCREEN_LEFT+41,SCREEN_TOP+384+10,SCREEN_LEFT+43,SCREEN_TOP+416);
+	elseif graph_thingy_p1[13] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyFourteenActorP1"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyFourteenActorP1"):stretchto(SCREEN_LEFT+41,SCREEN_TOP+384+15,SCREEN_LEFT+43,SCREEN_TOP+416);
+	elseif graph_thingy_p1[13] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyFourteenActorP1"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyFourteenActorP1"):stretchto(SCREEN_LEFT+41,SCREEN_TOP+384+20,SCREEN_LEFT+43,SCREEN_TOP+416);
+	elseif graph_thingy_p1[13] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyFourteenActorP1"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyFourteenActorP1"):stretchto(SCREEN_LEFT+41,SCREEN_TOP+384+25,SCREEN_LEFT+43,SCREEN_TOP+416);
+	elseif graph_thingy_p1[13] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyFourteenActorP1"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyFourteenActorP1"):stretchto(SCREEN_LEFT+41,SCREEN_TOP+384,SCREEN_LEFT+43,SCREEN_TOP+416);
+	elseif graph_thingy_p1[13] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyFourteenActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyFourteenActorP1"):stretchto(SCREEN_LEFT+41,SCREEN_TOP+384+25,SCREEN_LEFT+43,SCREEN_TOP+416);
+	elseif graph_thingy_p1[13] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyFourteenActorP1"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyFourteenActorP1"):stretchto(SCREEN_LEFT+41,SCREEN_TOP+384+25,SCREEN_LEFT+43,SCREEN_TOP+416);
+	elseif graph_thingy_p1[13] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyFourteenActorP1"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyFourteenActorP1"):stretchto(SCREEN_LEFT+41,SCREEN_TOP+384,SCREEN_LEFT+43,SCREEN_TOP+416);
+	elseif graph_thingy_p1[13] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyFourteenActorP1"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyFourteenActorP1"):stretchto(SCREEN_LEFT+41,SCREEN_TOP+384,SCREEN_LEFT+43,SCREEN_TOP+416);
+	elseif graph_thingy_p1[13] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyFourteenActorP1"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyFourteenActorP1"):stretchto(SCREEN_LEFT+41,SCREEN_TOP+384+25,SCREEN_LEFT+43,SCREEN_TOP+416);
+	elseif graph_thingy_p1[13] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyFourteenActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyFourteenActorP1"):stretchto(SCREEN_LEFT+41,SCREEN_TOP+384+25,SCREEN_LEFT+43,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyFourteenActorP1"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyFourteenActorP1"):stretchto(SCREEN_LEFT+41,SCREEN_TOP+384+25,SCREEN_LEFT+43,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyFifthteenActorP1"):finishtweening();
+	if graph_thingy_p1[14] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyFifthteenActorP1"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyFifthteenActorP1"):stretchto(SCREEN_LEFT+44,SCREEN_TOP+384,SCREEN_LEFT+46,SCREEN_TOP+416);
+	elseif graph_thingy_p1[14] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyFifthteenActorP1"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyFifthteenActorP1"):stretchto(SCREEN_LEFT+44,SCREEN_TOP+384+5,SCREEN_LEFT+46,SCREEN_TOP+416);
+	elseif graph_thingy_p1[14] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyFifthteenActorP1"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyFifthteenActorP1"):stretchto(SCREEN_LEFT+44,SCREEN_TOP+384+10,SCREEN_LEFT+46,SCREEN_TOP+416);
+	elseif graph_thingy_p1[14] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyFifthteenActorP1"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyFifthteenActorP1"):stretchto(SCREEN_LEFT+44,SCREEN_TOP+384+15,SCREEN_LEFT+46,SCREEN_TOP+416);
+	elseif graph_thingy_p1[14] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyFifthteenActorP1"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyFifthteenActorP1"):stretchto(SCREEN_LEFT+44,SCREEN_TOP+384+20,SCREEN_LEFT+46,SCREEN_TOP+416);
+	elseif graph_thingy_p1[14] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyFifthteenActorP1"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyFifthteenActorP1"):stretchto(SCREEN_LEFT+44,SCREEN_TOP+384+25,SCREEN_LEFT+46,SCREEN_TOP+416);
+	elseif graph_thingy_p1[14] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyFifthteenActorP1"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyFifthteenActorP1"):stretchto(SCREEN_LEFT+44,SCREEN_TOP+384,SCREEN_LEFT+46,SCREEN_TOP+416);
+	elseif graph_thingy_p1[14] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyFifthteenActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyFifthteenActorP1"):stretchto(SCREEN_LEFT+44,SCREEN_TOP+384+25,SCREEN_LEFT+46,SCREEN_TOP+416);
+	elseif graph_thingy_p1[14] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyFifthteenActorP1"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyFifthteenActorP1"):stretchto(SCREEN_LEFT+44,SCREEN_TOP+384+25,SCREEN_LEFT+46,SCREEN_TOP+416);
+	elseif graph_thingy_p1[14] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyFifthteenActorP1"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyFifthteenActorP1"):stretchto(SCREEN_LEFT+44,SCREEN_TOP+384,SCREEN_LEFT+46,SCREEN_TOP+416);
+	elseif graph_thingy_p1[14] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyFifthteenActorP1"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyFifthteenActorP1"):stretchto(SCREEN_LEFT+44,SCREEN_TOP+384,SCREEN_LEFT+46,SCREEN_TOP+416);
+	elseif graph_thingy_p1[14] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyFifthteenActorP1"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyFifthteenActorP1"):stretchto(SCREEN_LEFT+44,SCREEN_TOP+384+25,SCREEN_LEFT+46,SCREEN_TOP+416);
+	elseif graph_thingy_p1[14] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyFifthteenActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyFifthteenActorP1"):stretchto(SCREEN_LEFT+44,SCREEN_TOP+384+25,SCREEN_LEFT+46,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyFifthteenActorP1"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyFifthteenActorP1"):stretchto(SCREEN_LEFT+44,SCREEN_TOP+384+25,SCREEN_LEFT+46,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingySixthteenActorP1"):finishtweening();
+	if graph_thingy_p1[15] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingySixthteenActorP1"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingySixthteenActorP1"):stretchto(SCREEN_LEFT+47,SCREEN_TOP+384,SCREEN_LEFT+49,SCREEN_TOP+416);
+	elseif graph_thingy_p1[15] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingySixthteenActorP1"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingySixthteenActorP1"):stretchto(SCREEN_LEFT+47,SCREEN_TOP+384+5,SCREEN_LEFT+49,SCREEN_TOP+416);
+	elseif graph_thingy_p1[15] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingySixthteenActorP1"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingySixthteenActorP1"):stretchto(SCREEN_LEFT+47,SCREEN_TOP+384+10,SCREEN_LEFT+49,SCREEN_TOP+416);
+	elseif graph_thingy_p1[15] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingySixthteenActorP1"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingySixthteenActorP1"):stretchto(SCREEN_LEFT+47,SCREEN_TOP+384+15,SCREEN_LEFT+49,SCREEN_TOP+416);
+	elseif graph_thingy_p1[15] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingySixthteenActorP1"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingySixthteenActorP1"):stretchto(SCREEN_LEFT+47,SCREEN_TOP+384+20,SCREEN_LEFT+49,SCREEN_TOP+416);
+	elseif graph_thingy_p1[15] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingySixthteenActorP1"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingySixthteenActorP1"):stretchto(SCREEN_LEFT+47,SCREEN_TOP+384+25,SCREEN_LEFT+49,SCREEN_TOP+416);
+	elseif graph_thingy_p1[15] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingySixthteenActorP1"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingySixthteenActorP1"):stretchto(SCREEN_LEFT+47,SCREEN_TOP+384,SCREEN_LEFT+49,SCREEN_TOP+416);
+	elseif graph_thingy_p1[15] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingySixthteenActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingySixthteenActorP1"):stretchto(SCREEN_LEFT+47,SCREEN_TOP+384+25,SCREEN_LEFT+49,SCREEN_TOP+416);
+	elseif graph_thingy_p1[15] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingySixthteenActorP1"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingySixthteenActorP1"):stretchto(SCREEN_LEFT+47,SCREEN_TOP+384+25,SCREEN_LEFT+49,SCREEN_TOP+416);
+	elseif graph_thingy_p1[15] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingySixthteenActorP1"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingySixthteenActorP1"):stretchto(SCREEN_LEFT+47,SCREEN_TOP+384,SCREEN_LEFT+49,SCREEN_TOP+416);
+	elseif graph_thingy_p1[15] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingySixthteenActorP1"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingySixthteenActorP1"):stretchto(SCREEN_LEFT+47,SCREEN_TOP+384,SCREEN_LEFT+49,SCREEN_TOP+416);
+	elseif graph_thingy_p1[15] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingySixthteenActorP1"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingySixthteenActorP1"):stretchto(SCREEN_LEFT+47,SCREEN_TOP+384+25,SCREEN_LEFT+49,SCREEN_TOP+416);
+	elseif graph_thingy_p1[15] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingySixthteenActorP1"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingySixthteenActorP1"):stretchto(SCREEN_LEFT+47,SCREEN_TOP+384+25,SCREEN_LEFT+49,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingySixthteenActorP1"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingySixthteenActorP1"):stretchto(SCREEN_LEFT+47,SCREEN_TOP+384+25,SCREEN_LEFT+49,SCREEN_TOP+416);
+	end;
+end
+
+-- WIP function
+
+function UpdateGraphTimeP2(self)
+	self:GetChild("GraphThingyOneActorP2"):finishtweening();
+	if graph_thingy_p2[0] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyOneActorP2"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyOneActorP2"):stretchto(SCREEN_LEFT+805,SCREEN_TOP+384,SCREEN_LEFT+807,SCREEN_TOP+416);
+	elseif graph_thingy_p2[0] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyOneActorP2"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyOneActorP2"):stretchto(SCREEN_LEFT+805,SCREEN_TOP+384,SCREEN_LEFT+807,SCREEN_TOP+416);
+	elseif graph_thingy_p2[0] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyOneActorP2"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyOneActorP2"):stretchto(SCREEN_LEFT+805,SCREEN_TOP+384,SCREEN_LEFT+807,SCREEN_TOP+416);
+	elseif graph_thingy_p2[0] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyOneActorP2"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyOneActorP2"):stretchto(SCREEN_LEFT+805,SCREEN_TOP+384,SCREEN_LEFT+807,SCREEN_TOP+416);
+	elseif graph_thingy_p2[0] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyOneActorP2"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyOneActorP2"):stretchto(SCREEN_LEFT+805,SCREEN_TOP+384,SCREEN_LEFT+807,SCREEN_TOP+416);
+	elseif graph_thingy_p2[0] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyOneActorP2"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyOneActorP2"):stretchto(SCREEN_LEFT+805,SCREEN_TOP+384,SCREEN_LEFT+807,SCREEN_TOP+416);
+	elseif graph_thingy_p2[0] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyOneActorP2"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyOneActorP2"):stretchto(SCREEN_LEFT+805,SCREEN_TOP+384,SCREEN_LEFT+807,SCREEN_TOP+416);
+	elseif graph_thingy_p2[0] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyOneActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyOneActorP2"):stretchto(SCREEN_LEFT+805,SCREEN_TOP+384,SCREEN_LEFT+807,SCREEN_TOP+416);
+	elseif graph_thingy_p2[0] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyOneActorP2"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyOneActorP2"):stretchto(SCREEN_LEFT+805,SCREEN_TOP+384,SCREEN_LEFT+807,SCREEN_TOP+416);
+	elseif graph_thingy_p2[0] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyOneActorP2"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyOneActorP2"):stretchto(SCREEN_LEFT+805,SCREEN_TOP+384,SCREEN_LEFT+807,SCREEN_TOP+416);
+	elseif graph_thingy_p2[0] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyOneActorP2"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyOneActorP2"):stretchto(SCREEN_LEFT+805,SCREEN_TOP+384,SCREEN_LEFT+807,SCREEN_TOP+416);
+	elseif graph_thingy_p2[0] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyOneActorP2"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyOneActorP2"):stretchto(SCREEN_LEFT+805,SCREEN_TOP+384,SCREEN_LEFT+807,SCREEN_TOP+416);
+	elseif graph_thingy_p2[0] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyOneActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyOneActorP2"):stretchto(SCREEN_LEFT+805,SCREEN_TOP+384,SCREEN_LEFT+807,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyOneActorP2"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyOneActorP2"):stretchto(SCREEN_LEFT+805,SCREEN_TOP+384,SCREEN_LEFT+807,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyTwoActorP2"):finishtweening();
+	if graph_thingy_p2[1] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyTwoActorP2"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyTwoActorP2"):stretchto(SCREEN_LEFT+808,SCREEN_TOP+384,SCREEN_LEFT+810,SCREEN_TOP+416);
+	elseif graph_thingy_p2[1] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyTwoActorP2"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyTwoActorP2"):stretchto(SCREEN_LEFT+808,SCREEN_TOP+384,SCREEN_LEFT+810,SCREEN_TOP+416);
+	elseif graph_thingy_p2[1] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyTwoActorP2"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyTwoActorP2"):stretchto(SCREEN_LEFT+808,SCREEN_TOP+384,SCREEN_LEFT+810,SCREEN_TOP+416);
+	elseif graph_thingy_p2[1] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyTwoActorP2"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyTwoActorP2"):stretchto(SCREEN_LEFT+808,SCREEN_TOP+384,SCREEN_LEFT+810,SCREEN_TOP+416);
+	elseif graph_thingy_p2[1] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyTwoActorP2"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyTwoActorP2"):stretchto(SCREEN_LEFT+808,SCREEN_TOP+384,SCREEN_LEFT+810,SCREEN_TOP+416);
+	elseif graph_thingy_p2[1] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyTwoActorP2"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyTwoActorP2"):stretchto(SCREEN_LEFT+808,SCREEN_TOP+384,SCREEN_LEFT+810,SCREEN_TOP+416);
+	elseif graph_thingy_p2[1] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyTwoActorP2"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyTwoActorP2"):stretchto(SCREEN_LEFT+808,SCREEN_TOP+384,SCREEN_LEFT+810,SCREEN_TOP+416);
+	elseif graph_thingy_p2[1] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyTwoActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyTwoActorP2"):stretchto(SCREEN_LEFT+808,SCREEN_TOP+384,SCREEN_LEFT+810,SCREEN_TOP+416);
+	elseif graph_thingy_p2[1] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyTwoActorP2"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyTwoActorP2"):stretchto(SCREEN_LEFT+808,SCREEN_TOP+384,SCREEN_LEFT+810,SCREEN_TOP+416);
+	elseif graph_thingy_p2[1] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyTwoActorP2"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyTwoActorP2"):stretchto(SCREEN_LEFT+808,SCREEN_TOP+384,SCREEN_LEFT+810,SCREEN_TOP+416);
+	elseif graph_thingy_p2[1] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyTwoActorP2"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyTwoActorP2"):stretchto(SCREEN_LEFT+808,SCREEN_TOP+384,SCREEN_LEFT+810,SCREEN_TOP+416);
+	elseif graph_thingy_p2[1] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyTwoActorP2"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyTwoActorP2"):stretchto(SCREEN_LEFT+808,SCREEN_TOP+384,SCREEN_LEFT+810,SCREEN_TOP+416);
+	elseif graph_thingy_p2[1] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyTwoActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyTwoActorP2"):stretchto(SCREEN_LEFT+808,SCREEN_TOP+384,SCREEN_LEFT+810,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyTwoActorP2"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyTwoActorP2"):stretchto(SCREEN_LEFT+808,SCREEN_TOP+384,SCREEN_LEFT+810,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyThreeActorP2"):finishtweening();
+	if graph_thingy_p2[2] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyThreeActorP2"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyThreeActorP2"):stretchto(SCREEN_LEFT+811,SCREEN_TOP+384,SCREEN_LEFT+813,SCREEN_TOP+416);
+	elseif graph_thingy_p2[2] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyThreeActorP2"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyThreeActorP2"):stretchto(SCREEN_LEFT+811,SCREEN_TOP+384,SCREEN_LEFT+813,SCREEN_TOP+416);
+	elseif graph_thingy_p2[2] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyThreeActorP2"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyThreeActorP2"):stretchto(SCREEN_LEFT+811,SCREEN_TOP+384,SCREEN_LEFT+813,SCREEN_TOP+416);
+	elseif graph_thingy_p2[2] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyThreeActorP2"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyThreeActorP2"):stretchto(SCREEN_LEFT+811,SCREEN_TOP+384,SCREEN_LEFT+813,SCREEN_TOP+416);
+	elseif graph_thingy_p2[2] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyThreeActorP2"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyThreeActorP2"):stretchto(SCREEN_LEFT+811,SCREEN_TOP+384,SCREEN_LEFT+813,SCREEN_TOP+416);
+	elseif graph_thingy_p2[2] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyThreeActorP2"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyThreeActorP2"):stretchto(SCREEN_LEFT+811,SCREEN_TOP+384,SCREEN_LEFT+813,SCREEN_TOP+416);
+	elseif graph_thingy_p2[2] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyThreeActorP2"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyThreeActorP2"):stretchto(SCREEN_LEFT+811,SCREEN_TOP+384,SCREEN_LEFT+813,SCREEN_TOP+416);
+	elseif graph_thingy_p2[2] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyThreeActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyThreeActorP2"):stretchto(SCREEN_LEFT+811,SCREEN_TOP+384,SCREEN_LEFT+813,SCREEN_TOP+416);
+	elseif graph_thingy_p2[2] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyThreeActorP2"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyThreeActorP2"):stretchto(SCREEN_LEFT+811,SCREEN_TOP+384,SCREEN_LEFT+813,SCREEN_TOP+416);
+	elseif graph_thingy_p2[2] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyThreeActorP2"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyThreeActorP2"):stretchto(SCREEN_LEFT+811,SCREEN_TOP+384,SCREEN_LEFT+813,SCREEN_TOP+416);
+	elseif graph_thingy_p2[2] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyThreeActorP2"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyThreeActorP2"):stretchto(SCREEN_LEFT+811,SCREEN_TOP+384,SCREEN_LEFT+813,SCREEN_TOP+416);
+	elseif graph_thingy_p2[2] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyThreeActorP2"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyThreeActorP2"):stretchto(SCREEN_LEFT+811,SCREEN_TOP+384,SCREEN_LEFT+813,SCREEN_TOP+416);
+	elseif graph_thingy_p2[2] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyThreeActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyThreeActorP2"):stretchto(SCREEN_LEFT+811,SCREEN_TOP+384,SCREEN_LEFT+813,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyThreeActorP2"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyThreeActorP2"):stretchto(SCREEN_LEFT+811,SCREEN_TOP+384,SCREEN_LEFT+813,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyFourActorP2"):finishtweening();
+	if graph_thingy_p2[3] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyFourActorP2"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyFourActorP2"):stretchto(SCREEN_LEFT+814,SCREEN_TOP+384,SCREEN_LEFT+816,SCREEN_TOP+416);
+	elseif graph_thingy_p2[3] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyFourActorP2"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyFourActorP2"):stretchto(SCREEN_LEFT+814,SCREEN_TOP+384,SCREEN_LEFT+816,SCREEN_TOP+416);
+	elseif graph_thingy_p2[3] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyFourActorP2"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyFourActorP2"):stretchto(SCREEN_LEFT+814,SCREEN_TOP+384,SCREEN_LEFT+816,SCREEN_TOP+416);
+	elseif graph_thingy_p2[3] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyFourActorP2"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyFourActorP2"):stretchto(SCREEN_LEFT+814,SCREEN_TOP+384,SCREEN_LEFT+816,SCREEN_TOP+416);
+	elseif graph_thingy_p2[3] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyFourActorP2"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyFourActorP2"):stretchto(SCREEN_LEFT+814,SCREEN_TOP+384,SCREEN_LEFT+816,SCREEN_TOP+416);
+	elseif graph_thingy_p2[3] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyFourActorP2"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyFourActorP2"):stretchto(SCREEN_LEFT+814,SCREEN_TOP+384,SCREEN_LEFT+816,SCREEN_TOP+416);
+	elseif graph_thingy_p2[3] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyFourActorP2"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyFourActorP2"):stretchto(SCREEN_LEFT+814,SCREEN_TOP+384,SCREEN_LEFT+816,SCREEN_TOP+416);
+	elseif graph_thingy_p2[3] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyFourActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyFourActorP2"):stretchto(SCREEN_LEFT+814,SCREEN_TOP+384,SCREEN_LEFT+816,SCREEN_TOP+416);
+	elseif graph_thingy_p2[3] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyFourActorP2"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyFourActorP2"):stretchto(SCREEN_LEFT+814,SCREEN_TOP+384,SCREEN_LEFT+816,SCREEN_TOP+416);
+	elseif graph_thingy_p2[3] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyFourActorP2"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyFourActorP2"):stretchto(SCREEN_LEFT+814,SCREEN_TOP+384,SCREEN_LEFT+816,SCREEN_TOP+416);
+	elseif graph_thingy_p2[3] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyFourActorP2"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyFourActorP2"):stretchto(SCREEN_LEFT+814,SCREEN_TOP+384,SCREEN_LEFT+816,SCREEN_TOP+416);
+	elseif graph_thingy_p2[3] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyFourActorP2"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyFourActorP2"):stretchto(SCREEN_LEFT+814,SCREEN_TOP+384,SCREEN_LEFT+816,SCREEN_TOP+416);
+	elseif graph_thingy_p2[3] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyFourActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyFourActorP2"):stretchto(SCREEN_LEFT+814,SCREEN_TOP+384,SCREEN_LEFT+816,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyFourActorP2"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyFourActorP2"):stretchto(SCREEN_LEFT+814,SCREEN_TOP+384,SCREEN_LEFT+816,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyFiveActorP2"):finishtweening();
+	if graph_thingy_p2[4] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyFiveActorP2"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyFiveActorP2"):stretchto(SCREEN_LEFT+817,SCREEN_TOP+384,SCREEN_LEFT+819,SCREEN_TOP+416);
+	elseif graph_thingy_p2[4] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyFiveActorP2"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyFiveActorP2"):stretchto(SCREEN_LEFT+817,SCREEN_TOP+384,SCREEN_LEFT+819,SCREEN_TOP+416);
+	elseif graph_thingy_p2[4] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyFiveActorP2"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyFiveActorP2"):stretchto(SCREEN_LEFT+817,SCREEN_TOP+384,SCREEN_LEFT+819,SCREEN_TOP+416);
+	elseif graph_thingy_p2[4] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyFiveActorP2"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyFiveActorP2"):stretchto(SCREEN_LEFT+817,SCREEN_TOP+384,SCREEN_LEFT+819,SCREEN_TOP+416);
+	elseif graph_thingy_p2[4] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyFiveActorP2"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyFiveActorP2"):stretchto(SCREEN_LEFT+817,SCREEN_TOP+384,SCREEN_LEFT+819,SCREEN_TOP+416);
+	elseif graph_thingy_p2[4] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyFiveActorP2"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyFiveActorP2"):stretchto(SCREEN_LEFT+817,SCREEN_TOP+384,SCREEN_LEFT+819,SCREEN_TOP+416);
+	elseif graph_thingy_p2[4] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyFiveActorP2"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyFiveActorP2"):stretchto(SCREEN_LEFT+817,SCREEN_TOP+384,SCREEN_LEFT+819,SCREEN_TOP+416);
+	elseif graph_thingy_p2[4] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyFiveActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyFiveActorP2"):stretchto(SCREEN_LEFT+817,SCREEN_TOP+384,SCREEN_LEFT+819,SCREEN_TOP+416);
+	elseif graph_thingy_p2[4] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyFiveActorP2"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyFiveActorP2"):stretchto(SCREEN_LEFT+817,SCREEN_TOP+384,SCREEN_LEFT+819,SCREEN_TOP+416);
+	elseif graph_thingy_p2[4] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyFiveActorP2"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyFiveActorP2"):stretchto(SCREEN_LEFT+817,SCREEN_TOP+384,SCREEN_LEFT+819,SCREEN_TOP+416);
+	elseif graph_thingy_p2[4] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyFiveActorP2"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyFiveActorP2"):stretchto(SCREEN_LEFT+817,SCREEN_TOP+384,SCREEN_LEFT+819,SCREEN_TOP+416);
+	elseif graph_thingy_p2[4] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyFiveActorP2"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyFiveActorP2"):stretchto(SCREEN_LEFT+817,SCREEN_TOP+384,SCREEN_LEFT+819,SCREEN_TOP+416);
+	elseif graph_thingy_p2[4] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyFiveActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyFiveActorP2"):stretchto(SCREEN_LEFT+817,SCREEN_TOP+384,SCREEN_LEFT+819,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyFiveActorP2"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyFiveActorP2"):stretchto(SCREEN_LEFT+817,SCREEN_TOP+384,SCREEN_LEFT+819,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingySixActorP2"):finishtweening();
+	if graph_thingy_p2[5] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingySixActorP2"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingySixActorP2"):stretchto(SCREEN_LEFT+820,SCREEN_TOP+384,SCREEN_LEFT+822,SCREEN_TOP+416);
+	elseif graph_thingy_p2[5] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingySixActorP2"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingySixActorP2"):stretchto(SCREEN_LEFT+820,SCREEN_TOP+384,SCREEN_LEFT+822,SCREEN_TOP+416);
+	elseif graph_thingy_p2[5] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingySixActorP2"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingySixActorP2"):stretchto(SCREEN_LEFT+820,SCREEN_TOP+384,SCREEN_LEFT+822,SCREEN_TOP+416);
+	elseif graph_thingy_p2[5] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingySixActorP2"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingySixActorP2"):stretchto(SCREEN_LEFT+820,SCREEN_TOP+384,SCREEN_LEFT+822,SCREEN_TOP+416);
+	elseif graph_thingy_p2[5] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingySixActorP2"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingySixActorP2"):stretchto(SCREEN_LEFT+820,SCREEN_TOP+384,SCREEN_LEFT+822,SCREEN_TOP+416);
+	elseif graph_thingy_p2[5] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingySixActorP2"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingySixActorP2"):stretchto(SCREEN_LEFT+820,SCREEN_TOP+384,SCREEN_LEFT+822,SCREEN_TOP+416);
+	elseif graph_thingy_p2[5] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingySixActorP2"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingySixActorP2"):stretchto(SCREEN_LEFT+820,SCREEN_TOP+384,SCREEN_LEFT+822,SCREEN_TOP+416);
+	elseif graph_thingy_p2[5] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingySixActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingySixActorP2"):stretchto(SCREEN_LEFT+820,SCREEN_TOP+384,SCREEN_LEFT+822,SCREEN_TOP+416);
+	elseif graph_thingy_p2[5] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingySixActorP2"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingySixActorP2"):stretchto(SCREEN_LEFT+820,SCREEN_TOP+384,SCREEN_LEFT+822,SCREEN_TOP+416);
+	elseif graph_thingy_p2[5] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingySixActorP2"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingySixActorP2"):stretchto(SCREEN_LEFT+820,SCREEN_TOP+384,SCREEN_LEFT+822,SCREEN_TOP+416);
+	elseif graph_thingy_p2[5] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingySixActorP2"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingySixActorP2"):stretchto(SCREEN_LEFT+820,SCREEN_TOP+384,SCREEN_LEFT+822,SCREEN_TOP+416);
+	elseif graph_thingy_p2[5] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingySixActorP2"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingySixActorP2"):stretchto(SCREEN_LEFT+820,SCREEN_TOP+384,SCREEN_LEFT+822,SCREEN_TOP+416);
+	elseif graph_thingy_p2[5] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingySixActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingySixActorP2"):stretchto(SCREEN_LEFT+820,SCREEN_TOP+384,SCREEN_LEFT+822,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingySixActorP2"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingySixActorP2"):stretchto(SCREEN_LEFT+820,SCREEN_TOP+384,SCREEN_LEFT+822,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingySevenActorP2"):finishtweening();
+	if graph_thingy_p2[6] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingySevenActorP2"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingySevenActorP2"):stretchto(SCREEN_LEFT+823,SCREEN_TOP+384,SCREEN_LEFT+825,SCREEN_TOP+416);
+	elseif graph_thingy_p2[6] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingySevenActorP2"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingySevenActorP2"):stretchto(SCREEN_LEFT+823,SCREEN_TOP+384,SCREEN_LEFT+825,SCREEN_TOP+416);
+	elseif graph_thingy_p2[6] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingySevenActorP2"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingySevenActorP2"):stretchto(SCREEN_LEFT+823,SCREEN_TOP+384,SCREEN_LEFT+825,SCREEN_TOP+416);
+	elseif graph_thingy_p2[6] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingySevenActorP2"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingySevenActorP2"):stretchto(SCREEN_LEFT+823,SCREEN_TOP+384,SCREEN_LEFT+825,SCREEN_TOP+416);
+	elseif graph_thingy_p2[6] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingySevenActorP2"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingySevenActorP2"):stretchto(SCREEN_LEFT+823,SCREEN_TOP+384,SCREEN_LEFT+825,SCREEN_TOP+416);
+	elseif graph_thingy_p2[6] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingySevenActorP2"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingySevenActorP2"):stretchto(SCREEN_LEFT+823,SCREEN_TOP+384,SCREEN_LEFT+825,SCREEN_TOP+416);
+	elseif graph_thingy_p2[6] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingySevenActorP2"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingySevenActorP2"):stretchto(SCREEN_LEFT+823,SCREEN_TOP+384,SCREEN_LEFT+825,SCREEN_TOP+416);
+	elseif graph_thingy_p2[6] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingySevenActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingySevenActorP2"):stretchto(SCREEN_LEFT+823,SCREEN_TOP+384,SCREEN_LEFT+825,SCREEN_TOP+416);
+	elseif graph_thingy_p2[6] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingySevenActorP2"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingySevenActorP2"):stretchto(SCREEN_LEFT+823,SCREEN_TOP+384,SCREEN_LEFT+825,SCREEN_TOP+416);
+	elseif graph_thingy_p2[6] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingySevenActorP2"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingySevenActorP2"):stretchto(SCREEN_LEFT+823,SCREEN_TOP+384,SCREEN_LEFT+825,SCREEN_TOP+416);
+	elseif graph_thingy_p2[6] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingySevenActorP2"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingySevenActorP2"):stretchto(SCREEN_LEFT+823,SCREEN_TOP+384,SCREEN_LEFT+825,SCREEN_TOP+416);
+	elseif graph_thingy_p2[6] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingySevenActorP2"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingySevenActorP2"):stretchto(SCREEN_LEFT+823,SCREEN_TOP+384,SCREEN_LEFT+825,SCREEN_TOP+416);
+	elseif graph_thingy_p2[6] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingySevenActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingySevenActorP2"):stretchto(SCREEN_LEFT+823,SCREEN_TOP+384,SCREEN_LEFT+825,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingySevenActorP2"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingySevenActorP2"):stretchto(SCREEN_LEFT+823,SCREEN_TOP+384,SCREEN_LEFT+825,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyEightActorP2"):finishtweening();
+	if graph_thingy_p2[7] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyEightActorP2"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyEightActorP2"):stretchto(SCREEN_LEFT+826,SCREEN_TOP+384,SCREEN_LEFT+828,SCREEN_TOP+416);
+	elseif graph_thingy_p2[7] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyEightActorP2"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyEightActorP2"):stretchto(SCREEN_LEFT+826,SCREEN_TOP+384,SCREEN_LEFT+828,SCREEN_TOP+416);
+	elseif graph_thingy_p2[7] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyEightActorP2"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyEightActorP2"):stretchto(SCREEN_LEFT+826,SCREEN_TOP+384,SCREEN_LEFT+828,SCREEN_TOP+416);
+	elseif graph_thingy_p2[7] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyEightActorP2"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyEightActorP2"):stretchto(SCREEN_LEFT+826,SCREEN_TOP+384,SCREEN_LEFT+828,SCREEN_TOP+416);
+	elseif graph_thingy_p2[7] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyEightActorP2"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyEightActorP2"):stretchto(SCREEN_LEFT+826,SCREEN_TOP+384,SCREEN_LEFT+828,SCREEN_TOP+416);
+	elseif graph_thingy_p2[7] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyEightActorP2"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyEightActorP2"):stretchto(SCREEN_LEFT+826,SCREEN_TOP+384,SCREEN_LEFT+828,SCREEN_TOP+416);
+	elseif graph_thingy_p2[7] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyEightActorP2"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyEightActorP2"):stretchto(SCREEN_LEFT+826,SCREEN_TOP+384,SCREEN_LEFT+828,SCREEN_TOP+416);
+	elseif graph_thingy_p2[7] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyEightActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyEightActorP2"):stretchto(SCREEN_LEFT+826,SCREEN_TOP+384,SCREEN_LEFT+828,SCREEN_TOP+416);
+	elseif graph_thingy_p2[7] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyEightActorP2"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyEightActorP2"):stretchto(SCREEN_LEFT+826,SCREEN_TOP+384,SCREEN_LEFT+828,SCREEN_TOP+416);
+	elseif graph_thingy_p2[7] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyEightActorP2"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyEightActorP2"):stretchto(SCREEN_LEFT+826,SCREEN_TOP+384,SCREEN_LEFT+828,SCREEN_TOP+416);
+	elseif graph_thingy_p2[7] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyEightActorP2"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyEightActorP2"):stretchto(SCREEN_LEFT+826,SCREEN_TOP+384,SCREEN_LEFT+828,SCREEN_TOP+416);
+	elseif graph_thingy_p2[7] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyEightActorP2"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyEightActorP2"):stretchto(SCREEN_LEFT+826,SCREEN_TOP+384,SCREEN_LEFT+828,SCREEN_TOP+416);
+	elseif graph_thingy_p2[7] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyEightActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyEightActorP2"):stretchto(SCREEN_LEFT+826,SCREEN_TOP+384,SCREEN_LEFT+828,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyEightActorP2"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyEightActorP2"):stretchto(SCREEN_LEFT+826,SCREEN_TOP+384,SCREEN_LEFT+828,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyNineActorP2"):finishtweening();
+	if graph_thingy_p2[8] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyNineActorP2"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyNineActorP2"):stretchto(SCREEN_LEFT+829,SCREEN_TOP+384,SCREEN_LEFT+831,SCREEN_TOP+416);
+	elseif graph_thingy_p2[8] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyNineActorP2"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyNineActorP2"):stretchto(SCREEN_LEFT+829,SCREEN_TOP+384,SCREEN_LEFT+831,SCREEN_TOP+416);
+	elseif graph_thingy_p2[8] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyNineActorP2"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyNineActorP2"):stretchto(SCREEN_LEFT+829,SCREEN_TOP+384,SCREEN_LEFT+831,SCREEN_TOP+416);
+	elseif graph_thingy_p2[8] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyNineActorP2"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyNineActorP2"):stretchto(SCREEN_LEFT+829,SCREEN_TOP+384,SCREEN_LEFT+831,SCREEN_TOP+416);
+	elseif graph_thingy_p2[8] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyNineActorP2"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyNineActorP2"):stretchto(SCREEN_LEFT+829,SCREEN_TOP+384,SCREEN_LEFT+831,SCREEN_TOP+416);
+	elseif graph_thingy_p2[8] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyNineActorP2"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyNineActorP2"):stretchto(SCREEN_LEFT+829,SCREEN_TOP+384,SCREEN_LEFT+831,SCREEN_TOP+416);
+	elseif graph_thingy_p2[8] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyNineActorP2"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyNineActorP2"):stretchto(SCREEN_LEFT+829,SCREEN_TOP+384,SCREEN_LEFT+831,SCREEN_TOP+416);
+	elseif graph_thingy_p2[8] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyNineActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyNineActorP2"):stretchto(SCREEN_LEFT+829,SCREEN_TOP+384,SCREEN_LEFT+831,SCREEN_TOP+416);
+	elseif graph_thingy_p2[8] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyNineActorP2"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyNineActorP2"):stretchto(SCREEN_LEFT+829,SCREEN_TOP+384,SCREEN_LEFT+831,SCREEN_TOP+416);
+	elseif graph_thingy_p2[8] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyNineActorP2"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyNineActorP2"):stretchto(SCREEN_LEFT+829,SCREEN_TOP+384,SCREEN_LEFT+831,SCREEN_TOP+416);
+	elseif graph_thingy_p2[8] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyNineActorP2"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyNineActorP2"):stretchto(SCREEN_LEFT+829,SCREEN_TOP+384,SCREEN_LEFT+831,SCREEN_TOP+416);
+	elseif graph_thingy_p2[8] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyNineActorP2"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyNineActorP2"):stretchto(SCREEN_LEFT+829,SCREEN_TOP+384,SCREEN_LEFT+831,SCREEN_TOP+416);
+	elseif graph_thingy_p2[8] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyNineActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyNineActorP2"):stretchto(SCREEN_LEFT+829,SCREEN_TOP+384,SCREEN_LEFT+831,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyNineActorP2"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyNineActorP2"):stretchto(SCREEN_LEFT+829,SCREEN_TOP+384,SCREEN_LEFT+831,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyTenActorP2"):finishtweening();
+	if graph_thingy_p2[9] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyTenActorP2"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyTenActorP2"):stretchto(SCREEN_LEFT+832,SCREEN_TOP+384,SCREEN_LEFT+834,SCREEN_TOP+416);
+	elseif graph_thingy_p2[9] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyTenActorP2"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyTenActorP2"):stretchto(SCREEN_LEFT+832,SCREEN_TOP+384,SCREEN_LEFT+834,SCREEN_TOP+416);
+	elseif graph_thingy_p2[9] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyTenActorP2"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyTenActorP2"):stretchto(SCREEN_LEFT+832,SCREEN_TOP+384,SCREEN_LEFT+834,SCREEN_TOP+416);
+	elseif graph_thingy_p2[9] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyTenActorP2"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyTenActorP2"):stretchto(SCREEN_LEFT+832,SCREEN_TOP+384,SCREEN_LEFT+834,SCREEN_TOP+416);
+	elseif graph_thingy_p2[9] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyTenActorP2"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyTenActorP2"):stretchto(SCREEN_LEFT+832,SCREEN_TOP+384,SCREEN_LEFT+834,SCREEN_TOP+416);
+	elseif graph_thingy_p2[9] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyTenActorP2"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyTenActorP2"):stretchto(SCREEN_LEFT+832,SCREEN_TOP+384,SCREEN_LEFT+834,SCREEN_TOP+416);
+	elseif graph_thingy_p2[9] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyTenActorP2"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyTenActorP2"):stretchto(SCREEN_LEFT+832,SCREEN_TOP+384,SCREEN_LEFT+834,SCREEN_TOP+416);
+	elseif graph_thingy_p2[9] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyTenActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyTenActorP2"):stretchto(SCREEN_LEFT+832,SCREEN_TOP+384,SCREEN_LEFT+834,SCREEN_TOP+416);
+	elseif graph_thingy_p2[9] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyTenActorP2"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyTenActorP2"):stretchto(SCREEN_LEFT+832,SCREEN_TOP+384,SCREEN_LEFT+834,SCREEN_TOP+416);
+	elseif graph_thingy_p2[9] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyTenActorP2"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyTenActorP2"):stretchto(SCREEN_LEFT+832,SCREEN_TOP+384,SCREEN_LEFT+834,SCREEN_TOP+416);
+	elseif graph_thingy_p2[9] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyTenActorP2"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyTenActorP2"):stretchto(SCREEN_LEFT+832,SCREEN_TOP+384,SCREEN_LEFT+834,SCREEN_TOP+416);
+	elseif graph_thingy_p2[9] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyTenActorP2"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyTenActorP2"):stretchto(SCREEN_LEFT+832,SCREEN_TOP+384,SCREEN_LEFT+834,SCREEN_TOP+416);
+	elseif graph_thingy_p2[9] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyTenActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyTenActorP2"):stretchto(SCREEN_LEFT+832,SCREEN_TOP+384,SCREEN_LEFT+834,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyTenActorP2"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyTenActorP2"):stretchto(SCREEN_LEFT+832,SCREEN_TOP+384,SCREEN_LEFT+834,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyElevenActorP2"):finishtweening();
+	if graph_thingy_p2[10] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyElevenActorP2"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyElevenActorP2"):stretchto(SCREEN_LEFT+835,SCREEN_TOP+384,SCREEN_LEFT+837,SCREEN_TOP+416);
+	elseif graph_thingy_p2[10] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyElevenActorP2"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyElevenActorP2"):stretchto(SCREEN_LEFT+835,SCREEN_TOP+384,SCREEN_LEFT+837,SCREEN_TOP+416);
+	elseif graph_thingy_p2[10] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyElevenActorP2"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyElevenActorP2"):stretchto(SCREEN_LEFT+835,SCREEN_TOP+384,SCREEN_LEFT+837,SCREEN_TOP+416);
+	elseif graph_thingy_p2[10] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyElevenActorP2"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyElevenActorP2"):stretchto(SCREEN_LEFT+835,SCREEN_TOP+384,SCREEN_LEFT+837,SCREEN_TOP+416);
+	elseif graph_thingy_p2[10] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyElevenActorP2"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyElevenActorP2"):stretchto(SCREEN_LEFT+835,SCREEN_TOP+384,SCREEN_LEFT+837,SCREEN_TOP+416);
+	elseif graph_thingy_p2[10] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyElevenActorP2"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyElevenActorP2"):stretchto(SCREEN_LEFT+835,SCREEN_TOP+384,SCREEN_LEFT+837,SCREEN_TOP+416);
+	elseif graph_thingy_p2[10] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyElevenActorP2"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyElevenActorP2"):stretchto(SCREEN_LEFT+835,SCREEN_TOP+384,SCREEN_LEFT+837,SCREEN_TOP+416);
+	elseif graph_thingy_p2[10] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyElevenActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyElevenActorP2"):stretchto(SCREEN_LEFT+835,SCREEN_TOP+384,SCREEN_LEFT+837,SCREEN_TOP+416);
+	elseif graph_thingy_p2[10] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyElevenActorP2"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyElevenActorP2"):stretchto(SCREEN_LEFT+835,SCREEN_TOP+384,SCREEN_LEFT+837,SCREEN_TOP+416);
+	elseif graph_thingy_p2[10] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyElevenActorP2"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyElevenActorP2"):stretchto(SCREEN_LEFT+835,SCREEN_TOP+384,SCREEN_LEFT+837,SCREEN_TOP+416);
+	elseif graph_thingy_p2[10] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyElevenActorP2"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyElevenActorP2"):stretchto(SCREEN_LEFT+835,SCREEN_TOP+384,SCREEN_LEFT+837,SCREEN_TOP+416);
+	elseif graph_thingy_p2[10] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyElevenActorP2"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyElevenActorP2"):stretchto(SCREEN_LEFT+835,SCREEN_TOP+384,SCREEN_LEFT+837,SCREEN_TOP+416);
+	elseif graph_thingy_p2[10] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyElevenActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyElevenActorP2"):stretchto(SCREEN_LEFT+835,SCREEN_TOP+384,SCREEN_LEFT+837,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyElevenActorP2"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyElevenActorP2"):stretchto(SCREEN_LEFT+835,SCREEN_TOP+384,SCREEN_LEFT+837,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyTwelveActorP2"):finishtweening();
+	if graph_thingy_p2[11] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyTwelveActorP2"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyTwelveActorP2"):stretchto(SCREEN_LEFT+838,SCREEN_TOP+384,SCREEN_LEFT+840,SCREEN_TOP+416);
+	elseif graph_thingy_p2[11] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyTwelveActorP2"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyTwelveActorP2"):stretchto(SCREEN_LEFT+838,SCREEN_TOP+384,SCREEN_LEFT+840,SCREEN_TOP+416);
+	elseif graph_thingy_p2[11] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyTwelveActorP2"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyTwelveActorP2"):stretchto(SCREEN_LEFT+838,SCREEN_TOP+384,SCREEN_LEFT+840,SCREEN_TOP+416);
+	elseif graph_thingy_p2[11] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyTwelveActorP2"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyTwelveActorP2"):stretchto(SCREEN_LEFT+838,SCREEN_TOP+384,SCREEN_LEFT+840,SCREEN_TOP+416);
+	elseif graph_thingy_p2[11] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyTwelveActorP2"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyTwelveActorP2"):stretchto(SCREEN_LEFT+838,SCREEN_TOP+384,SCREEN_LEFT+840,SCREEN_TOP+416);
+	elseif graph_thingy_p2[11] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyTwelveActorP2"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyTwelveActorP2"):stretchto(SCREEN_LEFT+838,SCREEN_TOP+384,SCREEN_LEFT+840,SCREEN_TOP+416);
+	elseif graph_thingy_p2[11] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyTwelveActorP2"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyTwelveActorP2"):stretchto(SCREEN_LEFT+838,SCREEN_TOP+384,SCREEN_LEFT+840,SCREEN_TOP+416);
+	elseif graph_thingy_p2[11] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyTwelveActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyTwelveActorP2"):stretchto(SCREEN_LEFT+838,SCREEN_TOP+384,SCREEN_LEFT+840,SCREEN_TOP+416);
+	elseif graph_thingy_p2[11] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyTwelveActorP2"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyTwelveActorP2"):stretchto(SCREEN_LEFT+838,SCREEN_TOP+384,SCREEN_LEFT+840,SCREEN_TOP+416);
+	elseif graph_thingy_p2[11] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyTwelveActorP2"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyTwelveActorP2"):stretchto(SCREEN_LEFT+838,SCREEN_TOP+384,SCREEN_LEFT+840,SCREEN_TOP+416);
+	elseif graph_thingy_p2[11] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyTwelveActorP2"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyTwelveActorP2"):stretchto(SCREEN_LEFT+838,SCREEN_TOP+384,SCREEN_LEFT+840,SCREEN_TOP+416);
+	elseif graph_thingy_p2[11] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyTwelveActorP2"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyTwelveActorP2"):stretchto(SCREEN_LEFT+838,SCREEN_TOP+384,SCREEN_LEFT+840,SCREEN_TOP+416);
+	elseif graph_thingy_p2[11] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyTwelveActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyTwelveActorP2"):stretchto(SCREEN_LEFT+838,SCREEN_TOP+384,SCREEN_LEFT+840,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyTwelveActorP2"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyTwelveActorP2"):stretchto(SCREEN_LEFT+838,SCREEN_TOP+384,SCREEN_LEFT+840,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyThirteenActorP2"):finishtweening();
+	if graph_thingy_p2[12] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyThirteenActorP2"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyThirteenActorP2"):stretchto(SCREEN_LEFT+841,SCREEN_TOP+384,SCREEN_LEFT+843,SCREEN_TOP+416);
+	elseif graph_thingy_p2[12] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyThirteenActorP2"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyThirteenActorP2"):stretchto(SCREEN_LEFT+841,SCREEN_TOP+384,SCREEN_LEFT+843,SCREEN_TOP+416);
+	elseif graph_thingy_p2[12] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyThirteenActorP2"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyThirteenActorP2"):stretchto(SCREEN_LEFT+841,SCREEN_TOP+384,SCREEN_LEFT+843,SCREEN_TOP+416);
+	elseif graph_thingy_p2[12] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyThirteenActorP2"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyThirteenActorP2"):stretchto(SCREEN_LEFT+841,SCREEN_TOP+384,SCREEN_LEFT+843,SCREEN_TOP+416);
+	elseif graph_thingy_p2[12] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyThirteenActorP2"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyThirteenActorP2"):stretchto(SCREEN_LEFT+841,SCREEN_TOP+384,SCREEN_LEFT+843,SCREEN_TOP+416);
+	elseif graph_thingy_p2[12] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyThirteenActorP2"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyThirteenActorP2"):stretchto(SCREEN_LEFT+841,SCREEN_TOP+384,SCREEN_LEFT+843,SCREEN_TOP+416);
+	elseif graph_thingy_p2[12] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyThirteenActorP2"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyThirteenActorP2"):stretchto(SCREEN_LEFT+841,SCREEN_TOP+384,SCREEN_LEFT+843,SCREEN_TOP+416);
+	elseif graph_thingy_p2[12] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyThirteenActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyThirteenActorP2"):stretchto(SCREEN_LEFT+841,SCREEN_TOP+384,SCREEN_LEFT+843,SCREEN_TOP+416);
+	elseif graph_thingy_p2[12] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyThirteenActorP2"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyThirteenActorP2"):stretchto(SCREEN_LEFT+841,SCREEN_TOP+384,SCREEN_LEFT+843,SCREEN_TOP+416);
+	elseif graph_thingy_p2[12] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyThirteenActorP2"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyThirteenActorP2"):stretchto(SCREEN_LEFT+841,SCREEN_TOP+384,SCREEN_LEFT+843,SCREEN_TOP+416);
+	elseif graph_thingy_p2[12] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyThirteenActorP2"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyThirteenActorP2"):stretchto(SCREEN_LEFT+841,SCREEN_TOP+384,SCREEN_LEFT+843,SCREEN_TOP+416);
+	elseif graph_thingy_p2[12] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyThirteenActorP2"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyThirteenActorP2"):stretchto(SCREEN_LEFT+841,SCREEN_TOP+384,SCREEN_LEFT+843,SCREEN_TOP+416);
+	elseif graph_thingy_p2[12] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyThirteenActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyThirteenActorP2"):stretchto(SCREEN_LEFT+841,SCREEN_TOP+384,SCREEN_LEFT+843,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyThirteenActorP2"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyThirteenActorP2"):stretchto(SCREEN_LEFT+841,SCREEN_TOP+384,SCREEN_LEFT+843,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyFourteenActorP2"):finishtweening();
+	if graph_thingy_p2[13] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyFourteenActorP2"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyFourteenActorP2"):stretchto(SCREEN_LEFT+844,SCREEN_TOP+384,SCREEN_LEFT+846,SCREEN_TOP+416);
+	elseif graph_thingy_p2[13] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyFourteenActorP2"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyFourteenActorP2"):stretchto(SCREEN_LEFT+844,SCREEN_TOP+384,SCREEN_LEFT+846,SCREEN_TOP+416);
+	elseif graph_thingy_p2[13] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyFourteenActorP2"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyFourteenActorP2"):stretchto(SCREEN_LEFT+844,SCREEN_TOP+384,SCREEN_LEFT+846,SCREEN_TOP+416);
+	elseif graph_thingy_p2[13] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyFourteenActorP2"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyFourteenActorP2"):stretchto(SCREEN_LEFT+844,SCREEN_TOP+384,SCREEN_LEFT+846,SCREEN_TOP+416);
+	elseif graph_thingy_p2[13] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyFourteenActorP2"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyFourteenActorP2"):stretchto(SCREEN_LEFT+844,SCREEN_TOP+384,SCREEN_LEFT+846,SCREEN_TOP+416);
+	elseif graph_thingy_p2[13] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyFourteenActorP2"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyFourteenActorP2"):stretchto(SCREEN_LEFT+844,SCREEN_TOP+384,SCREEN_LEFT+846,SCREEN_TOP+416);
+	elseif graph_thingy_p2[13] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyFourteenActorP2"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyFourteenActorP2"):stretchto(SCREEN_LEFT+844,SCREEN_TOP+384,SCREEN_LEFT+846,SCREEN_TOP+416);
+	elseif graph_thingy_p2[13] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyFourteenActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyFourteenActorP2"):stretchto(SCREEN_LEFT+844,SCREEN_TOP+384,SCREEN_LEFT+846,SCREEN_TOP+416);
+	elseif graph_thingy_p2[13] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyFourteenActorP2"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyFourteenActorP2"):stretchto(SCREEN_LEFT+844,SCREEN_TOP+384,SCREEN_LEFT+846,SCREEN_TOP+416);
+	elseif graph_thingy_p2[13] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyFourteenActorP2"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyFourteenActorP2"):stretchto(SCREEN_LEFT+844,SCREEN_TOP+384,SCREEN_LEFT+846,SCREEN_TOP+416);
+	elseif graph_thingy_p2[13] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyFourteenActorP2"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyFourteenActorP2"):stretchto(SCREEN_LEFT+844,SCREEN_TOP+384,SCREEN_LEFT+846,SCREEN_TOP+416);
+	elseif graph_thingy_p2[13] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyFourteenActorP2"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyFourteenActorP2"):stretchto(SCREEN_LEFT+844,SCREEN_TOP+384,SCREEN_LEFT+846,SCREEN_TOP+416);
+	elseif graph_thingy_p2[13] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyFourteenActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyFourteenActorP2"):stretchto(SCREEN_LEFT+844,SCREEN_TOP+384,SCREEN_LEFT+846,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyFourteenActorP2"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyFourteenActorP2"):stretchto(SCREEN_LEFT+844,SCREEN_TOP+384,SCREEN_LEFT+846,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingyFifthteenActorP2"):finishtweening();
+	if graph_thingy_p2[14] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingyFifthteenActorP2"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingyFifthteenActorP2"):stretchto(SCREEN_LEFT+847,SCREEN_TOP+384,SCREEN_LEFT+849,SCREEN_TOP+416);
+	elseif graph_thingy_p2[14] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingyFifthteenActorP2"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingyFifthteenActorP2"):stretchto(SCREEN_LEFT+847,SCREEN_TOP+384,SCREEN_LEFT+849,SCREEN_TOP+416);
+	elseif graph_thingy_p2[14] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingyFifthteenActorP2"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingyFifthteenActorP2"):stretchto(SCREEN_LEFT+847,SCREEN_TOP+384,SCREEN_LEFT+849,SCREEN_TOP+416);
+	elseif graph_thingy_p2[14] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingyFifthteenActorP2"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingyFifthteenActorP2"):stretchto(SCREEN_LEFT+847,SCREEN_TOP+384,SCREEN_LEFT+849,SCREEN_TOP+416);
+	elseif graph_thingy_p2[14] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingyFifthteenActorP2"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingyFifthteenActorP2"):stretchto(SCREEN_LEFT+847,SCREEN_TOP+384,SCREEN_LEFT+849,SCREEN_TOP+416);
+	elseif graph_thingy_p2[14] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingyFifthteenActorP2"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingyFifthteenActorP2"):stretchto(SCREEN_LEFT+847,SCREEN_TOP+384,SCREEN_LEFT+849,SCREEN_TOP+416);
+	elseif graph_thingy_p2[14] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingyFifthteenActorP2"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingyFifthteenActorP2"):stretchto(SCREEN_LEFT+847,SCREEN_TOP+384,SCREEN_LEFT+849,SCREEN_TOP+416);
+	elseif graph_thingy_p2[14] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingyFifthteenActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyFifthteenActorP2"):stretchto(SCREEN_LEFT+847,SCREEN_TOP+384,SCREEN_LEFT+849,SCREEN_TOP+416);
+	elseif graph_thingy_p2[14] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingyFifthteenActorP2"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingyFifthteenActorP2"):stretchto(SCREEN_LEFT+847,SCREEN_TOP+384,SCREEN_LEFT+849,SCREEN_TOP+416);
+	elseif graph_thingy_p2[14] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingyFifthteenActorP2"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingyFifthteenActorP2"):stretchto(SCREEN_LEFT+847,SCREEN_TOP+384,SCREEN_LEFT+849,SCREEN_TOP+416);
+	elseif graph_thingy_p2[14] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingyFifthteenActorP2"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingyFifthteenActorP2"):stretchto(SCREEN_LEFT+847,SCREEN_TOP+384,SCREEN_LEFT+849,SCREEN_TOP+416);
+	elseif graph_thingy_p2[14] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingyFifthteenActorP2"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingyFifthteenActorP2"):stretchto(SCREEN_LEFT+847,SCREEN_TOP+384,SCREEN_LEFT+849,SCREEN_TOP+416);
+	elseif graph_thingy_p2[14] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingyFifthteenActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingyFifthteenActorP2"):stretchto(SCREEN_LEFT+847,SCREEN_TOP+384,SCREEN_LEFT+849,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingyFifthteenActorP2"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingyFifthteenActorP2"):stretchto(SCREEN_LEFT+847,SCREEN_TOP+384,SCREEN_LEFT+849,SCREEN_TOP+416);
+	end;
+	
+	self:GetChild("GraphThingySixthteenActorP2"):finishtweening();
+	if graph_thingy_p2[15] == 'TapNoteScore_W1' then
+		self:GetChild("GraphThingySixthteenActorP2"):diffuse(color("0,1,1,1"));
+		self:GetChild("GraphThingySixthteenActorP2"):stretchto(SCREEN_LEFT+850,SCREEN_TOP+384,SCREEN_LEFT+852,SCREEN_TOP+416);
+	elseif graph_thingy_p2[15] == 'TapNoteScore_W2' then
+		self:GetChild("GraphThingySixthteenActorP2"):diffuse(color("1,1,0,1"));
+		self:GetChild("GraphThingySixthteenActorP2"):stretchto(SCREEN_LEFT+850,SCREEN_TOP+384,SCREEN_LEFT+852,SCREEN_TOP+416);
+	elseif graph_thingy_p2[15] == 'TapNoteScore_W3' then
+		self:GetChild("GraphThingySixthteenActorP2"):diffuse(color("0,1,0,1"));
+		self:GetChild("GraphThingySixthteenActorP2"):stretchto(SCREEN_LEFT+850,SCREEN_TOP+384,SCREEN_LEFT+852,SCREEN_TOP+416);
+	elseif graph_thingy_p2[15] == 'TapNoteScore_W4' then
+		self:GetChild("GraphThingySixthteenActorP2"):diffuse(color("0,0,1,1"));
+		self:GetChild("GraphThingySixthteenActorP2"):stretchto(SCREEN_LEFT+850,SCREEN_TOP+384,SCREEN_LEFT+852,SCREEN_TOP+416);
+	elseif graph_thingy_p2[15] == 'TapNoteScore_W5' then
+		self:GetChild("GraphThingySixthteenActorP2"):diffuse(color("1,0,1,1"));
+		self:GetChild("GraphThingySixthteenActorP2"):stretchto(SCREEN_LEFT+850,SCREEN_TOP+384,SCREEN_LEFT+852,SCREEN_TOP+416);
+	elseif graph_thingy_p2[15] == 'TapNoteScore_Miss' then
+		self:GetChild("GraphThingySixthteenActorP2"):diffuse(color("1,0,0,1"));
+		self:GetChild("GraphThingySixthteenActorP2"):stretchto(SCREEN_LEFT+850,SCREEN_TOP+384,SCREEN_LEFT+852,SCREEN_TOP+416);
+	elseif graph_thingy_p2[15] == 'TapNoteScore_CheckpointHit' then
+		self:GetChild("GraphThingySixthteenActorP2"):diffuse(color("1,1,1,1"));
+		self:GetChild("GraphThingySixthteenActorP2"):stretchto(SCREEN_LEFT+850,SCREEN_TOP+384,SCREEN_LEFT+852,SCREEN_TOP+416);
+	elseif graph_thingy_p2[15] == 'TapNoteScore_CheckpointMiss' then
+		self:GetChild("GraphThingySixthteenActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingySixthteenActorP2"):stretchto(SCREEN_LEFT+850,SCREEN_TOP+384,SCREEN_LEFT+852,SCREEN_TOP+416);
+	elseif graph_thingy_p2[15] == 'TapNoteScore_HitMine' then
+		self:GetChild("GraphThingySixthteenActorP2"):diffuse(color("1,0.8,0,1"));
+		self:GetChild("GraphThingySixthteenActorP2"):stretchto(SCREEN_LEFT+850,SCREEN_TOP+384,SCREEN_LEFT+852,SCREEN_TOP+416);
+	elseif graph_thingy_p2[15] == 'TapNoteScore_AvoidMine' then
+		self:GetChild("GraphThingySixthteenActorP2"):diffuse(color("0.75,0.75,0.75,1"));
+		self:GetChild("GraphThingySixthteenActorP2"):stretchto(SCREEN_LEFT+850,SCREEN_TOP+384,SCREEN_LEFT+852,SCREEN_TOP+416);
+	elseif graph_thingy_p2[15] == 'HoldNoteScore_Held' then
+		self:GetChild("GraphThingySixthteenActorP2"):diffuse(color("0.5,1,0,1"));
+		self:GetChild("GraphThingySixthteenActorP2"):stretchto(SCREEN_LEFT+850,SCREEN_TOP+384,SCREEN_LEFT+852,SCREEN_TOP+416);
+	elseif graph_thingy_p2[15] == 'HoldNoteScore_LetGo' then
+		self:GetChild("GraphThingySixthteenActorP2"):diffuse(color("1,0.5,0,1"));
+		self:GetChild("GraphThingySixthteenActorP2"):stretchto(SCREEN_LEFT+850,SCREEN_TOP+384,SCREEN_LEFT+852,SCREEN_TOP+416);
+	elseif graph_thingy_p2[15] == 'HoldNoteScore_MissedHold' then
+		self:GetChild("GraphThingySixthteenActorP2"):diffuse(color("0.5,0.5,0.5,1"));
+		self:GetChild("GraphThingySixthteenActorP2"):stretchto(SCREEN_LEFT+850,SCREEN_TOP+384,SCREEN_LEFT+852,SCREEN_TOP+416);
+	else
+		self:GetChild("GraphThingySixthteenActorP2"):diffuse(color("0,0,0,1"));
+		self:GetChild("GraphThingySixthteenActorP2"):stretchto(SCREEN_LEFT+850,SCREEN_TOP+384,SCREEN_LEFT+852,SCREEN_TOP+416);
 	end;
 end
 
@@ -743,97 +2196,305 @@ t[#t+1] = Def.ActorFrame{
 	}
 };
 
--- Judgment Bar P1/P2 (ActorFrame 23)
+-- Judgment Thingy P1 (ActorFrame 23)
 
 t[#t+1] = Def.ActorFrame{
-	Name="ScreenGameplayOverlayActorFrameComboJudgment";
+	Name="ScreenGameplayOverlayActorGraphThingyP1";
+	InitCommand=function(self)
+		self:SetUpdateFunction(UpdateGraphTimeP1);
+		self:SetUpdateRate(0.001);
+	end;
 	Def.Quad{
+		Name="GraphThingyBackActorP1";
 		OnCommand=function(self)
-			self:stretchto(SCREEN_LEFT+2,SCREEN_TOP+82,SCREEN_LEFT+30,SCREEN_TOP+110);
-			self:diffuse(color("0,0,0,1"));
+			self:stretchto(SCREEN_LEFT+2,SCREEN_TOP+384,SCREEN_LEFT+49,SCREEN_TOP+416);
+			self:diffuse(color("0.25,0.25,0.25,1"));
 		end;
-		JudgmentMessageCommand=function(self, param)
-			self:finishtweening();
-			if param.Player == 'PlayerNumber_P1' then
-				if param.TapNoteScore == 'TapNoteScore_W1' then
-					self:diffuse(color("0,1,1,1"));
-				elseif param.TapNoteScore == 'TapNoteScore_W2' then
-					self:diffuse(color("1,1,0,1"));
-				elseif param.TapNoteScore == 'TapNoteScore_W3' then
-					self:diffuse(color("0,1,0,1"));
-				elseif param.TapNoteScore == 'TapNoteScore_W4' then
-					self:diffuse(color("0,0,1,1"));
-				elseif param.TapNoteScore == 'TapNoteScore_W5' then
-					self:diffuse(color("1,0,1,1"));
-				elseif param.TapNoteScore == 'TapNoteScore_Miss' then
-					self:diffuse(color("1,0,0,1"));
-				elseif param.TapNoteScore == 'TapNoteScore_CheckpointHit' then
-					self:diffuse(color("1,1,1,1"));
-				elseif param.TapNoteScore == 'TapNoteScore_CheckpointMiss' then
-					self:diffuse(color("0.5,0.5,0.5,1"));
-				elseif param.TapNoteScore == 'TapNoteScore_HitMine' then
-					self:diffuse(color("1,0.8,0,1"));
-				elseif param.TapNoteScore == 'TapNoteScore_AvoidMine' then
-					self:diffuse(color("0.75,0.75,0.75,1"));
-				elseif param.HoldNoteScore == 'HoldNoteScore_Held' then
-					self:diffuse(color("0.5,1,0,1"));
-				elseif param.HoldNoteScore == 'HoldNoteScore_LetGo' then
-					self:diffuse(color("1,0.5,0,1"));
-				elseif param.HoldNoteScore == 'HoldNoteScore_MissedHold' then
-					self:diffuse(color("0.5,0.5,0.5,1"));
-				else
-					self:diffuse(color("0,0,0,1"));
-				end;
-			end;
-			self:accelerate(0.25)
+	},
+	Def.Quad{
+		Name="GraphThingyOneActorP1";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+2,SCREEN_TOP+384,SCREEN_LEFT+4,SCREEN_TOP+416);
 			self:diffuse(color("0,0,0,1"));
 		end;
 	},
 	Def.Quad{
+		Name="GraphThingyTwoActorP1";
 		OnCommand=function(self)
-			self:stretchto(SCREEN_RIGHT-30,SCREEN_TOP+82,SCREEN_RIGHT-2,SCREEN_TOP+110);
+			self:stretchto(SCREEN_LEFT+5,SCREEN_TOP+384,SCREEN_LEFT+7,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyThreeActorP1";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+8,SCREEN_TOP+384,SCREEN_LEFT+10,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyFourActorP1";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+11,SCREEN_TOP+384,SCREEN_LEFT+13,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyFiveActorP1";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+14,SCREEN_TOP+384,SCREEN_LEFT+16,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingySixActorP1";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+17,SCREEN_TOP+384,SCREEN_LEFT+19,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingySevenActorP1";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+20,SCREEN_TOP+384,SCREEN_LEFT+22,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyEightActorP1";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+23,SCREEN_TOP+384,SCREEN_LEFT+25,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyNineActorP1";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+26,SCREEN_TOP+384,SCREEN_LEFT+28,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyTenActorP1";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+29,SCREEN_TOP+384,SCREEN_LEFT+31,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyElevenActorP1";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+32,SCREEN_TOP+384,SCREEN_LEFT+34,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyTwelveActorP1";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+35,SCREEN_TOP+384,SCREEN_LEFT+37,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyThirteenActorP1";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+38,SCREEN_TOP+384,SCREEN_LEFT+40,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyFourteenActorP1";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+41,SCREEN_TOP+384,SCREEN_LEFT+43,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyFifthteenActorP1";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+44,SCREEN_TOP+384,SCREEN_LEFT+46,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingySixthteenActorP1";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+47,SCREEN_TOP+384,SCREEN_LEFT+49,SCREEN_TOP+416);
 			self:diffuse(color("0,0,0,1"));
 		end;
 		JudgmentMessageCommand=function(self, param)
-			self:finishtweening();
-			if param.Player == 'PlayerNumber_P2' then
-				if param.TapNoteScore == 'TapNoteScore_W1' then
-					self:diffuse(color("0,1,1,1"));
-				elseif param.TapNoteScore == 'TapNoteScore_W2' then
-					self:diffuse(color("1,1,0,1"));
-				elseif param.TapNoteScore == 'TapNoteScore_W3' then
-					self:diffuse(color("0,1,0,1"));
-				elseif param.TapNoteScore == 'TapNoteScore_W4' then
-					self:diffuse(color("0,0,1,1"));
-				elseif param.TapNoteScore == 'TapNoteScore_W5' then
-					self:diffuse(color("1,0,1,1"));
-				elseif param.TapNoteScore == 'TapNoteScore_Miss' then
-					self:diffuse(color("1,0,0,1"));
-				elseif param.TapNoteScore == 'TapNoteScore_CheckpointHit' then
-					self:diffuse(color("1,1,1,1"));
-				elseif param.TapNoteScore == 'TapNoteScore_CheckpointMiss' then
-					self:diffuse(color("0.5,0.5,0.5,1"));
-				elseif param.TapNoteScore == 'TapNoteScore_HitMine' then
-					self:diffuse(color("1,0.8,0,1"));
-				elseif param.TapNoteScore == 'TapNoteScore_AvoidMine' then
-					self:diffuse(color("0.75,0.75,0.75,1"));
-				elseif param.HoldNoteScore == 'HoldNoteScore_Held' then
-					self:diffuse(color("0.5,1,0,1"));
-				elseif param.HoldNoteScore == 'HoldNoteScore_LetGo' then
-					self:diffuse(color("1,0.5,0,1"));
-				elseif param.HoldNoteScore == 'HoldNoteScore_MissedHold' then
-					self:diffuse(color("0.5,0.5,0.5,1"));
-				else
-					self:diffuse(color("0,0,0,1"));
-				end;
-			end;
-			self:accelerate(0.25)
-			self:diffuse(color("0,0,0,1"));
+			graph_thingy_p1[0] = graph_thingy_p1[1];
+			graph_thingy_p1[1] = graph_thingy_p1[2];
+			graph_thingy_p1[2] = graph_thingy_p1[3];
+			graph_thingy_p1[3] = graph_thingy_p1[4];
+			graph_thingy_p1[4] = graph_thingy_p1[5];
+			graph_thingy_p1[5] = graph_thingy_p1[6];
+			graph_thingy_p1[6] = graph_thingy_p1[7];
+			graph_thingy_p1[7] = graph_thingy_p1[8];
+			graph_thingy_p1[8] = graph_thingy_p1[9];
+			graph_thingy_p1[9] = graph_thingy_p1[10];
+			graph_thingy_p1[10] = graph_thingy_p1[11];
+			graph_thingy_p1[11] = graph_thingy_p1[12];
+			graph_thingy_p1[12] = graph_thingy_p1[13];
+			graph_thingy_p1[13] = graph_thingy_p1[14];
+			graph_thingy_p1[14] = graph_thingy_p1[15];
+			if param.Player == 'PlayerNumber_P1' then
+				graph_thingy_p1[15] = param.TapNoteScore;
+			end
 		end;
-	}
+	},
 };
 
--- Hot/Danger Actor (ActorFrame 24)
+-- Judgment Thingy P2 (ActorFrame 24)
+
+t[#t+1] = Def.ActorFrame{
+	Name="ScreenGameplayOverlayActorGraphThingyP2";
+	InitCommand=function(self)
+		self:SetUpdateFunction(UpdateGraphTimeP2);
+		self:SetUpdateRate(0.001);
+	end;
+	Def.Quad{
+		Name="GraphThingyBackActorP2";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+805,SCREEN_TOP+384,SCREEN_LEFT+852,SCREEN_TOP+416);
+			self:diffuse(color("0.25,0.25,0.25,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyOneActorP2";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+805,SCREEN_TOP+384,SCREEN_LEFT+807,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyTwoActorP2";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+808,SCREEN_TOP+384,SCREEN_LEFT+810,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyThreeActorP2";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+811,SCREEN_TOP+384,SCREEN_LEFT+813,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyFourActorP2";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+814,SCREEN_TOP+384,SCREEN_LEFT+816,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyFiveActorP2";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+817,SCREEN_TOP+384,SCREEN_LEFT+819,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingySixActorP2";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+820,SCREEN_TOP+384,SCREEN_LEFT+822,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingySevenActorP2";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+823,SCREEN_TOP+384,SCREEN_LEFT+825,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyEightActorP2";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+826,SCREEN_TOP+384,SCREEN_LEFT+828,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyNineActorP2";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+829,SCREEN_TOP+384,SCREEN_LEFT+831,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyTenActorP2";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+832,SCREEN_TOP+384,SCREEN_LEFT+834,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyElevenActorP2";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+835,SCREEN_TOP+384,SCREEN_LEFT+837,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyTwelveActorP2";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+838,SCREEN_TOP+384,SCREEN_LEFT+840,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyThirteenActorP2";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+841,SCREEN_TOP+384,SCREEN_LEFT+843,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyFourteenActorP2";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+844,SCREEN_TOP+384,SCREEN_LEFT+846,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingyFifthteenActorP2";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+847,SCREEN_TOP+384,SCREEN_LEFT+849,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+	},
+	Def.Quad{
+		Name="GraphThingySixthteenActorP2";
+		OnCommand=function(self)
+			self:stretchto(SCREEN_LEFT+850,SCREEN_TOP+384,SCREEN_LEFT+852,SCREEN_TOP+416);
+			self:diffuse(color("0,0,0,1"));
+		end;
+		JudgmentMessageCommand=function(self, param)
+			graph_thingy_p2[0] = graph_thingy_p2[1];
+			graph_thingy_p2[1] = graph_thingy_p2[2];
+			graph_thingy_p2[2] = graph_thingy_p2[3];
+			graph_thingy_p2[3] = graph_thingy_p2[4];
+			graph_thingy_p2[4] = graph_thingy_p2[5];
+			graph_thingy_p2[5] = graph_thingy_p2[6];
+			graph_thingy_p2[6] = graph_thingy_p2[7];
+			graph_thingy_p2[7] = graph_thingy_p2[8];
+			graph_thingy_p2[8] = graph_thingy_p2[9];
+			graph_thingy_p2[9] = graph_thingy_p2[10];
+			graph_thingy_p2[10] = graph_thingy_p2[11];
+			graph_thingy_p2[11] = graph_thingy_p2[12];
+			graph_thingy_p2[12] = graph_thingy_p2[13];
+			graph_thingy_p2[13] = graph_thingy_p2[14];
+			graph_thingy_p2[14] = graph_thingy_p2[15];
+			if param.Player == 'PlayerNumber_P2' then
+				graph_thingy_p2[15] = param.TapNoteScore;
+			end
+		end;
+	},
+};
+
+-- Hot/Danger Actor (ActorFrame 25)
 
 t[#t+1] = Def.ActorFrame{
 	Name="ScreenGameplayOverlayActorFrameHotAndDanger";
@@ -855,7 +2516,7 @@ t[#t+1] = Def.ActorFrame{
 	}
 };
 
--- Hot/Danger Actor (ActorFrame 25)
+-- Hot/Danger Actor (ActorFrame 26)
 
 t[#t+1] = Def.ActorFrame{
 	Name="ScreenGameplayOverlayActorFrameHotAndDanger";
@@ -877,7 +2538,7 @@ t[#t+1] = Def.ActorFrame{
 	}
 };
 
--- Hot/Danger Actor (ActorFrame 26)
+-- Hot/Danger Actor (ActorFrame 27)
 
 t[#t+1] = Def.ActorFrame{
 	Name="ScreenGameplayOverlayActorFrameHotAndDanger";
@@ -899,7 +2560,7 @@ t[#t+1] = Def.ActorFrame{
 	}
 };
 
--- Theme Skin Overlay Actor (ActorFrame 27)
+-- Theme Skin Overlay Actor (ActorFrame 28)
 
 t[#t+1] = Def.ActorFrame{
 	Name="ScreenGameplayOverlayActorFrameThemeSkinOverlay";
