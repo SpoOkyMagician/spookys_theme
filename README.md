@@ -4,7 +4,7 @@ Title: Simplicity Theme
 Author: SpoOkyMagician & StepMania Developers Team
 
 
-Current Version: 2.5
+Current Version: 2.6
 
 Required Version: 5.1 Alpha or Newer
 
