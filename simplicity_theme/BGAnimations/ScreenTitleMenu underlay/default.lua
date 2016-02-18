@@ -32,10 +32,6 @@ local t = Def.ActorFrame{
 			self:queuecommand('RecheckTime');
 		end;
 	},
-	-- Actor (Time of Day Clouds)
-	LoadActor(THEME:GetPathG("","tod_clouds"))..{
-		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
-	},
 	-- Actor (Sun)
 	Def.Sprite{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_BOTTOM;align,0.5,0.5;Load,THEME:GetPathG("","tod_sun"));
@@ -140,6 +136,18 @@ local t = Def.ActorFrame{
 			self:sleep(60);
 			self:queuecommand('MoveMoon');
 		end;
+	},
+	-- Actor (Time of Day Clouds)
+	Def.Sprite{
+		OnCommand=cmd(Load,THEME:GetPathG("","tod_clouds");x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
+	},
+	-- Actor (Grass)
+	LoadActor(THEME:GetPathG("","grass_layer"))..{
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
+	},
+	-- Actor (Mountain)
+	LoadActor(THEME:GetPathG("","mountain_layer"))..{
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y);
 	},
 	-- Actor/Function (scripts)
 	grid_a(),
