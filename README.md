@@ -21,12 +21,12 @@ I would like to thank the SM5 Developers Team for putting up with me with my que
 Here are a few screenshots you can view of the theme:
 
 
-Title: https://dl.dropboxusercontent.com/u/105712481/screenshot_theme_title.png
+Title: https://www.dropbox.com/s/hht2kdk05gwrf1g/screenshot_theme_title.png?dl=0
 
-Music: https://dl.dropboxusercontent.com/u/105712481/screenshot_theme_music.png
+Music: https://www.dropbox.com/s/r8vt8mrw5fbgfp4/screenshot_theme_music.png?dl=0
 
-Gameplay: https://dl.dropboxusercontent.com/u/105712481/screenshot_theme_gameplay.png
+Gameplay: https://www.dropbox.com/s/aqutq31kb4gq86k/screenshot_theme_gameplay.png?dl=0
 
-Settings: https://dl.dropboxusercontent.com/u/105712481/screenshot_theme_settings.png
+Settings: https://www.dropbox.com/s/0pz7qhnwmyhi7yf/screenshot_theme_settings.png?dl=0
 
-Evaluation: https://dl.dropboxusercontent.com/u/105712481/screenshot_theme_evaluation.png
+Evaluation: https://www.dropbox.com/s/pclq2lw7snn5mww/screenshot_theme_evaluation.png?dl=0
